@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Редактировать
+{% endblock %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+    <table>
+        {{ form }}
+    </table>
+    <a href=""><input type="submit"></a>
+    <h2> {{ status }}</h2>
+{% endblock %}

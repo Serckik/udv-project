@@ -1,5 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Цели
+{% endblock %}
+
+{% block content %}
+
 {% if user.is_authenticated %}
-<h1>Текущие цели</h1>
+    <h1>Текущие цели</h1>
+
+    {% for item in data %}
+
+    {{ item.owner }}
+    <a href="edit/{{ item.id }}">Редактировать</a>
+
+    {% endfor %}
+
 {% else %}
-<p>Please login to see this page.</p>
+    <p>Please login to see this page.</p>
 {% endif %}
+
+{% endblock %}
