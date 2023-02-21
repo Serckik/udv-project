@@ -1,4 +1,4 @@
 from django import forms
 
 class GoalForm(forms.Form):
-    owner = forms.CharField()
+    name = forms.CharField()

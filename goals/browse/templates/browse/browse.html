@@ -6,18 +6,15 @@
 
 {% block content %}
 
-{% if user.is_authenticated %}
     <h1>Текущие цели</h1>
 
     {% for item in data %}
 
     {{ item.owner }}
+    {{ item.name }}
     <a href="edit/{{ item.id }}">Редактировать</a>
 
     {% endfor %}
 
-{% else %}
-    <p>Please login to see this page.</p>
-{% endif %}
 
 {% endblock %}

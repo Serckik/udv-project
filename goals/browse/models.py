@@ -6,7 +6,7 @@ def validate_interval(value):
         raise ValidationError(('%(value)s должен быть в диапазоне: [0.0, 100.0]'), params={'value': value},)
 
 class Goal(models.Model):
-    owner = models.CharField('Ответственный', null=False, max_length=50)
+    owner_id = models.IntegerField('ID Ответственного', null=False)
     name = models.TextField('Название цели', null=False)
     description = models.TextField('Подробности', null=False)
     block = models.CharField('Блок', choices=[('Подбор', 'Подбор'), ('Адаптация', 'Адаптация'),
