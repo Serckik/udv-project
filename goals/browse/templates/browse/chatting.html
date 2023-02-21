@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Чат
+{% endblock %}
+
+{% block content %}
+    <h1>Чат</h1>
+    {% for item in data %}
+
+    {{ item.name }}
+    {{ item.text }}
+    {{ item.time }}
+
+    {% endfor %}
+
+    <form method="POST">
+        {% csrf_token %}
+    <table>
+        {{ form }}
+    </table>
+    <a href=""><input type="submit"></a>
+    <h2> {{ status }}</h2>
+{% endblock %}

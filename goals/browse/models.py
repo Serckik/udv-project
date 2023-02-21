@@ -18,6 +18,8 @@ class Goal(models.Model):
     weight = models.FloatField('Вес', validators=[validate_interval], null=False)
     current = models.BooleanField('Утверждённая', null=False)
     planned = models.BooleanField('Запланированная', null=False)
+    chat = models.JSONField('Чат', null=True)
+    history = models.JSONField('История', null=True)
     
     class Meta:
         verbose_name = 'Цель'
