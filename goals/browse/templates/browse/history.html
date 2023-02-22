@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    История
+{% endblock %}
+
+{% block content %}
+
+<h1>История</h1>
+    {% for item in data %}
+
+    {{ item.name }} изменил {{ item.field }} с {{ item.last }} на {{ item.now }} {{ item.time }}
+
+    {% endfor %}
+
+{% endblock %}
