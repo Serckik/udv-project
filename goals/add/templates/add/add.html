@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <title>Page Title</title>
+{% extends 'layout.html' %}
 
-</head>
-<body>
-    <h1>Добавить цель</h1>
-</body>
-</html>
+{% block content %}
+
+    <form method="POST">
+        {% csrf_token %}
+    <table>
+        {{ form }}
+    </table>
+    <a href=""><input type="submit"></a>
+    <h2> {{ status }}</h2>
+{% endblock %}

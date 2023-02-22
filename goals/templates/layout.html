@@ -4,7 +4,16 @@
     <meta charset='utf-8'>
     <title>{% block title %}{% endblock %}</title>
 </head>
+<header>
+    <a href="/">Цели</a>
+    <a href="/add">Добавить</a>
+    <a href="/summary">Сводка</a>
+    <a href="/profile/login">Логин</a>
+    <a href="/profile/logout">Выйти</a>
+</header>
 <body>
+    {% block login %}
+    {% endblock %}
     {% if user.is_authenticated %}
     
         {% block content %}
