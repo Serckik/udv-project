@@ -20,4 +20,5 @@ def add(request):
                     'weight': request.POST.get('weight'), 'planned': request.POST.get('planned')}
             status = 'Вес должен быть в диапазоне от 0 до 100'
     form = GoalForm(initial=data)
-    return render(request, 'add/add.html', {'form': form, 'status': status})
+    goals = Goal.objects.all()
+    return render(request, 'add/add.html', {'form': form, 'status': status, 'data': goals})

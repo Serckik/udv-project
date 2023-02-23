@@ -10,11 +10,11 @@ def get_time() -> str:
 
 def update_history(goal, request):
     new_data = {'name': request.POST.get('name'), 'description': request.POST.get('description'),
-                'block': request.POST.get('block'), 'quarter': request.POST.get('quarter'),
-                'weight': request.POST.get('weight'), 'planned': True if request.POST.get('planned') == 'on' else False}
+                'block': request.POST.get('block'), 'quarter': str(request.POST.get('quarter')),
+                'weight': float(request.POST.get('weight')), 'planned': True if request.POST.get('planned') == 'on' else False}
 
     old_data = {'name': goal.name, 'description': goal.description, 'block': goal.block,
-                'quarter': goal.quarter, 'weight': goal.weight, 'planned': goal.planned}
+                'quarter': str(goal.quarter), 'weight': goal.weight, 'planned': goal.planned}
 
     translator = {'name': 'Название', 'description': 'Описание', 'block': 'Блок',
                   'quarter': 'Квартал', 'weight': 'Вес', 'planned': 'Запланированная'}

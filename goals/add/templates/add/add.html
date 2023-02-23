@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-
+    <h1>Добавить цель</h1>
     <form method="POST">
         {% csrf_token %}
     <table>
@@ -9,4 +9,14 @@
     </table>
     <a href=""><input type="submit"></a>
     <h2> {{ status }}</h2>
+    <h1> Текущие не утверждённые цели</h1>
+    {% for item in data %}
+        {% if not item.current %}
+            {{ item.name }}
+            <a href="/edit/{{ item.id }}">Редактировать</a>
+            <a href="/chat/{{ item.id }}">Открыть чат</a>
+            <a href="/history/{{ item.id }}">История </a>
+        {% endif %}
+
+    {% endfor %}
 {% endblock %}

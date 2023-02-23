@@ -9,12 +9,12 @@
     <h1>Текущие цели</h1>
 
     {% for item in data %}
-
-    {{ item.owner }}
-    {{ item.name }}
-    <a href="edit/{{ item.id }}">Редактировать</a>
-    <a href="chat/{{ item.id }}">Открыть чат</a>
-    <a href="history/{{ item.id }}">История </a>
+        {% if item.current %}
+            {{ item.name }}
+            <a href="edit/{{ item.id }}">Редактировать</a>
+            <a href="chat/{{ item.id }}">Открыть чат</a>
+            <a href="history/{{ item.id }}">История </a>
+        {% endif %}
 
     {% endfor %}
 
