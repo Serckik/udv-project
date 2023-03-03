@@ -4,6 +4,7 @@ from .forms import GoalForm, ChatForm
 from django.contrib.auth.models import User
 import datetime
 from datetime import datetime
+from django.http import JsonResponse
 
 def get_time() -> str:
     return datetime.today().strftime('%d-%m-%Y') + ' ' + datetime.now().strftime("%H:%M")
@@ -72,3 +73,9 @@ def history(request, goal_id):
     for item in messages:
         item['name'] = User.objects.get(id=item['id']).get_full_name()
     return render(request, 'browse/history.html', {'data': goal.history['history']})
+
+def test(request):
+    if request.user.is_authenticated:
+        return JsonResponse({'hello': 'chat'})
+    else:
+        return JsonResponse({'hello': 'PLEASE LOGIN'})

@@ -5,18 +5,21 @@
 {% endblock %}
 
 {% block content %}
-
     <h1>Текущие цели</h1>
-
     {% for item in data %}
         {% if item.current %}
-            {{ item.name }}
-            <a href="edit/{{ item.id }}">Редактировать</a>
-            <a href="chat/{{ item.id }}">Открыть чат</a>
-            <a href="history/{{ item.id }}">История </a>
+            <div class="card">
+                <p>{{ item.name }}</p>
+                <a href="edit/{{ item.id }}">Редактировать</a>
+                <a href="chat/{{ item.id }}">Открыть чат</a>
+                <a href="history/{{ item.id }}">История </a>
+            </div>
+            <div class="hidden info">
+
+            </div>
         {% endif %}
 
     {% endfor %}
 
-
+    <script type="module" src="static/browse/js/browse.js"></script>
 {% endblock %}
