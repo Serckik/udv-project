@@ -5,11 +5,12 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <header>
-    <a href="/">Цели</a>
+    <a href="/">Задачи</a>
     <a href="/add">Добавить</a>
     <a href="/summary">Сводка</a>
-    <a href="/profile/login">Логин</a>
+    <a href="/profile/login">Вход</a>
     <a href="/profile/logout">Выйти</a>
+    {{ user.first_name }}
 </header>
 <body>
     {% block login %}
@@ -21,7 +22,7 @@
         {% endblock %}
 
     {% else %}
-        <p class="card">Please login to see this page.</p>
+        <p class="card">Пожалуйста, войдите в систему.</p>
         <script type="module" src="static/browse/js/browse.js"></script>
     {% endif %}
 </body>

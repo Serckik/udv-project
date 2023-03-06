@@ -12,13 +12,15 @@ def get_time() -> str:
 def update_history(goal, request):
     new_data = {'name': request.POST.get('name'), 'description': request.POST.get('description'),
                 'block': request.POST.get('block'), 'quarter': str(request.POST.get('quarter')),
-                'weight': float(request.POST.get('weight')), 'planned': True if request.POST.get('planned') == 'on' else False}
+                'weight': float(request.POST.get('weight')), 'planned': request.POST.get('planned')}
 
     old_data = {'name': goal.name, 'description': goal.description, 'block': goal.block,
                 'quarter': str(goal.quarter), 'weight': goal.weight, 'planned': goal.planned}
 
     translator = {'name': 'Название', 'description': 'Описание', 'block': 'Блок',
                   'quarter': 'Квартал', 'weight': 'Вес', 'planned': 'Запланированная'}
+    
+    
 
     for i in new_data:
         if old_data[i] != new_data[i]:
@@ -45,7 +47,8 @@ def editing(request, goal_id):
                 goal.block = request.POST.get('block')
                 goal.quarter = request.POST.get('quarter')
                 goal.weight = request.POST.get('weight')
-                goal.planned = True if request.POST.get('planned') == 'on' else False
+                goal.planned = request.POST.get('planned')
+                print(request.POST.get('planned'))
                 goal.save(update_fields=['name', 'description', 'block', 'quarter', 'weight', 'planned'])
             else:
                 status = 'Вес должен быть в диапазоне от 0 до 100'
@@ -79,3 +82,4 @@ def test(request):
         return JsonResponse({'hello': 'chat'})
     else:
         return JsonResponse({'hello': 'PLEASE LOGIN'})
+    

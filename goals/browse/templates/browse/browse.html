@@ -1,13 +1,13 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    Цели
+    Задачи
 {% endblock %}
 
 {% block content %}
-    <h1>Текущие цели</h1>
+    <h1>Текущие задачи</h1>
     {% for item in data %}
-        {% if item.current %}
+        {% if item.current_level == 2 %}
             <div class="card">
                 <p>{{ item.name }}</p>
                 <a href="edit/{{ item.id }}">Редактировать</a>
