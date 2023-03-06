@@ -10,16 +10,14 @@
         {% if item.current_level == 2 %}
             <div class="card">
                 <p>{{ item.name }}</p>
-                <a href="edit/{{ item.id }}">Редактировать</a>
-                <a href="chat/{{ item.id }}">Открыть чат</a>
-                <a href="history/{{ item.id }}">История </a>
-            </div>
-            <div class="hidden info">
-
+                <p class="more" id="{{ item.id }}">Подробнее</p>
             </div>
         {% endif %}
-
     {% endfor %}
+    <form id="more-form" class="hidden info">
+        {{ form }}
+        <input type="submit">
+    </form>
 
     <script type="module" src="static/browse/js/browse.js"></script>
 {% endblock %}

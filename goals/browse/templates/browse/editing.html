@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <form method="POST">
+    <form id="edit-form" method="POST">
         {% csrf_token %}
     <table>
         {{ form }}

@@ -4,23 +4,24 @@ from .forms import GoalForm, ChatForm
 from django.contrib.auth.models import User
 import datetime
 from datetime import datetime
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.forms.models import model_to_dict
 
 def get_time() -> str:
     return datetime.today().strftime('%d-%m-%Y') + ' ' + datetime.now().strftime("%H:%M")
 
 def update_history(goal, request):
+    true_converter = {'true': True, 'True': True, 'False': False, 'false': False}
+
     new_data = {'name': request.POST.get('name'), 'description': request.POST.get('description'),
                 'block': request.POST.get('block'), 'quarter': str(request.POST.get('quarter')),
-                'weight': float(request.POST.get('weight')), 'planned': request.POST.get('planned')}
+                'weight': float(request.POST.get('weight')), 'planned': true_converter[request.POST.get('planned')]}
 
     old_data = {'name': goal.name, 'description': goal.description, 'block': goal.block,
                 'quarter': str(goal.quarter), 'weight': goal.weight, 'planned': goal.planned}
 
     translator = {'name': 'Название', 'description': 'Описание', 'block': 'Блок',
                   'quarter': 'Квартал', 'weight': 'Вес', 'planned': 'Запланированная'}
-    
-    
 
     for i in new_data:
         if old_data[i] != new_data[i]:
@@ -29,35 +30,27 @@ def update_history(goal, request):
 
 def browse(request):
     data = Goal.objects.all()
-    return render(request, 'browse/browse.html', {'data': data})
+    form = GoalForm()
+    return render(request, 'browse/browse.html', {'data': data, 'form': form})
 
-def editing(request, goal_id):
-    status = ''
-    goal = Goal.objects.get(id=goal_id)
+def editing(request):
     if request.method == "POST":
+        goal = Goal.objects.get(id=request.POST.get('goal_id'))
         if request.user.is_authenticated and request.user.id == goal.owner_id or \
         request.user.is_superuser or request.user.groups.all()[0] == User.objects.get(id=goal.owner_id).groups.all()[0] \
         and request.user.has_perm('browse.change_goal'):
-            form = GoalForm(request.POST)
-            if form.is_valid():
-                status = 'Успешно'
-                update_history(goal, request)
-                goal.name = request.POST.get('name')
-                goal.description = request.POST.get('description')
-                goal.block = request.POST.get('block')
-                goal.quarter = request.POST.get('quarter')
-                goal.weight = request.POST.get('weight')
-                goal.planned = request.POST.get('planned')
-                print(request.POST.get('planned'))
-                goal.save(update_fields=['name', 'description', 'block', 'quarter', 'weight', 'planned'])
-            else:
-                status = 'Вес должен быть в диапазоне от 0 до 100'
+            update_history(goal, request)
+            goal.name = request.POST.get('name')
+            goal.description = request.POST.get('description')
+            goal.block = request.POST.get('block')
+            goal.quarter = request.POST.get('quarter')
+            goal.weight = request.POST.get('weight')
+            goal.planned = request.POST.get('planned')
+            goal.save(update_fields=['name', 'description', 'block', 'quarter', 'weight', 'planned'])
+            return HttpResponse('Успешно')
         else:
-            status = 'У вас недостаточно прав'
-    form = GoalForm(initial={'name': goal.name, 'description': goal.description, 'block': goal.block,
-                    'quarter': goal.quarter, 'weight': goal.weight, 'planned': goal.planned, })
-    return render(request, 'browse/editing.html', {'data': goal, 'form': form, 'status': status})
-
+            return HttpResponse('У вас недостаточно прав')
+            
 def chatting(request, goal_id):
     goal = Goal.objects.get(id=goal_id)
     if request.method == "POST":
@@ -78,8 +71,18 @@ def history(request, goal_id):
     return render(request, 'browse/history.html', {'data': goal.history['history']})
 
 def test(request):
+    if request.method == "POST":
+        print(request.POST.get('name'))
     if request.user.is_authenticated:
         return JsonResponse({'hello': 'chat'})
     else:
         return JsonResponse({'hello': 'PLEASE LOGIN'})
+
+def get_goal(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            goal = Goal.objects.get(id=request.POST.get('goal_id'))
+            return JsonResponse(model_to_dict(goal))
+        else:
+            return HttpResponse("Please login.")
     
