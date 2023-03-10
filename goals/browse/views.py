@@ -6,6 +6,7 @@ import datetime
 from datetime import datetime
 from django.http import JsonResponse, HttpResponse
 from django.forms.models import model_to_dict
+from .validators import goal_validator
 
 def get_time() -> str:
     return datetime.today().strftime('%d-%m-%Y') + ' ' + datetime.now().strftime("%H:%M")
@@ -39,6 +40,8 @@ def editing(request):
         if request.user.is_authenticated and request.user.id == goal.owner_id or \
         request.user.is_superuser or request.user.groups.all()[0] == User.objects.get(id=goal.owner_id).groups.all()[0] \
         and request.user.has_perm('browse.change_goal'):
+            if not goal_validator(request):
+                return HttpResponse('Ошибка')
             update_history(goal, request)
             goal.name = request.POST.get('name')
             goal.description = request.POST.get('description')
