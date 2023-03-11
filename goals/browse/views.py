@@ -32,7 +32,8 @@ def update_history(goal, request):
 def browse(request):
     data = Goal.objects.all()
     form = GoalForm()
-    return render(request, 'browse/browse.html', {'data': data, 'form': form})
+    chat_form = ChatForm()
+    return render(request, 'browse/browse.html', {'data': data, 'form': form, 'chat_form': chat_form})
 
 def editing(request):
     if request.method == "POST":
@@ -54,17 +55,13 @@ def editing(request):
         else:
             return HttpResponse('У вас недостаточно прав')
             
-def chatting(request, goal_id):
-    goal = Goal.objects.get(id=goal_id)
+def chatting(request):
+    goal = Goal.objects.get(id=request.POST.get('goal_id'))
     if request.method == "POST":
         message = {'id': request.user.id, 'time': get_time(), 'text': request.POST.get('message')}
         goal.chat['chat'].append(message)
         goal.save(update_fields=['chat'])
-    form = ChatForm()
-    messages = goal.chat['chat']
-    for item in messages:
-        item['name'] = User.objects.get(id=item['id']).get_full_name()
-    return render(request, 'browse/chatting.html', {'form': form, 'data': goal.chat['chat']})
+    return HttpResponse('Успешно')
 
 def history(request, goal_id):
     goal = Goal.objects.get(id=goal_id)
@@ -85,6 +82,12 @@ def get_goal(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
             goal = Goal.objects.get(id=request.POST.get('goal_id'))
+            messages = goal.history['history']
+            for item in messages:
+                item['name'] = User.objects.get(id=item['id']).get_full_name()
+            messages = goal.chat['chat']
+            for item in messages:
+                item['name'] = User.objects.get(id=item['id']).get_full_name()
             return JsonResponse(model_to_dict(goal))
         else:
             return HttpResponse("Please login.")

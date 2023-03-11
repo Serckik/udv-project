@@ -8,3 +8,4 @@ def goal_validator(request):
     planned = request.POST.get('planned')
     if weight < 0 or weight > 100:
         return False
+    return True

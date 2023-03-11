@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.browse),
     path('edit', views.editing),
-    path('chat/<int:goal_id>', views.chatting),
+    path('chat', views.chatting),
     path('history/<int:goal_id>', views.history),
     path('get_goal', views.get_goal),
     #TESTING
