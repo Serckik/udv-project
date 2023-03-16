@@ -16,12 +16,7 @@
             <a href="/edit/{{ item.id }}">Редактировать</a>
             <a href="/chat/{{ item.id }}">Открыть чат</a>
             <a href="/history/{{ item.id }}">История </a>
-        {% elif perms.browse.change_goal and item.current_level == 0 and user.groups.all.0 == item.group %}
-            {{ item.name }}
-            <a href="/edit/{{ item.id }}">Редактировать</a>
-            <a href="/chat/{{ item.id }}">Открыть чат</a>
-            <a href="/history/{{ item.id }}">История </a>
-        {% elif item.current_level == 1 and user.is_superuser %}
+        {% elif perms.browse.change_goal and not item.current and user.groups.all.0 == item.group %}
             {{ item.name }}
             <a href="/edit/{{ item.id }}">Редактировать</a>
             <a href="/chat/{{ item.id }}">Открыть чат</a>

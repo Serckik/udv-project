@@ -7,7 +7,7 @@
 {% block content %}
     <h1>Текущие задачи</h1>
     {% for item in data %}
-        {% if item.current_level == 2 %}
+        {% if item.current %}
             <div class="card">
                 <p>{{ item.name }}</p>
                 <p class="more" id="{{ item.id }}">Подробнее</p>

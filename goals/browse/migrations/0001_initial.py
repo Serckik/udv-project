@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('block', models.CharField(choices=[('Подбор', 'Подбор'), ('Адаптация', 'Адаптация'), ('Развитие персонала', 'Развитие персонала'), ('HR-сопровождение', 'HR-сопровождение'), ('Корп. культура и бенефиты', 'Корп. культура и бенефиты'), ('Кадровый учет и з/п', 'Кадровый учет и з/п'), ('HR-бренд внешний', 'HR-бренд внешний'), ('Внутренняя работа отдела', 'Внутренняя работа отдела'), ('Оценка', 'Оценка')], max_length=30, verbose_name='Блок')),
                 ('planned', models.BooleanField(verbose_name='Запланированная')),
                 ('quarter', models.PositiveSmallIntegerField(choices=[(1, 1), (2, 2), (3, 3)], verbose_name='Квартал')),
-                ('weight', models.FloatField(validators=[browse.models.validate_interval])),
+                ('weight', models.FloatField()),
                 ('current', models.BooleanField(verbose_name='Утверждённая')),
             ],
             options={

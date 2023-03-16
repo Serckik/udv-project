@@ -14,16 +14,21 @@ def get_time() -> str:
 def update_history(goal, request):
     true_converter = {'true': True, 'True': True, 'False': False, 'false': False}
 
+    print(request.POST.get('current'))
     new_data = {'name': request.POST.get('name'), 'description': request.POST.get('description'),
                 'block': request.POST.get('block'), 'quarter': str(request.POST.get('quarter')),
-                'weight': float(request.POST.get('weight')), 'planned': true_converter[request.POST.get('planned')]}
+                'weight': float(request.POST.get('weight')), 'planned': true_converter[request.POST.get('planned')],
+                'current': true_converter[request.POST.get('current')]}
 
     old_data = {'name': goal.name, 'description': goal.description, 'block': goal.block,
-                'quarter': str(goal.quarter), 'weight': goal.weight, 'planned': goal.planned}
+                'quarter': str(goal.quarter), 'weight': goal.weight, 'planned': goal.planned,
+                'current': goal.current}
 
     translator = {'name': 'Название', 'description': 'Описание', 'block': 'Блок',
-                  'quarter': 'Квартал', 'weight': 'Вес', 'planned': 'Запланированная'}
+                  'quarter': 'Квартал', 'weight': 'Вес', 'planned': 'Запланированная',
+                  'current': 'Утверждённая'}
 
+ 
     for i in new_data:
         if old_data[i] != new_data[i]:
             goal.history['history'].append({'id': request.user.id, 'time': get_time(), 'field': translator[i], 'last': old_data[i], 'now': new_data[i]})
@@ -50,7 +55,8 @@ def editing(request):
             goal.quarter = request.POST.get('quarter')
             goal.weight = request.POST.get('weight')
             goal.planned = request.POST.get('planned')
-            goal.save(update_fields=['name', 'description', 'block', 'quarter', 'weight', 'planned'])
+            goal.current = request.POST.get('current')
+            goal.save(update_fields=['name', 'description', 'block', 'quarter', 'weight', 'planned', 'current'])
             return HttpResponse('Успешно')
         else:
             return HttpResponse('У вас недостаточно прав')

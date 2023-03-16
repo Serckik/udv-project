@@ -1,9 +1,8 @@
 from django.db import models
-from django.core.exceptions import ValidationError
 
-def validate_interval(value):
-    if value < 0.0 or value > 100.0:
-        raise ValidationError(('%(value)s должен быть в диапазоне: [0.0, 100.0]'), params={'value': value},)
+
+CHOICES_WEIGHT = [('', '')] + [(i,i) for i in range(101)] # вес
+CHOICES_MARK = [('', '')] + [(i,i) for i in range(201)] # оценка
 
 class Goal(models.Model):
     owner_id = models.IntegerField('ID Ответственного', null=False)
@@ -15,13 +14,15 @@ class Goal(models.Model):
      ('HR-бренд внешний', 'HR-бренд внешний'), ('Внутренняя работа отдела', 'Внутренняя работа отдела'),
     ('Оценка', 'Оценка')], null=False, max_length=30)
     quarter = models.PositiveSmallIntegerField('Квартал', choices=[(1, 1), (2, 2), (3, 3), (4, 4)], null=False)
-    weight = models.FloatField('Вес', validators=[validate_interval], null=False)
-    current_level = models.IntegerField('Утверждённая', null=True)
-    planned = models.BooleanField('Запланированная', null=False)
+    weight = models.FloatField('Вес', choices=CHOICES_WEIGHT, null=False)
+    current = models.BooleanField('Утверждённая', choices=[(True, 'Да'), (False, 'Нет')], null=True)
+    planned = models.BooleanField('Запланированная', choices=[(True, 'Да'), (False, 'Нет')], null=True)
     chat = models.JSONField('Чат', null=True)
     history = models.JSONField('История', null=True)
-    #percent_of_completion = models.FloatField('Процент выполнения', validators=[validate_interval], null=True)
+    current_result = models.TextField('Текущий результат', null=True)
+    mark = models.IntegerField('Оценка сотрудника', choices=CHOICES_MARK, null=True)
+    fact_mark = models.IntegerField('Оценка руководителя', choices=CHOICES_MARK, null=True)
     
     class Meta:
-        verbose_name = 'Цель'
-        verbose_name_plural = 'Цели'
+        verbose_name = 'Задача'
+        verbose_name_plural = 'Задачи'

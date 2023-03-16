@@ -19,6 +19,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='goal',
             name='weight',
-            field=models.FloatField(validators=[browse.models.validate_interval], verbose_name='Вес'),
+            field=models.FloatField(verbose_name='Вес'),
         ),
     ]
