@@ -1,5 +1,5 @@
 from django import forms
-from .models import CHOICES_WEIGHT
+from .models import CHOICES_WEIGHT, CHOICES_MARK
 
 class GoalForm(forms.Form):
     name = forms.CharField(label='Название задачи', widget=forms.Textarea(), required=True)
@@ -14,5 +14,7 @@ class GoalForm(forms.Form):
     current = forms.ChoiceField(label='Утверждённая', choices=[('', ''), (True, 'Да'), (False, 'Нет')], required=True)
     planned = forms.ChoiceField(label='Запланированная', choices=[('', ''), (True, 'Да'), (False, 'Нет')], required=True)
     weight = forms.ChoiceField(label='Вес', required=True, choices=CHOICES_WEIGHT)
+    mark = forms.ChoiceField(label='Оценка сотрудника', required=True, choices=CHOICES_MARK)
+    fact_mark = forms.ChoiceField(label='Оценка руководителя', required=True, choices=CHOICES_MARK)
 class ChatForm(forms.Form):
     message = forms.CharField(label='Написать сообщение', widget=forms.Textarea()) 
