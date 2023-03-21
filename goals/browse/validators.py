@@ -9,3 +9,6 @@ def goal_validator(request):
     if weight < 0 or weight > 100:
         return False
     return True
+
+
+true_converter = {'true': True, 'True': True, 'False': False, 'false': False}

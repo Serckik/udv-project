@@ -8,25 +8,47 @@ from django.http import JsonResponse, HttpResponse
 from django.forms.models import model_to_dict
 from .validators import goal_validator
 
+true_converter = {'true': True, 'True': True, 'False': False, 'false': False}
+
 def get_time() -> str:
     return datetime.today().strftime('%d-%m-%Y') + ' ' + datetime.now().strftime("%H:%M")
 
 def update_history(goal, request):
-    true_converter = {'true': True, 'True': True, 'False': False, 'false': False}
 
-    print(request.POST.get('current'))
-    new_data = {'name': request.POST.get('name'), 'description': request.POST.get('description'),
-                'block': request.POST.get('block'), 'quarter': str(request.POST.get('quarter')),
-                'weight': float(request.POST.get('weight')), 'planned': true_converter[request.POST.get('planned')],
-                'current': true_converter[request.POST.get('current')]}
 
-    old_data = {'name': goal.name, 'description': goal.description, 'block': goal.block,
-                'quarter': str(goal.quarter), 'weight': goal.weight, 'planned': goal.planned,
-                'current': goal.current}
+    new_data = {'name': request.POST.get('name'),
+                'description': request.POST.get('description'),
+                'block': request.POST.get('block'),
+                'quarter': int(request.POST.get('quarter')),
+                'weight': float(request.POST.get('weight')),
+                'planned': true_converter[request.POST.get('planned')],
+                'current': true_converter[request.POST.get('current')],
+                'current_result': request.POST.get('current_result'),
+                'mark': int(request.POST.get('mark')),
+                'fact_mark': int(request.POST.get('fact_mark'))
+            }
 
-    translator = {'name': 'Название', 'description': 'Описание', 'block': 'Блок',
-                  'quarter': 'Квартал', 'weight': 'Вес', 'planned': 'Запланированная',
-                  'current': 'Утверждённая'}
+    old_data = {'name': goal.name,
+                'description': goal.description, 
+                'block': goal.block,
+                'quarter': goal.quarter, 
+                'weight': goal.weight, 
+                'planned': goal.planned,
+                'current': goal.current,
+                'current_result': goal.current_result,
+                'mark': goal.mark,
+                'fact_mark': goal.fact_mark}
+
+    translator = {'name': 'Название',
+                  'description': 'Образ результата', 
+                  'block': 'Блок',
+                  'quarter': 'Квартал', 
+                  'weight': 'Вес', 
+                  'planned': 'Запланированная',
+                  'current': 'Утверждённая',
+                  'current_result': 'Текущий результат',
+                  'mark': 'Оценка сотрудинка',
+                  'fact_mark': 'Оценка руководителя'}
 
  
     for i in new_data:
@@ -52,11 +74,14 @@ def editing(request):
             goal.name = request.POST.get('name')
             goal.description = request.POST.get('description')
             goal.block = request.POST.get('block')
-            goal.quarter = request.POST.get('quarter')
-            goal.weight = request.POST.get('weight')
-            goal.planned = request.POST.get('planned')
-            goal.current = request.POST.get('current')
-            goal.save(update_fields=['name', 'description', 'block', 'quarter', 'weight', 'planned', 'current'])
+            goal.quarter = int(request.POST.get('quarter'))
+            goal.weight = float(request.POST.get('weight'))
+            goal.planned = true_converter[request.POST.get('planned')]
+            goal.current = true_converter[request.POST.get('current')]
+            goal.current_result = request.POST.get('current_result')
+            goal.mark = int(request.POST.get('mark'))
+            goal.fact_mark = int(request.POST.get('fact_mark'))
+            goal.save(update_fields=['name', 'description', 'block', 'quarter', 'weight', 'planned', 'current', 'current_result', 'mark', 'fact_mark'])
             return HttpResponse('Успешно')
         else:
             return HttpResponse('У вас недостаточно прав')
@@ -85,16 +110,15 @@ def test(request):
         return JsonResponse({'hello': 'PLEASE LOGIN'})
 
 def get_goal(request):
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            goal = Goal.objects.get(id=request.POST.get('goal_id'))
-            messages = goal.history['history']
-            for item in messages:
+    if request.user.is_authenticated:
+        goal = Goal.objects.get(id=request.POST.get('goal_id'))
+        messages = goal.history['history']
+        for item in messages:
+            item['name'] = User.objects.get(id=item['id']).get_full_name()
+        messages = goal.chat['chat']
+        for item in messages:
                 item['name'] = User.objects.get(id=item['id']).get_full_name()
-            messages = goal.chat['chat']
-            for item in messages:
-                item['name'] = User.objects.get(id=item['id']).get_full_name()
-            return JsonResponse(model_to_dict(goal))
-        else:
-            return HttpResponse("Please login.")
+        return JsonResponse(model_to_dict(goal))
+    else:
+        return HttpResponse("Please login.")
     
