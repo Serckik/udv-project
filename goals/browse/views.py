@@ -110,16 +110,15 @@ def test(request):
         return JsonResponse({'hello': 'PLEASE LOGIN'})
 
 def get_goal(request):
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            goal = Goal.objects.get(id=request.POST.get('goal_id'))
-            messages = goal.history['history']
-            for item in messages:
+    if request.user.is_authenticated:
+        goal = Goal.objects.get(id=request.GET.get('goal_id'))
+        messages = goal.history['history']
+        for item in messages:
+            item['name'] = User.objects.get(id=item['id']).get_full_name()
+        messages = goal.chat['chat']
+        for item in messages:
                 item['name'] = User.objects.get(id=item['id']).get_full_name()
-            messages = goal.chat['chat']
-            for item in messages:
-                item['name'] = User.objects.get(id=item['id']).get_full_name()
-            return JsonResponse(model_to_dict(goal))
-        else:
-            return HttpResponse("Please login.")
+        return JsonResponse(model_to_dict(goal))
+    else:
+        return HttpResponse("Please login.")
     
