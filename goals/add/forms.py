@@ -1,5 +1,5 @@
 from django import forms
-from .models import CHOICES_WEIGHT
+from browse.models import CHOICES_WEIGHT
 
 class AddGoalForm(forms.Form):
     name = forms.CharField(label='Название задачи', widget=forms.Textarea(), required=True)

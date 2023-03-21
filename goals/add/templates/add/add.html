@@ -2,25 +2,39 @@
 
 {% block content %}
     <h1>Добавить новую задачу</h1>
-    <form method="POST">
+    <form method="POST" id="add-form">
         {% csrf_token %}
-    <table>
-        {{ form }}
-    </table>
-    <a href=""><input type="submit"></a>
+        {{ add_form }}
+        <a href=""><input type="submit"></a>
+    </form>
     <h2> {{ status }}</h2>
     <h1> Текущие не утверждённые задачи</h1>
     {% for item in data %}
-        {% if user.id == item.owner_id %}
+        {% if user.id == item.owner_id and not item.current %}
             {{ item.name }}
-            <a href="/edit/{{ item.id }}">Редактировать</a>
-            <a href="/chat/{{ item.id }}">Открыть чат</a>
-            <a href="/history/{{ item.id }}">История </a>
+            <p class="more" id="{{ item.id }}">Подробнее</p>
         {% elif perms.browse.change_goal and not item.current and user.groups.all.0 == item.group %}
             {{ item.name }}
-            <a href="/edit/{{ item.id }}">Редактировать</a>
-            <a href="/chat/{{ item.id }}">Открыть чат</a>
-            <a href="/history/{{ item.id }}">История </a>
+            <p class="more" id="{{ item.id }}">Подробнее</p>
         {% endif %}
     {% endfor %}
+    <div class="hidden">
+        <form id="more-form" class="info">
+            {{ form }}
+            <input type="submit">
+        </form>
+
+        <div class="history-block">
+                
+        </div>
+
+        <div class="chat-history-block">
+                
+        </div>
+        
+        <form id="chat" class="chat">
+            {{ chat_form }}
+            <input type="submit">
+        </form>
+    </div>
 {% endblock %}

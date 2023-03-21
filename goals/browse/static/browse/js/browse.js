@@ -29,21 +29,21 @@ function SetHistory(historyName, className, values){
 }
 
 function successFunction(data){
-    SetVal("#id_name", data.name)
-    SetVal("#id_description", data.description)
-    SetVal("#id_current_result", data.current_result)
-    SetVal("#id_block", data.block)
-    SetVal("#id_quarter", data.quarter)
-    SetVal("#id_current", convertBool(data.current))
-    SetVal("#id_planned", convertBool(data.planned))
-    SetVal("#id_weight", data.weight)
-    SetVal("#id_mark", data.mark)
-    SetVal("#id_fact_mark", data.fact_mark)
+    SetVal("#more-form #id_name", data.name)
+    SetVal("#more-form #id_description", data.description)
+    SetVal("#more-form #id_current_result", data.current_result)
+    SetVal("#more-form #id_block", data.block)
+    SetVal("#more-form #id_quarter", data.quarter)
+    SetVal("#more-form #id_current", convertBool(data.current))
+    SetVal("#more-form #id_planned", convertBool(data.planned))
+    SetVal("#more-form #id_weight", data.weight)
+    SetVal("#more-form #id_mark", data.mark)
+    SetVal("#more-form #id_fact_mark", data.fact_mark)
     SetHistory("history", "history-block", data.history.history)
     SetHistory("chat", "chat-history-block", data.chat.chat)
 }
 
-function request(type, url, data){
+export function request(type, url, data){
     $.ajax({
         type: type,
         url: url,
@@ -57,6 +57,9 @@ function request(type, url, data){
 }
 
 $(document).on('click', 'p[class=more]', function(e){
+    if($(".active")[0] != undefined){
+        $(".active")[0].classList.remove("active")
+    }
     e.target.classList.add("active");
     /*
         "active" для получение id из подробнее
@@ -64,8 +67,11 @@ $(document).on('click', 'p[class=more]', function(e){
     let data = {
         goal_id: e.target.id,
     }
+    console.log(e)
     request("GET", "/get_goal", data)
-    $('.hidden')[0].classList.remove("hidden")
+    if($('.hidden')[0] != undefined){
+        $('.hidden')[0].classList.remove("hidden")
+    }
 })
 
 function sleep(ms) {
@@ -76,16 +82,16 @@ $(document).on('submit','#more-form',async function(e){
     e.preventDefault();
     let data = {
         goal_id: $('.active')[0].id,
-        name: $("#id_name").val(),
-        description: $('#id_description').val(),
-        current_result: $('#id_current_result').val(),
-        block: $('#id_block').val(),
-        quarter: $('#id_quarter').val(),
-        current: $('#id_current').val(),
-        planned: $('#id_planned').val(),
-        weight: $('#id_weight').val(),
-        mark: $('#id_mark').val(),
-        fact_mark: $('#id_fact_mark').val(),
+        name: $("#more-form #id_name").val(),
+        description: $('#more-form #id_description').val(),
+        current_result: $('#more-form #id_current_result').val(),
+        block: $('#more-form #id_block').val(),
+        quarter: $('#more-form #id_quarter').val(),
+        current: $('#more-form #id_current').val(),
+        planned: $('#more-form #id_planned').val(),
+        weight: $('#more-form #id_weight').val(),
+        mark: $('#more-form #id_mark').val(),
+        fact_mark: $('#more-form #id_fact_mark').val(),
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
     }
     request("POST", "/edit", data)
