@@ -111,11 +111,7 @@ def test(request):
 
 def get_goal(request):
     if request.user.is_authenticated:
-<<<<<<< HEAD
-        goal = Goal.objects.get(id=request.POST.get('goal_id'))
-=======
         goal = Goal.objects.get(id=request.GET.get('goal_id'))
->>>>>>> 706f6360bef9efb0bb99e964d2ce76c34d747206
         messages = goal.history['history']
         for item in messages:
             item['name'] = User.objects.get(id=item['id']).get_full_name()
