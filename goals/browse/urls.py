@@ -2,8 +2,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.browse), # главная
-    path('edit', views.editing), # нужна авторизация! POST поля: (int goal_id, str name, str description, str block, int quarter, float weight, str planned)/edit - возвращает HttpResponse(успешно, ошибка)
-    path('chat', views.chatting), # нужна авторизация! POST поля: (int goal_id, str message) - возвращает HttpResponse(Успешно, Ошибка)
+    path('browse', views.browse),
+    path('edit', views.editing),
     path('get_goal', views.get_goal),
+    path('add', views.browse_add),
+    path('approve', views.approve_goal),
+    path('add_goal', views.add_goal)
 ]

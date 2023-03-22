@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Goal
-from .forms import GoalForm, ChatForm
+from .forms import GoalForm, ChatForm, AddGoalForm
 from django.contrib.auth.models import User
 import datetime
 from datetime import datetime
@@ -15,7 +15,6 @@ def get_time() -> str:
 
 def update_history(goal, request):
 
-
     new_data = {'name': request.POST.get('name'),
                 'description': request.POST.get('description'),
                 'block': request.POST.get('block'),
@@ -25,8 +24,7 @@ def update_history(goal, request):
                 'current': true_converter[request.POST.get('current')],
                 'current_result': request.POST.get('current_result'),
                 'mark': int(request.POST.get('mark')),
-                'fact_mark': int(request.POST.get('fact_mark'))
-            }
+                'fact_mark': int(request.POST.get('fact_mark'))}
 
     old_data = {'name': goal.name,
                 'description': goal.description, 
@@ -49,8 +47,6 @@ def update_history(goal, request):
                   'current_result': 'Текущий результат',
                   'mark': 'Оценка сотрудинка',
                   'fact_mark': 'Оценка руководителя'}
-
- 
     for i in new_data:
         if old_data[i] != new_data[i]:
             goal.history['history'].append({'id': request.user.id, 'time': get_time(), 'field': translator[i], 'last': old_data[i], 'now': new_data[i]})
@@ -101,14 +97,6 @@ def history(request, goal_id):
         item['name'] = User.objects.get(id=item['id']).get_full_name()
     return render(request, 'browse/history.html', {'data': goal.history['history']})
 
-def test(request):
-    if request.method == "POST":
-        print(request.POST.get('name'))
-    if request.user.is_authenticated:
-        return JsonResponse({'hello': 'chat'})
-    else:
-        return JsonResponse({'hello': 'PLEASE LOGIN'})
-
 def get_goal(request):
     if request.user.is_authenticated:
         goal = Goal.objects.get(id=request.GET.get('goal_id'))
@@ -121,4 +109,41 @@ def get_goal(request):
         return JsonResponse(model_to_dict(goal))
     else:
         return HttpResponse("Please login.")
-    
+
+def browse_add(request):
+    data = {}
+    add_form = AddGoalForm()
+    form = GoalForm()
+    chat_form = ChatForm()
+    goals = Goal.objects.all()
+    for goal in goals:
+        goal.group = User.objects.get(id=goal.owner_id).groups.all()[0]
+    return render(request, 'browse/add.html', {'add_form': add_form, 'data': goals, 'form': form, 'chat_form': chat_form})
+
+
+def add_goal(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        form = AddGoalForm(request.POST)
+        if form.is_valid():
+            goal = Goal(owner_id=request.user.id,
+                        name=request.POST.get('name'), 
+                        description=request.POST.get('description'), 
+                        block=request.POST.get('block'),
+                        quarter=int(request.POST.get('quarter')), 
+                        weight=float(request.POST.get('weight')),
+                        current=False,
+                        current_result='',
+                        planned=true_converter[request.POST.get('planned')],
+                        chat={"chat": []},
+                        history={"history": []},
+                        mark=0,
+                        fact_mark=0)
+            goal.save()
+            return HttpResponse('Успешно')
+        else:
+            return HttpResponse('Ошибка')
+
+
+
+def approve_goal(request):
+    return HttpResponse('Успешно')
