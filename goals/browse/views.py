@@ -146,4 +146,11 @@ def add_goal(request):
 
 
 def approve_goal(request):
-    return HttpResponse('Успешно')
+    goals = Goal.objects.all()
+    if request.user.has_perm('browse.change_goal'):
+        for goal in goals:
+            goal.group = User.objects.get(id=goal.owner_id).groups.all()[0]
+        return render(request, 'browse/approve.html', {'data': goals})
+        
+    else:
+        return HttpResponse('Нет прав')

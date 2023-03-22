@@ -1,22 +1,15 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-Добавить
+Утвердить
 {% endblock %}
 
-
 {% block content %}
-    <h1>Добавить новую задачу</h1>
-    <form method="POST" id="add-form">
-        {% csrf_token %}
-        {{ add_form }}
-        <a href=""><input type="submit"></a>
-    </form>
-    <h2> {{ status }}</h2>
     <h1> Текущие не утверждённые задачи</h1>
     {% for item in data %}
-        {% if user.id == item.owner_id and not item.current %}
+        {% if perms.browse.change_goal and not item.current and user.groups.all.0 == item.group %}
             {{ item.name }}
+            <p class="more" id="{{ item.id }}">Подробнее</p>
         {% endif %}
     {% endfor %}
     <div class="hidden">
