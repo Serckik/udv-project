@@ -11,5 +11,5 @@ $(document).on('submit', '#add-form', function(e){
         weight: $('#id_weight').val(),
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
     }
-    request("POST", "/add/add_goal", data)
+    request("POST", "goal/add_goal", data)
 })

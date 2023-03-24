@@ -7,5 +7,6 @@ urlpatterns = [
     path('get_goal', views.get_goal),
     path('add', views.browse_add),
     path('approve', views.approve_goal),
-    path('add_goal', views.add_goal)
+    path('add_goal', views.add_goal),
+    path('chat', views.chatting)
 ]

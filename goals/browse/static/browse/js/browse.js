@@ -67,8 +67,7 @@ $(document).on('click', 'p[class=more]', function(e){
     let data = {
         goal_id: e.target.id,
     }
-    console.log(e)
-    request("GET", "/get_goal", data)
+    request("GET", "/goal/get_goal", data)
     if($('.hidden')[0] != undefined){
         $('.hidden')[0].classList.remove("hidden")
     }
@@ -94,9 +93,9 @@ $(document).on('submit','#more-form',async function(e){
         fact_mark: $('#more-form #id_fact_mark').val(),
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
     }
-    request("POST", "/edit", data)
+    request("POST", "/goal/edit", data)
     await sleep(sleepTime);
-    request("GET", "/get_goal", data)
+    request("GET", "/goal/get_goal", data)
     $('p[class=active]').removeClass("active")
 });
 
@@ -107,8 +106,8 @@ $(document).on('submit','#chat',async function(e){
         message: $('#id_message').val(),
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
     }
-    request("POST", "/chat", data)
+    request("POST", "/goal/chat", data)
     await sleep(sleepTime);
-    request("GET", "/get_goal", data)
+    request("GET", "/goal/get_goal", data)
     $('p[class=active]').removeClass("active")
 });
