@@ -1,11 +1,11 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 CHOICES_WEIGHT = [('', '')] + [(i,i) for i in range(101)] # вес
 CHOICES_MARK = [('', '')] + [(i,i) for i in range(201)] # оценка
 
 class Goal(models.Model):
-    owner_id = models.IntegerField('ID Ответственного', null=False)
+    owner_id = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.TextField('Название цели', null=False)
     description = models.TextField('Образ результата', null=False)
     block = models.CharField('Блок', choices=[('Подбор', 'Подбор'), ('Адаптация', 'Адаптация'),
