@@ -135,4 +135,4 @@ if DEBUG:
     mimetypes.add_type("application/javascript", ".js", True)
 
 LOGIN_REDIRECT_URL = '/'
-
+LOGOUT_REDIRECT_URL = '/'

@@ -8,12 +8,15 @@ from django.http import JsonResponse, HttpResponse
 from django.forms.models import model_to_dict
 from .validators import goal_validator
 from users.models import Notification
+from django.contrib.auth.decorators import login_required
 
 true_converter = {'true': True, 'True': True, 'False': False, 'false': False}
 
+@login_required(login_url='/user/login/')
 def get_time() -> str:
     return datetime.today().strftime('%d-%m-%Y') + ' ' + datetime.now().strftime("%H:%M")
 
+@login_required(login_url='/user/login/')
 def update_history(goal, request):
     new_data = {'name': request.POST.get('name'),
                 'description': request.POST.get('description'),
@@ -57,20 +60,27 @@ def update_history(goal, request):
                     'now': new_data[i]}
             
             notifi = Notification(is_goal=True,
-                                  user=goal.owner_id,
-                                  field=data['field'],
-                                  old_data=data['last'],
-                                  new_data=data['now'])
+                                    user=goal.owner_id,
+                                    field=data['field'],
+                                    old_data=data['last'],
+                                    new_data=data['now'])
+            if goal.owner_id == request.user:
+                users = User.objects.filter(groups__name=request.user.groups.all()[0])
+                for user in users:
+                    if user.has_perm('browse.change_goal'):
+                        notifi.user=user
             notifi.save()
             goal.history['history'].append(data)
     goal.save(update_fields=['history'])
 
+@login_required(login_url='/user/login/')
 def browse(request):
     data = Goal.objects.all()
     form = GoalForm()
     chat_form = ChatForm()
     return render(request, 'browse/browse.html', {'data': data, 'form': form, 'chat_form': chat_form})
 
+@login_required(login_url='/user/login/')
 def editing(request):
     if request.method == "POST":
         goal = Goal.objects.get(id=request.POST.get('goal_id'))
@@ -94,19 +104,27 @@ def editing(request):
             return HttpResponse('Успешно')
         else:
             return HttpResponse('У вас недостаточно прав')
-            
+
+@login_required(login_url='/user/login/') 
 def chatting(request):
     goal = Goal.objects.get(id=request.POST.get('goal_id'))
     if request.method == "POST":
         message = {'name': request.user.get_full_name(), 'time': get_time(), 'text': request.POST.get('message')}
         goal.chat['chat'].append(message)
         goal.save(update_fields=['chat'])
+
         notifi = Notification(message=message['text'],
-                              user=goal.owner_id,
-                              is_goal=False,)
+                                user=goal.owner_id,
+                                is_goal=False,)
+        if goal.owner_id == request.user:
+                users = User.objects.filter(groups__name=request.user.groups.all()[0])
+                for user in users:
+                    if user.has_perm('browse.change_goal'):
+                        notifi.user=user
         notifi.save()
     return HttpResponse('Успешно')
 
+@login_required(login_url='/user/login/')
 def history(request, goal_id):
     goal = Goal.objects.get(id=goal_id)
     messages = goal.history['history']
@@ -114,6 +132,7 @@ def history(request, goal_id):
         item['name'] = User.objects.get(id=item['id']).get_full_name()
     return render(request, 'browse/history.html', {'data': goal.history['history']})
 
+@login_required(login_url='/user/login/')
 def get_goal(request):
     if request.user.is_authenticated:
         goal = Goal.objects.get(id=request.GET.get('goal_id'))
@@ -121,6 +140,7 @@ def get_goal(request):
     else:
         return HttpResponse("Please login.")
 
+@login_required(login_url='/user/login/')
 def browse_add(request):
     data = {}
     add_form = AddGoalForm()
@@ -131,6 +151,7 @@ def browse_add(request):
         goal.group = goal.owner_id.groups.all()[0]
     return render(request, 'browse/add.html', {'add_form': add_form, 'data': goals, 'form': form, 'chat_form': chat_form})
 
+@login_required(login_url='/user/login/')
 def add_goal(request):
     if request.method == 'POST' and request.user.is_authenticated:
         form = AddGoalForm(request.POST)
@@ -153,6 +174,7 @@ def add_goal(request):
         else:
             return HttpResponse('Ошибка')
 
+@login_required(login_url='/user/login/')
 def approve_goal(request):
     goals = Goal.objects.all()
     if request.user.has_perm('browse.change_goal'):
