@@ -17,8 +17,6 @@ class Goal(models.Model):
     weight = models.FloatField('Вес', choices=CHOICES_WEIGHT, null=False)
     current = models.BooleanField('Утверждённая', choices=[(True, 'Да'), (False, 'Нет')], null=True)
     planned = models.BooleanField('Запланированная', choices=[(True, 'Да'), (False, 'Нет')], null=True)
-    chat = models.JSONField('Чат', null=True)
-    history = models.JSONField('История', null=True)
     current_result = models.TextField('Текущий результат', null=True)
     mark = models.IntegerField('Оценка сотрудника', choices=CHOICES_MARK, null=True)
     fact_mark = models.IntegerField('Оценка руководителя', choices=CHOICES_MARK, null=True)
@@ -26,3 +24,33 @@ class Goal(models.Model):
     class Meta:
         verbose_name = 'Задача'
         verbose_name_plural = 'Задачи'
+
+
+class Chat(models.Model):
+    goal = models.ForeignKey(Goal, on_delete = models.CASCADE)
+    owner_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField('Сообщение')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Чат'
+        verbose_name_plural = 'Чаты'
+
+class History(models.Model):
+    goal = models.ForeignKey(Goal, on_delete = models.CASCADE)
+    owner_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'История'
+        verbose_name_plural = 'Истории'
+
+class FieldChange(models.Model):
+    history = models.ForeignKey(History, on_delete = models.CASCADE)
+    field = models.TextField('Поле')
+    old_data = models.TextField('Было')
+    new_data = models.TextField('Стало')
+
+    class Meta:
+        verbose_name = 'Поле (история)'
+        verbose_name_plural = 'Поля (история)'

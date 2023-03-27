@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Goal
+from .models import Goal, Chat, History, FieldChange
 from .forms import GoalForm, ChatForm, AddGoalForm
 from django.contrib.auth.models import User
 import datetime
@@ -16,7 +16,6 @@ true_converter = {'true': True, 'True': True, 'False': False, 'false': False}
 def get_time() -> str:
     return datetime.today().strftime('%d-%m-%Y') + ' ' + datetime.now().strftime("%H:%M")
 
-@login_required(login_url='/user/login/')
 def update_history(goal, request):
     new_data = {'name': request.POST.get('name'),
                 'description': request.POST.get('description'),
@@ -51,27 +50,35 @@ def update_history(goal, request):
                   'mark': 'Оценка сотрудника',
                   'fact_mark': 'Оценка руководителя'}
     
+    is_change = False
     for i in new_data:
         if old_data[i] != new_data[i]:
-            data = {'name': request.user.get_full_name(),
-                    'time': get_time(), 
-                    'field': translator[i], 
-                    'last': old_data[i], 
-                    'now': new_data[i]}
+            is_change = True
+            break
+    if not is_change:
+        return
+
+    history = History(goal=goal, owner_id=request.user)
+    goal.history_set.add(history, bulk=False)
+    for i in new_data:
+        if old_data[i] != new_data[i]:
+            history.fieldchange_set.create(field=translator[i],
+                                           old_data=old_data[i],
+                                           new_data=new_data[i])
             
-            notifi = Notification(is_goal=True,
-                                    user=goal.owner_id,
-                                    field=data['field'],
-                                    old_data=data['last'],
-                                    new_data=data['now'])
-            if goal.owner_id == request.user:
-                users = User.objects.filter(groups__name=request.user.groups.all()[0])
-                for user in users:
-                    if user.has_perm('browse.change_goal'):
-                        notifi.user=user
-            notifi.save()
-            goal.history['history'].append(data)
-    goal.save(update_fields=['history'])
+            
+    notifi = Notification(is_goal=True,
+                          user=goal.owner_id,
+                          field=translator[i],
+                          old_data=old_data[i],
+                          new_data=new_data[i])        
+    if goal.owner_id == request.user:
+        users = User.objects.filter(groups__name=request.user.groups.all()[0])
+        for user in users:
+            if user.has_perm('browse.change_goal'):
+                notifi.user=user
+    notifi.save()
+    goal.save()
 
 @login_required(login_url='/user/login/')
 def browse(request):
@@ -109,11 +116,10 @@ def editing(request):
 def chatting(request):
     goal = Goal.objects.get(id=request.POST.get('goal_id'))
     if request.method == "POST":
-        message = {'name': request.user.get_full_name(), 'time': get_time(), 'text': request.POST.get('message')}
-        goal.chat['chat'].append(message)
-        goal.save(update_fields=['chat'])
+        goal.chat_set.create(owner_id=request.user, message=request.POST.get('message'))
+        goal.save()
 
-        notifi = Notification(message=message['text'],
+        notifi = Notification(message=request.POST.get('message'),
                                 user=goal.owner_id,
                                 is_goal=False,)
         if goal.owner_id == request.user:
@@ -136,10 +142,24 @@ def history(request, goal_id):
 def get_goal(request):
     if request.user.is_authenticated:
         goal = Goal.objects.get(id=request.GET.get('goal_id'))
-        return JsonResponse(model_to_dict(goal))
+        goal_dict = model_to_dict(goal)
+        chats = goal.chat_set.all()
+        histories = goal.history_set.all()
+        goal_dict['chat'] = []
+        goal_dict['history'] = []
+        for chat in chats:
+            goal_dict['chat'].append({'text': chat.message, 'time': chat.created_at, 'name': chat.owner_id.get_full_name()})
+        for hist in histories:
+            hist_fc = []
+            for fc in hist.fieldchange_set.all():
+                hist_fc.append(model_to_dict(fc))
+            goal_dict['history'].append({'name': hist.owner_id.get_full_name(),
+                                         'time': hist.created_at,
+                                         'field_changes': hist_fc})
+        return JsonResponse(goal_dict)
     else:
         return HttpResponse("Please login.")
-
+ 
 @login_required(login_url='/user/login/')
 def browse_add(request):
     data = {}
