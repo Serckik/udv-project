@@ -15,7 +15,9 @@ function SetHistory(historyName, className, values){
     values.forEach(element => {
         let text = ""
         if(historyName == "history"){
-            text = `Кто изменил: ${element.name} Было: ${element.last} Стало: ${element.now} Время изменения: ${element.time}`
+            element.field_changes.forEach(item => {
+                text = `Кто изменил: ${element.name} Что изменил: ${item.field} Было: ${item.old_data} Стало: ${item.new_data} Время изменения: ${element.time}`
+            })
         }
         else if(historyName == "chat"){
             text = `Кто написал: ${element.name} Сообщение: ${element.text} Время: ${element.time}`
@@ -39,8 +41,8 @@ function successFunction(data){
     SetVal("#more-form #id_weight", data.weight)
     SetVal("#more-form #id_mark", data.mark)
     SetVal("#more-form #id_fact_mark", data.fact_mark)
-    SetHistory("history", "history-block", data.history.history)
-    SetHistory("chat", "chat-history-block", data.chat.chat)
+    SetHistory("history", "history-block", data.history)
+    SetHistory("chat", "chat-history-block", data.chat)
 }
 
 export function request(type, url, data){

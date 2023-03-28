@@ -17,6 +17,7 @@
     {% endfor %}
     <div class="hidden">
         <form id="more-form" class="info">
+            {% csrf_token %}
             {{ form }}
             <input type="submit">
         </form>
@@ -30,6 +31,7 @@
         </div>
         
         <form id="chat" class="chat">
+            {% csrf_token %}
             {{ chat_form }}
             <input type="submit">
         </form>
