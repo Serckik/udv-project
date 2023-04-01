@@ -4,17 +4,31 @@
     <meta charset='utf-8'>
     <title>{% block title %}{% endblock %}</title>
     <link href="/static/css/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<header>
-    <a href="/">Задачи</a>
-    <a href="/goal/add">Добавить</a>
-    <a href="/goal/approve">Утвердить</a>
-    <a href="/goal/summary">Сводка</a>
-    <a href="/user/login">Вход</a>
-    <a href="/user/logout">Выйти</a>
-    {{ user.first_name }}
-</header>
 <body>
+    <header>
+        <div class="logo">
+            <a href="/"><img src="/static/img/logo.svg"></a>
+        </div>
+        <div class="header-nav">
+            <a href="/">ЗАДАЧИ</a>
+            <a href="/goal/add">ДОБАВИТЬ</a>
+            <a href="/goal/approve">УТВЕРДИТЬ</a>
+            <a href="/goal/summary">СВОДКА</a>
+        </div>
+        <div class="header-user">
+            <div class="ringbell">
+                <img src="/static/img/ringbell.svg">
+                <span>5</span>
+            </div>
+            <p>{{ user.first_name }}</p>
+            <img class="user-logo" src="/static/img/user-logo.jpg">
+        </div>
+        <img class="rectangle-42" src="/static/img/rectangle 42.svg">
+    </header>
     {% block login %}
     {% endblock %}
     {% if user.is_authenticated %}

@@ -1,3 +1,91 @@
+body{
+    max-width: 1740px;
+    margin: 0 auto;
+    background-color: #F5F5F5;
+}
+
+header{
+    position: relative;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    font-size: 25px;
+    color: #333333;
+}
+
+header a{
+    text-decoration: none;
+    color: #333333;
+}
+
+.rectangle-42{
+    position: absolute;
+    width: 6px;
+    height: 28.69px;
+    left: 288px;
+    top: 85px;
+}
+
+.logo{
+    padding: 20px 40px 20px 40px;
+    width: 294px;
+    box-sizing: border-box;
+    border: 1px solid #BFBFBF;
+    border-bottom-right-radius: 7px;
+}
+
+.logo img{
+    width: 212px;
+    height: 64px;
+}
+
+.header-nav{
+    display: flex;
+    justify-content: space-between;
+    width: 764px;
+    padding: 35px 40px 35px 40px;
+}
+
+.header-user{
+    display: flex;
+    justify-content: end;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 61px;
+    padding-right: 12px;
+}
+
+.header-user p{
+    margin: 0;
+    margin-top: 16px;
+    margin-right: 11px;
+}
+
+.ringbell{
+    position: relative;
+    width: 31px;
+    height: 35px;
+    margin-top: 14px;
+    margin-right: 19px;
+    font-weight: 400;
+}
+
+.ringbell span{
+    position: absolute;
+    top: 6px;
+    left: 12px;
+    font-size: 20px;
+}
+
+.user-logo{
+    width: 61px;
+    height: 61px;
+    border-radius: 50%;
+}
+
+
 .hidden{
     display: none;
 }
