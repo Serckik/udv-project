@@ -28,17 +28,116 @@
             <img class="user-logo" src="/static/img/user-logo.jpg">
         </div>
     </header>
-    {% block login %}
-    {% endblock %}
-    {% if user.is_authenticated %}
+    <main>
+        <div class="left-submenu">
+            <p>Блок</p>  
+            <ul class="block-list">
+                <li class="block-list-element active-sort">
+                    <div class="point"></div>
+                    <span>ВСЕ</span>
+                </li>
+                <li class="block-list-element">
+                    <div class="point"></div>
+                    <span>ОЦЕНКА</span>
+                </li>
+                <li class="block-list-element">
+                    <div class="point"></div>
+                    <span>ПОДБОР</span>
+                </li>
+                <li class="block-list-element">
+                    <div class="point"></div>
+                    <span>АДАПТАЦИЯ</span>
+                </li>
+                <li class="block-list-element">
+                    <div class="point"></div>
+                    <span>КОРП.КУЛЬТУРА</span>
+                </li>
+                <li class="block-list-element">
+                    <div class="point"></div>
+                    <span>HR-БРЕНД ВНЕШНИЙ</span>
+                </li>
+                <li class="block-list-element">
+                    <div class="point"></div>
+                    <span>HR-СОПРОВОЖДЕНИЕ</span>
+                </li>
+                <li class="block-list-element">
+                    <div class="point"></div>
+                    <span>ВНУТРЕННЯЯ РАБОТА</span>
+                </li>
+                <li class="block-list-element">
+                    <div class="point"></div>
+                    <span>КАДРОВЫЙ УЧЁТ И З/П</span>
+                </li>
+                <li class="block-list-element">
+                    <div class="point"></div>
+                    <span>РАЗВИТИЕ ПЕРСОНАЛА</span>
+                </li>
+            </ul>
+            <div class="line"></div>
+            <p>Сортировка</p>
+            <ul>
+                <li>
+                    <span>ОТВЕТСТВЕННЫЙ</span>
+                    <div class="arrows">
+                        <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <svg class="active-sort" width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </li>
+                <li>
+                    <span>ВЕС</span>
+                    <div class="arrows">
+                        <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </li>
+            </ul>
+            <div class="line"></div>
+            <p>Категория</p>
+            <ul>
+                <li class="active-sort">ВСЕ</li>
+                <li>ЗАПЛАНИРОВАННАЯ</li>
+                <li>НЕЗАПЛАНИРОВАННАЯ</li>
+            </ul>
+            <div class="line"></div>
+            <p>Готовность</p>
+            <ul>
+                <li class="active-sort">ВСЕ</li>
+                <li>ВЫПОЛНЕННЫЕ</li>
+                <li>НЕВЫПОЛНЕННЫЕ</li>
+            </ul>
+            <div class="line"></div>
+            <p>Квартал</p>
+            <select class="cvartal-select">
+                <option>1 квартал 2024</option>
+                <option>2 квартал 2024</option>
+            </select>
+        </div>
+        <div class="tasks">
+            {% block login %}
+            {% endblock %}
+            {% if user.is_authenticated %}
+            
+                {% block content %}
     
-        {% block content %}
-
-        {% endblock %}
-
-    {% else %}
-        <p class="card">Пожалуйста, войдите в систему.</p>
-    {% endif %}
+                {% endblock %}
+    
+            {% else %}
+                <p class="card">Пожалуйста, войдите в систему.</p>
+            {% endif %}
+        </div>
+    </main>
     
     {% csrf_token %}
     <script src="https://code.jquery.com/jquery-3.5.1.js" 

@@ -4,6 +4,11 @@ body{
     background-color: #F5F5F5;
 }
 
+ul{
+    margin: 0;
+    padding: 0;
+}
+
 header{
     position: relative;
     height: 100px;
@@ -83,6 +88,139 @@ header a{
     width: 61px;
     height: 61px;
     border-radius: 50%;
+}
+
+main{
+    display: flex;
+}
+
+.left-submenu{
+    width: 274px;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    color: #333333;
+}
+
+.left-submenu p{
+    font-size: 25px;
+    margin-top: 17px;
+    margin-bottom: 7px;
+    padding-left: 13px;
+    box-sizing: border-box;
+}
+
+.left-submenu li{
+    margin-left: 13px;
+    list-style-type: none;
+    display: flex;
+    font-size: 17px;
+}
+
+.left-submenu .point{
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    margin-top: 4px;
+    margin-right: 10px;
+}
+
+.block-list-element:nth-child(1) .point{
+    background: #D9D9D9;
+}
+
+.block-list-element:nth-child(2) .point{
+    background: rgba(255, 81, 81, 0.44);
+}
+
+.block-list-element:nth-child(3) .point{
+    background: rgba(255, 153, 0, 0.44);
+}
+
+.block-list-element:nth-child(4) .point{
+    background: rgba(119, 255, 107, 0.44);
+}
+
+.block-list-element:nth-child(5) .point{
+    background: #79AEA8;
+}
+
+.block-list-element:nth-child(6) .point{
+    background: rgba(0, 178, 255, 0.44);
+}
+
+.block-list-element:nth-child(7) .point{
+    background: rgba(219, 222, 84, 0.44);
+}
+
+.block-list-element:nth-child(8) .point{
+    background: rgba(143, 64, 206, 0.44);
+}
+
+.block-list-element:nth-child(9) .point{
+    background: rgba(248, 22, 225, 0.44);
+}
+
+.block-list-element:nth-child(10) .point{
+    background: rgba(0, 0, 0, 0.44);
+}
+
+li{
+    margin-bottom: 7px;
+}
+
+.arrows{
+    display: flex;
+}
+
+.arrows svg:nth-child(2){
+    transform: rotate(180deg);
+}
+
+.arrows .active-sort path{
+    stroke: #F89C1D;
+}
+
+.active-sort{
+    color: #F89C1D;
+}
+
+.arrows{
+    margin-left: 1px;
+    margin-top: 2px;
+}
+
+.cvartal-select{
+    margin-left: 13px;
+}
+
+select{
+    font-family: 'Montserrat';
+    font-weight: 700;
+    font-size: 17px;
+    background: #E9E9E9;
+    border: none;
+    border-radius: 7px;
+    color: #333333;
+    padding: 4px 8px 4px 8px;
+    width: 240px;
+}
+
+option:hover {
+    background-color: yellow;
+}
+
+.line{
+    width: 274px;
+    height: 1px;
+    background-color: #333333;
+    opacity: 0.15;
+    margin-left: 13px;
+}
+
+
+.tasks{
+    width: 1347px;
+    margin-left: auto;
 }
 
 
