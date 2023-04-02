@@ -1,5 +1,5 @@
 from django import forms
-from .models import CHOICES_WEIGHT, CHOICES_MARK
+from .models import CHOICES_WEIGHT, CHOICES_MARK, CHOICES_QUARTER   
 
 class GoalForm(forms.Form):
     name = forms.CharField(label='Название задачи', widget=forms.Textarea(), required=True)
@@ -10,7 +10,7 @@ class GoalForm(forms.Form):
      ('Корп. культура и бенефиты', 'Корп. культура и бенефиты'), ('Кадровый учет и з/п', 'Кадровый учет и з/п'),
      ('HR-бренд внешний', 'HR-бренд внешний'), ('Внутренняя работа отдела', 'Внутренняя работа отдела'),
     ('Оценка', 'Оценка')], required=True)
-    quarter = forms.ChoiceField(label='Квартал', choices=[('', ''), (1, 1), (2, 2), (3, 3), (4, 4)], required=True)
+    quarter = forms.ChoiceField(label='Квартал', choices=CHOICES_QUARTER, required=True)
     current = forms.ChoiceField(label='Утверждённая', choices=[('', ''), (True, 'Да'), (False, 'Нет')], required=True)
     planned = forms.ChoiceField(label='Запланированная', choices=[('', ''), (True, 'Да'), (False, 'Нет')], required=True)
     weight = forms.ChoiceField(label='Вес', required=True, choices=CHOICES_WEIGHT)
@@ -30,6 +30,6 @@ class AddGoalForm(forms.Form):
      ('Корп. культура и бенефиты', 'Корп. культура и бенефиты'), ('Кадровый учет и з/п', 'Кадровый учет и з/п'),
      ('HR-бренд внешний', 'HR-бренд внешний'), ('Внутренняя работа отдела', 'Внутренняя работа отдела'),
     ('Оценка', 'Оценка')], required=True)
-    quarter = forms.ChoiceField(label='Квартал', choices=[('', ''), (1, 1), (2, 2), (3, 3), (4, 4)], required=True)
+    quarter = forms.ChoiceField(label='Квартал', choices=CHOICES_QUARTER, required=True)
     planned = forms.ChoiceField(label='Запланированная', choices=[('', ''), (True, 'Да'), (False, 'Нет')], required=True)
     weight = forms.ChoiceField(label='Вес', required=True, choices=CHOICES_WEIGHT)

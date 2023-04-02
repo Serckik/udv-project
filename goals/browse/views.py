@@ -9,6 +9,7 @@ from django.forms.models import model_to_dict
 from .validators import goal_validator
 from users.models import Notification
 from django.contrib.auth.decorators import login_required
+import math
 
 true_converter = {'true': True, 'True': True, 'False': False, 'false': False}
 
@@ -159,7 +160,28 @@ def get_goal(request):
         return JsonResponse(goal_dict)
     else:
         return HttpResponse("Please login.")
- 
+    
+def get_goals_by_filter(request):
+    block = request.GET.get('block')
+    sorting = request.GET.get('sorting')
+    planned = request.GET.get('planned')
+    done = request.GET.get('done')
+    quarter = math.ceil(datetime.now().month/3.)
+    goals = Goal.objects.all()
+    if block:
+        goals = goals.filter(block=block)
+    if sorting:
+        goals = goals.order_by(sorting) # owner_id или weight
+    if planned:
+        goals = goals.filter(planned=true_converter[planned])
+    if done:
+        goals = goals.filter(isdone=true_converter[done])
+    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block'))
+    for item in data:
+        item['owner_id'] = User.objects.get(id=item['owner_id']).get_full_name()
+    return JsonResponse(data, safe=False)
+
+
 @login_required(login_url='/user/login/')
 def browse_add(request):
     data = {}
