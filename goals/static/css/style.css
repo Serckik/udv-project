@@ -1,7 +1,23 @@
+@font-face {
+	font-family: "OfficinaSansWinCTT";
+	src: url("/static/fonts/officinasanswinctt.eot");
+	src: url("/static/fonts/officinasanswinctt.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+		url("/static/fonts/officinasanswinctt.otf") format("opentype"), /* Open Type Font */
+		url("/static/fonts/officinasanswinctt.svg") format("svg"), /* Legacy iOS */
+		url("/static/fonts/officinasanswinctt.ttf") format("truetype"), /* Safari, Android, iOS */
+		url("/static/fonts/officinasanswinctt.woff") format("woff"), /* Modern Browsers */
+		url("/static/fonts/officinasanswinctt.woff2") format("woff2"); /* Modern Browsers */
+	
+    font-weight: normal;
+	font-style: normal;
+}
+
 body{
     max-width: 1740px;
     margin: 0 auto;
     background-color: #F5F5F5;
+    font-family: 'Montserrat';
+    padding: 20px 12px 0 13px;
 }
 
 ul{
@@ -11,7 +27,7 @@ ul{
 
 header{
     position: relative;
-    height: 100px;
+    height: 60px;
     display: flex;
     font-family: 'Montserrat';
     font-weight: 700;
@@ -33,7 +49,7 @@ header a{
 }
 
 .logo{
-    padding: 20px 40px 20px 40px;
+    padding: 1px 40px 0 27px;
     width: 294px;
     box-sizing: border-box;
 }
@@ -46,7 +62,7 @@ header a{
 .header-nav{
     display: flex;
     width: 764px;
-    padding: 35px 40px 35px 40px;
+    padding: 16px 40px 19px 40px;
 }
 
 .header-nav a{
@@ -56,10 +72,7 @@ header a{
 .header-user{
     display: flex;
     margin-left: auto;
-    padding-top: 20px;
-    padding-bottom: 20px;
     padding-left: 61px;
-    padding-right: 12px;
 }
 
 .header-user p{
@@ -92,6 +105,7 @@ header a{
 
 main{
     display: flex;
+    padding: 9px 60px 0 0;
 }
 
 .left-submenu{
@@ -103,14 +117,12 @@ main{
 
 .left-submenu p{
     font-size: 25px;
-    margin-top: 17px;
+    margin-top: 8px;
     margin-bottom: 7px;
-    padding-left: 13px;
     box-sizing: border-box;
 }
 
 .left-submenu li{
-    margin-left: 13px;
     list-style-type: none;
     display: flex;
     font-size: 17px;
@@ -189,10 +201,6 @@ li{
     margin-top: 2px;
 }
 
-.cvartal-select{
-    margin-left: 13px;
-}
-
 select{
     font-family: 'Montserrat';
     font-weight: 700;
@@ -203,6 +211,7 @@ select{
     color: #333333;
     padding: 4px 8px 4px 8px;
     width: 240px;
+    box-sizing: border-box;
 }
 
 option:hover {
@@ -221,6 +230,109 @@ option:hover {
 .tasks{
     width: 1347px;
     margin-left: auto;
+}
+
+.search-input{
+    font-family: 'Montserrat';
+    font-size: 17px;
+    background: #E9E9E9;
+    border: none;
+    border-radius: 7px;
+    color: #333333;
+    padding: 5px 0px 5px 30px;
+    box-sizing: border-box;
+    width: 458px;
+    height: 29px;
+}
+
+.search{
+    display: flex;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.search-icon{
+    position: absolute;
+    margin: 5px;
+}
+
+.search-checkbox-block{
+    margin-left: 33px;
+    display: flex;
+}
+
+.search-checkbox-block p{
+    margin: 0;
+    margin-left: 11px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 17px;
+    margin-top: 4px;
+}
+
+.search-checkbox{
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    margin-top: 6px;
+}
+
+.cards{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 27px;
+}
+
+.card{
+    width: 431px;
+    height: 106px;
+    background-color: white;
+    color: #333333;
+    padding: 7px 14px 4px 28px;
+    box-sizing: border-box;
+    border-left: 5px solid #D9D9D9;
+    box-shadow: 2px 2px 4px 3px rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+    font-family: 'OfficinaSansWinCTT';
+}
+
+.card img{
+    width: 36px;
+    height: 36px;
+    display: inline-block
+}
+
+.card-top, .card-bottom, .card-user{
+    display: flex;
+}
+
+.card-top svg, .card-user{
+    margin-left: auto;
+}
+
+.card-top{
+    margin-bottom: 5px;
+}
+
+.card-top p{
+    font-size: 23px;
+    margin: 0;
+}
+
+.card-bottom p{
+    margin: 0;
+    margin-top: 5px;
+    font-size: 25px;
+    color: rgba(51, 51, 51, 0.55);
+}
+
+.card svg path{
+    stroke: rgb(191, 191, 191)
+}
+
+.card-user p{
+    margin-right: 2px;
 }
 
 
