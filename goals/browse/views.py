@@ -163,19 +163,24 @@ def get_goal(request):
     
 def get_goals_by_filter(request):
     block = request.GET.get('block')
-    sorting = request.GET.get('sorting')
     planned = request.GET.get('planned')
     done = request.GET.get('done')
+    current = request.GET.get('current')
     quarter = math.ceil(datetime.now().month/3.)
     goals = Goal.objects.all()
     if block:
         goals = goals.filter(block=block)
-    if sorting:
-        goals = goals.order_by(sorting) # owner_id или weight
     if planned:
         goals = goals.filter(planned=true_converter[planned])
     if done:
         goals = goals.filter(isdone=true_converter[done])
+    if current:
+        goals = goals.filter(current=true_converter[current])
+    else:
+        goals = goals.filter(current=False)
+
+
+        
     data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block'))
     for item in data:
         item['owner_id'] = User.objects.get(id=item['owner_id']).get_full_name()
@@ -202,7 +207,7 @@ def add_goal(request):
                         name=request.POST.get('name'), 
                         description=request.POST.get('description'), 
                         block=request.POST.get('block'),
-                        quarter=int(request.POST.get('quarter')), 
+                        quarter=request.POST.get('quarter'), 
                         weight=float(request.POST.get('weight')),
                         current=False,
                         current_result='',
@@ -210,7 +215,8 @@ def add_goal(request):
                         chat={"chat": []},
                         history={"history": []},
                         mark=0,
-                        fact_mark=0)
+                        fact_mark=0,
+                        isdone=False)
             goal.save()
             return HttpResponse('Успешно')
         else:

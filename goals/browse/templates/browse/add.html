@@ -12,11 +12,7 @@
     </form>
     <h2> {{ status }}</h2>
     <h1> Текущие не утверждённые задачи</h1>
-    {% for item in data %}
-        {% if user.id == item.owner_id and not item.current %}
-            {{ item.name }}
-        {% endif %}
-    {% endfor %}
+
     <div class="hidden">
         <form id="more-form" class="info">
             {{ form }}
