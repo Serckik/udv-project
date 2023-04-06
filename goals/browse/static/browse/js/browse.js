@@ -113,3 +113,4 @@ $(document).on('submit','#chat',async function(e){
     request("GET", "/goal/get_goal", data)
     $('p[class=active]').removeClass("active")
 });
+

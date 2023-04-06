@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='utf-8'>
     <title>{% block title %}{% endblock %}</title>
+    <meta charset='utf-8'>
     <link href="/static/css/style.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/static/img/mini-logo.png"/>
 </head>
 <body>
     <header>
         <div class="logo">
-            <a href="/"><img src="/static/img/logo.svg"></a>
+            <a class="Задачи" href="/"><img src="/static/img/logo.svg"></a>
         </div>
         <div class="header-nav">
-            <a href="/">ЗАДАЧИ</a>
-            <a href="/goal/add">ДОБАВИТЬ</a>
-            <a href="/goal/approve">УТВЕРДИТЬ</a>
-            <a href="/goal/summary">СВОДКА</a>
+            <a class="Задачи" href="/">ЗАДАЧИ</a>
+            <a class="Добавить" href="/goal/add">ДОБАВИТЬ</a>
+            <a class="Утвердить" href="/goal/approve">УТВЕРДИТЬ</a>
+            <a class="Сводка" href="/goal/summary">СВОДКА</a>
         </div>
         <div class="header-user">
             <div class="ringbell">
@@ -133,81 +134,9 @@
                     <p>Только свои</p>
                 </div>
             </div>
-            <div class="cards">
-                <div class="card">
-                    <div class="card-top">
-                        <p>Нанять 10 стажеров в отдел аналитики</p>
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 13.7412H33.8687V32.1915C33.8687 33.1179 33.1178 33.8688 32.1914 33.8688H3.6773C2.75095 33.8688 2 33.1179 2 32.1915V13.7412Z" stroke="black" stroke-width="3.3546" stroke-linejoin="round"/>
-                            <path d="M2 6.19341C2 5.26707 2.75095 4.51611 3.6773 4.51611H32.1914C33.1178 4.51611 33.8687 5.26707 33.8687 6.19341V13.7413H2V6.19341Z" stroke="black" stroke-width="3.3546" stroke-linejoin="round"/>
-                            <path d="M11.2246 2V8.70921" stroke="black" stroke-width="3.3546" stroke-linecap="round"/>
-                            <path d="M24.6436 2V8.70921" stroke="black" stroke-width="3.3546" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <div class="card-bottom">
-                        <p>25%</p>
-                        <div class="card-user">
-                            <p>Иванова А.И.</p>
-                            <img class="user-logo" src="/static/img/user-logo.jpg">
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-top">
-                        <p>Нанять 10 стажеров в отдел аналитики</p>
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 13.7412H33.8687V32.1915C33.8687 33.1179 33.1178 33.8688 32.1914 33.8688H3.6773C2.75095 33.8688 2 33.1179 2 32.1915V13.7412Z" stroke="black" stroke-width="3.3546" stroke-linejoin="round"/>
-                            <path d="M2 6.19341C2 5.26707 2.75095 4.51611 3.6773 4.51611H32.1914C33.1178 4.51611 33.8687 5.26707 33.8687 6.19341V13.7413H2V6.19341Z" stroke="black" stroke-width="3.3546" stroke-linejoin="round"/>
-                            <path d="M11.2246 2V8.70921" stroke="black" stroke-width="3.3546" stroke-linecap="round"/>
-                            <path d="M24.6436 2V8.70921" stroke="black" stroke-width="3.3546" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <div class="card-bottom">
-                        <p>25%</p>
-                        <div class="card-user">
-                            <p>Иванова А.И.</p>
-                            <img class="user-logo" src="/static/img/user-logo.jpg">
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-top">
-                        <p>Нанять 10 стажеров в отдел аналитики</p>
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 13.7412H33.8687V32.1915C33.8687 33.1179 33.1178 33.8688 32.1914 33.8688H3.6773C2.75095 33.8688 2 33.1179 2 32.1915V13.7412Z" stroke="black" stroke-width="3.3546" stroke-linejoin="round"/>
-                            <path d="M2 6.19341C2 5.26707 2.75095 4.51611 3.6773 4.51611H32.1914C33.1178 4.51611 33.8687 5.26707 33.8687 6.19341V13.7413H2V6.19341Z" stroke="black" stroke-width="3.3546" stroke-linejoin="round"/>
-                            <path d="M11.2246 2V8.70921" stroke="black" stroke-width="3.3546" stroke-linecap="round"/>
-                            <path d="M24.6436 2V8.70921" stroke="black" stroke-width="3.3546" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <div class="card-bottom">
-                        <p>25%</p>
-                        <div class="card-user">
-                            <p>Иванова А.И.</p>
-                            <img class="user-logo" src="/static/img/user-logo.jpg">
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-top">
-                        <p>Нанять 10 стажеров в отдел аналитики</p>
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 13.7412H33.8687V32.1915C33.8687 33.1179 33.1178 33.8688 32.1914 33.8688H3.6773C2.75095 33.8688 2 33.1179 2 32.1915V13.7412Z" stroke="black" stroke-width="3.3546" stroke-linejoin="round"/>
-                            <path d="M2 6.19341C2 5.26707 2.75095 4.51611 3.6773 4.51611H32.1914C33.1178 4.51611 33.8687 5.26707 33.8687 6.19341V13.7413H2V6.19341Z" stroke="black" stroke-width="3.3546" stroke-linejoin="round"/>
-                            <path d="M11.2246 2V8.70921" stroke="black" stroke-width="3.3546" stroke-linecap="round"/>
-                            <path d="M24.6436 2V8.70921" stroke="black" stroke-width="3.3546" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <div class="card-bottom">
-                        <p>25%</p>
-                        <div class="card-user">
-                            <p>Иванова А.И.</p>
-                            <img class="user-logo" src="/static/img/user-logo.jpg">
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
+                {% block content %}
+                                                
+                {% endblock %}
         </div>
     </main>
     
@@ -217,5 +146,7 @@
             crossorigin="anonymous"></script>
     <script type="module" src="/static/browse/js/browse.js"></script>
     <script type="module" src="/static/browse/js/add.js"></script>
+    <script type="module" src="/static/browse/js/menu.js"></script>
+    <script type="module" src="/static/browse/js/load.js"></script>
 </body>
 </html>

@@ -113,6 +113,10 @@ header{
     color: #333333;
 }
 
+.current-page{
+    color: #F89C1D;
+}
+
 header a{
     text-decoration: none;
     color: #333333;
@@ -385,17 +389,29 @@ option:hover {
     display: flex;
 }
 
-.card-top svg, .card-user{
+.card-user{
     margin-left: auto;
 }
 
 .card-top{
     margin-bottom: 5px;
+    min-height: 54px;
 }
 
 .card-top p{
     font-size: 23px;
     margin: 0;
+}
+
+.card-top .calendar{
+    position: relative;
+    margin-left: auto;
+}
+
+.card-top .done{
+    position: absolute;
+    top: 17px;
+    left: 9px;
 }
 
 .card-bottom p{

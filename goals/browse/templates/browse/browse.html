@@ -1,20 +1,10 @@
 {% extends 'layout.html' %}
 
-{% block title %}
-    Задачи
-{% endblock %}
+{% block title %}Задачи{% endblock %}
 
 {% block content %}
-    <h1>Текущие задачи</h1>
-    {% for item in data %}
-        {% if item.current %}
-            <div class="card">
-                <p>{{ item.name }}</p>
-                <p> {{ item.owner_id }}</p>
-                <p class="more" id="{{ item.id }}">Подробнее</p>
-            </div>
-        {% endif %}
-    {% endfor %}
+    <div class="cards">
+    </div> 
     <div class="hidden">
         <form id="more-form" class="info">
             {% csrf_token %}
@@ -37,5 +27,5 @@
         </form>
     </div>
 
-    <script type="module" src="static/browse/js/browse.js"></script>
+    <script type="module" src="/static/browse/js/load.js"></script>
 {% endblock %}
