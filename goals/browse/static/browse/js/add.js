@@ -1,7 +1,7 @@
 import { request } from "./browse.js"
+import { GetCards } from "./SetCards.js"
 
-$(document).on('submit', '#add-form', function(e){
-    e.preventDefault();
+$(document).on('submit', '#add-form', async function(e){
     let data = {
         name: $('#id_name').val(),
         description: $('#id_description').val(),
@@ -13,3 +13,5 @@ $(document).on('submit', '#add-form', function(e){
     }
     request("POST", "/goal/add_goal", data)
 })
+
+GetCards(false)

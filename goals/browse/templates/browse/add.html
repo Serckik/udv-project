@@ -12,7 +12,8 @@
     </form>
     <h2> {{ status }}</h2>
     <h1> Текущие не утверждённые задачи</h1>
-
+    <div class="cards">
+    </div>
     <div class="hidden">
         <form id="more-form" class="info">
             {{ form }}
@@ -32,4 +33,5 @@
             <input type="submit">
         </form>
     </div>
+    <script type="module" src="/static/browse/js/add.js"></script>
 {% endblock %}

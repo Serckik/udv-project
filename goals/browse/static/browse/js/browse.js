@@ -1,4 +1,4 @@
-const sleepTime = 100
+export const sleepTime = 100
 function convertBool(bool){
     if(bool){
         return "True"
@@ -75,7 +75,7 @@ $(document).on('click', 'p[class=more]', function(e){
     }
 })
 
-function sleep(ms) {
+export function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
