@@ -160,7 +160,8 @@ def get_goal(request):
         return JsonResponse(goal_dict)
     else:
         return HttpResponse("Please login.")
-    
+
+@login_required(login_url='/user/login/')
 def get_goals_by_filter(request):
     block = request.GET.get('block')
     planned = request.GET.get('planned')
@@ -181,9 +182,11 @@ def get_goals_by_filter(request):
 
 
         
-    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block'))
+    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id'))
     for item in data:
-        item['owner_id'] = User.objects.get(id=item['owner_id']).get_full_name()
+        user_name = User.objects.get(id=item['owner_id']).get_full_name().split()
+        user_name = user_name[0] + ' ' + user_name[1][0] + '.'
+        item['owner_id'] = user_name
     return JsonResponse(data, safe=False)
 
 
