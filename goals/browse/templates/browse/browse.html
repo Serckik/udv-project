@@ -4,29 +4,130 @@
 
 {% block content %}
     <div class="cards">
-    </div> 
-    <div class="hidden">
-        <form id="more-form" class="info">
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit">
-        </form>
-
-        <div class="history-block">
-                
+    </div>
+    <div class="blur hidden"></div>
+    <div class="card-data hidden">
+        <div class="card-header">
+            <div class="edit-header">
+                <p class="header-main">Задача</p>
+                <div class="edit-user">
+                    <p>Рамиль Мавлютов</p>
+                    <img class="user-logo" src="/static/img/user-logo.jpg">
+                </div>
+            </div>
+            <div class="chat-header">
+                <p>Комментарии</p>
+            </div>
+            <div class="history-header">
+                <p>История изменений</p>
+            </div>
         </div>
-
-        <div class="chat-history-block">
-                
+        <div class="card-content">
+            <div class="edit">
+                    <form action="POST" id="more-form">
+                        <p>Название</p>
+                        <textarea class="card-name" id="card-name"></textarea>
+                        <p>Образ результата</p>
+                        <textarea id="card-description"></textarea>
+                        <p>Текущий результат</p>
+                        <textarea id="card-current-progress"></textarea>
+                        <div class="select-form-container">
+                            <div class="edit-flex">
+                                <p>Блок</p>
+                                <select name="card-block">
+                                    <option value="value1">Значение 1</option>
+                                    <option value="value2" selected>Значение 2</option>
+                                    <option value="value3">Значение 3</option>
+                                </select>
+                            </div>
+                            <div class="edit-flex">
+                                <p>Категория</p>
+                                <select name="card-category">
+                                    <option value="value1">Значение 1</option>
+                                    <option value="value2" selected>Значение 2</option>
+                                    <option value="value3">Значение 3</option>
+                                </select>
+                            </div>
+                            <div class="edit-flex">
+                                <p>Квартал</p>
+                                <select name="card-cvartal">
+                                    <option value="value1">Значение 1</option>
+                                    <option value="value2" selected>Значение 2</option>
+                                    <option value="value3">Значение 3</option>
+                                </select>
+                            </div>
+                            <div class="edit-flex">
+                                <p>Оценка сотрудника</p>
+                                <select class="number-select" name="card-own-grade">
+                                    <option value="value1">Значение 1</option>
+                                    <option value="value2" selected>Значение 2</option>
+                                    <option value="value3">Значение 3</option>
+                                </select>
+                            </div>
+                            <div class="edit-flex">
+                                <p>Оценка руководителя</p>
+                                <select class="number-select" name="card-leader-grade">
+                                    <option value="value1">Значение 1</option>
+                                    <option value="value2" selected>Значение 2</option>
+                                    <option value="value3">Значение 3</option>
+                                </select>
+                            </div>
+                            <div class="edit-flex">
+                                <p>Утвердить задачу</p>
+                                <select class="number-select" name="card-approve">
+                                    <option value="value1">Значение 1</option>
+                                    <option value="value2" selected>Значение 2</option>
+                                    <option value="value3">Значение 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="submit" value="cохранить">
+                    </form>
+            </div>
+            <div class="chat">
+                <div class="chat-container">
+                    <div class="self-message">
+                        <div class="edit-user">
+                            <p>Рамиль Мавлютов</p>
+                            <img class="user-logo" src="/static/img/user-logo.jpg">
+                        </div>
+                        <div class="message">
+                            Сделал 20% от всей задачи, отредактировал описание задачи
+                        </div>
+                    </div>
+                    <div class="sender-message">
+                        <div class="edit-user">
+                            <p>Рамиль Мавлютов</p>
+                            <img class="user-logo" src="/static/img/user-logo.jpg">
+                        </div>
+                        <div class="message">
+                            Поменяла описание задачи, старое плохо описывает суть задачи
+                        </div>
+                    </div>
+                </div>
+                <form action="POST" id="chat-form">
+                    <textarea class="message-sender"></textarea>
+                    <img class="chat-submit" src="/static/img/send-arrow.svg">
+                </form>
+            </div>
+            <div class="history">
+                <div class="history-card">
+                    <p>Иванов Иван Иванович изменил статус исполнения задачи: </p>
+                    <div class="prev-now">
+                        <span class="prev">20%</span><span> => </span><span class="now">50%</span>
+                    </div>
+                    <p class="date">11.11.2011</p>
+                </div>
+                <div class="history-card">
+                    <p>Иванов Иван Иванович изменил статус исполнения задачи: </p>
+                    <div class="prev-now">
+                        <span class="prev">20%</span><span> => </span><span class="now">50%</span>
+                    </div>
+                    <p class="date">11.11.2011</p>
+                </div>
+            </div>
         </div>
-        
-        <form id="chat" class="chat">
-            {% csrf_token %}
-            {{ chat_form }}
-            <input type="submit">
-        </form>
     </div>
 
     <script type="module" src="/static/browse/js/load.js"></script>
-    <script type="module" src="/static/browse/js/sort.js"></script>
 {% endblock %}
