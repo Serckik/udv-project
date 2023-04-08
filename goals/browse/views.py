@@ -157,6 +157,7 @@ def get_goal(request):
             goal_dict['history'].append({'name': hist.owner_id.get_full_name(),
                                          'time': hist.created_at,
                                          'field_changes': hist_fc})
+        goal_dict['user_name'] = User.objects.get(id=goal_dict['owner_id']).get_full_name()
         return JsonResponse(goal_dict)
     else:
         return HttpResponse("Please login.")
