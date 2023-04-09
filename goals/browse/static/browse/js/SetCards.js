@@ -1,4 +1,4 @@
-let colors = {"Оценка": "rgba(255, 81, 81, 0.44)",
+export let colors = {"Оценка": "rgba(255, 81, 81, 0.44)",
               "Подбор": "rgba(255, 153, 0, 0.44)",
               "Адаптация": "rgba(119, 255, 107, 0.44)",
               "Корп. культура и бенефиты": "rgba(121, 174, 168, 1)",
@@ -8,14 +8,16 @@ let colors = {"Оценка": "rgba(255, 81, 81, 0.44)",
               "Кадровый учет и з/п": "rgba(248, 22, 225, 0.44)",
               "Развитие персонала": "rgba(0, 0, 0, 0.44)"}
 
-function request(type, url, data){
+export function request(type, url, data){
     let dataCards = ''
     $.ajax({
         type: type,
         url: url,
         data: data,
         success: function(data) { 
-            dataCards = data
+            if(type == 'GET'){
+                dataCards = data
+            }
         },
         async: false
     })
@@ -36,6 +38,7 @@ function SetCards(cards){
     $(".cards").empty()
     cards.forEach(element => {
         let cardBlock = $("<div class='card'></div>")
+        cardBlock.attr('id', element.id)
         cardBlock.css("border-left-color", colors[element.block] )
         let cardTop = $("<div class='card-top'></div>")
     

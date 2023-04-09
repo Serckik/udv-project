@@ -11,7 +11,7 @@
             <div class="edit-header">
                 <p class="header-main">Задача</p>
                 <div class="edit-user">
-                    <p>Рамиль Мавлютов</p>
+                    <p></p>
                     <img class="user-logo" src="/static/img/user-logo.jpg">
                 </div>
             </div>
@@ -24,100 +24,58 @@
         </div>
         <div class="card-content">
             <div class="edit">
-                    <form action="POST" id="more-form">
-                        <p>Название</p>
-                        <textarea class="card-name" id="card-name"></textarea>
-                        <p>Образ результата</p>
-                        <textarea id="card-description"></textarea>
-                        <p>Текущий результат</p>
-                        <textarea id="card-current-progress"></textarea>
-                        <div class="select-form-container">
-                            <div class="edit-flex">
-                                <p>Блок</p>
-                                <select name="card-block">
-                                    <option value="value1">Значение 1</option>
-                                    <option value="value2" selected>Значение 2</option>
-                                    <option value="value3">Значение 3</option>
-                                </select>
-                            </div>
-                            <div class="edit-flex">
-                                <p>Категория</p>
-                                <select name="card-category">
-                                    <option value="value1">Значение 1</option>
-                                    <option value="value2" selected>Значение 2</option>
-                                    <option value="value3">Значение 3</option>
-                                </select>
-                            </div>
-                            <div class="edit-flex">
-                                <p>Квартал</p>
-                                <select name="card-cvartal">
-                                    <option value="value1">Значение 1</option>
-                                    <option value="value2" selected>Значение 2</option>
-                                    <option value="value3">Значение 3</option>
-                                </select>
-                            </div>
-                            <div class="edit-flex">
-                                <p>Оценка сотрудника</p>
-                                <select class="number-select" name="card-own-grade">
-                                    <option value="value1">Значение 1</option>
-                                    <option value="value2" selected>Значение 2</option>
-                                    <option value="value3">Значение 3</option>
-                                </select>
-                            </div>
-                            <div class="edit-flex">
-                                <p>Оценка руководителя</p>
-                                <select class="number-select" name="card-leader-grade">
-                                    <option value="value1">Значение 1</option>
-                                    <option value="value2" selected>Значение 2</option>
-                                    <option value="value3">Значение 3</option>
-                                </select>
-                            </div>
-                            <div class="edit-flex">
-                                <p>Утвердить задачу</p>
-                                <select class="number-select" name="card-approve">
-                                    <option value="value1">Значение 1</option>
-                                    <option value="value2" selected>Значение 2</option>
-                                    <option value="value3">Значение 3</option>
-                                </select>
-                            </div>
+                <form action="POST" id="more-form">
+                    <p>Название</p>
+                    <textarea class="card-name" id="card-name"></textarea>
+                    <p>Образ результата</p>
+                    <textarea id="card-description"></textarea>
+                    <p>Текущий результат</p>
+                    <textarea id="card-current-progress"></textarea>
+                    <div class="select-form-container">
+                        <div class="edit-flex">
+                            <p>Блок</p>
+                            <select id="card-block"></select>
                         </div>
-                        <input type="submit" value="cохранить">
-                    </form>
+                        <div class="edit-flex">
+                            <p>Категория</p>
+                            <select id="card-category"></select>
+                        </div>
+                        <div class="edit-flex">
+                            <p>Квартал</p>
+                            <select id="card-cvartal"></select>
+                        </div>
+                        <div class="edit-flex">
+                            <p>Оценка сотрудника</p>
+                            <select class="number-select" id="card-own-grade"></select>
+                        </div>
+                        <div class="edit-flex">
+                            <p>Оценка руководителя</p>
+                            <select class="number-select" id="card-leader-grade"></select>
+                        </div>
+                        <div class="edit-flex">
+                            <p>Вес</p>
+                            <select class="number-select" id="weight"></select>
+                        </div>
+                        <div class="edit-flex">
+                            <p>Утвердить задачу</p>
+                            <select class="number-select" id="card-approve"></select>
+                        </div>
+                    </div>
+                    <input type="submit" value="cохранить">
+                </form>
             </div>
             <div class="chat">
                 <div class="chat-container">
-                    <div class="self-message">
-                        <div class="edit-user">
-                            <p>Рамиль Мавлютов</p>
-                            <img class="user-logo" src="/static/img/user-logo.jpg">
-                        </div>
-                        <div class="message">
-                            Сделал 20% от всей задачи, отредактировал описание задачи
-                        </div>
-                    </div>
-                    <div class="sender-message">
-                        <div class="edit-user">
-                            <p>Рамиль Мавлютов</p>
-                            <img class="user-logo" src="/static/img/user-logo.jpg">
-                        </div>
-                        <div class="message">
-                            Поменяла описание задачи, старое плохо описывает суть задачи
-                        </div>
-                    </div>
                 </div>
                 <form action="POST" id="chat-form">
+                    {% csrf_token %}
                     <textarea class="message-sender"></textarea>
-                    <img class="chat-submit" src="/static/img/send-arrow.svg">
+                    <svg class="chat-submit" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.179175 2C-0.320825 0 0.679175 -0.5 2.17917 0.5L22.6792 11C29 14 29 14 22.6787 17L2.17917 27.5C0.178743 28.5 -0.317676 27.9795 0.178993 26L2.17899 16L15.6792 14L2.17917 12L0.179175 2Z" fill="#F89C1D"/>
+                    </svg> 
                 </form>
             </div>
             <div class="history">
-                <div class="history-card">
-                    <p>Иванов Иван Иванович изменил статус исполнения задачи: </p>
-                    <div class="prev-now">
-                        <span class="prev">20%</span><span> => </span><span class="now">50%</span>
-                    </div>
-                    <p class="date">11.11.2011</p>
-                </div>
                 <div class="history-card">
                     <p>Иванов Иван Иванович изменил статус исполнения задачи: </p>
                     <div class="prev-now">
