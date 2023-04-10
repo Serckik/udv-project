@@ -670,6 +670,7 @@ textarea{
 
 .message-sender{
     box-sizing: border-box;
+    overflow-x: hidden;
     width: 499px;
     min-height: 33px;
     background: #F5F5F5;

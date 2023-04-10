@@ -5,7 +5,7 @@ function sleep(ms) {
 }
 
 $(".message-sender").each(function () {
-    this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+    this.setAttribute("style", "height:" + (this.scrollHeight) + "px;");
   }).on("input", function () {
     if($('.message-sender').val() == ''){
         this.style.height = 0;
