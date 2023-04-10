@@ -10,6 +10,23 @@ from .validators import goal_validator
 from users.models import Notification
 from django.contrib.auth.decorators import login_required
 import math
+import re
+
+def split_text(text, max_length):
+    words = re.findall(r'\b\w+\b', text)
+    chunks = []
+    current_chunk = ''
+    for word in words:
+        if len(current_chunk) + len(word) + 1 > max_length:
+            chunks.append(current_chunk.strip())
+            current_chunk = ''
+        current_chunk += ' ' + word
+    chunks.append(current_chunk.strip())
+    true_chunks = []
+    for chunk in chunks:
+        true_chunks += [chunk[i:i+max_length] for i in range(0, len(chunk), max_length)]
+    return true_chunks
+
 
 true_converter = {'true': True, 'True': True, 'False': False, 'false': False}
 
@@ -117,7 +134,11 @@ def editing(request):
 def chatting(request):
     goal = Goal.objects.get(id=request.POST.get('goal_id'))
     if request.method == "POST":
-        goal.chat_set.create(owner_id=request.user, message=request.POST.get('message'))
+        text = request.POST.get('message')
+        for chunk in split_text(text, 2000):
+            if len(chunk) > 0:
+                goal.chat_set.create(owner_id=request.user, message=chunk)
+        
         goal.save()
 
         notifi = Notification(message=request.POST.get('message'),

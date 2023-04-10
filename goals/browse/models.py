@@ -25,7 +25,7 @@ class Goal(models.Model):
      ('HR-бренд внешний', 'HR-бренд внешний'), ('Внутренняя работа отдела', 'Внутренняя работа отдела'),
     ('Оценка', 'Оценка')], null=False, max_length=30)
     quarter = models.CharField('Квартал', choices=CHOICES_QUARTER, null=False, max_length=25)
-    weight = models.FloatField('Вес', choices=CHOICES_WEIGHT, null=False)
+    weight = models.IntegerField('Вес', choices=CHOICES_WEIGHT, null=False)
     current = models.BooleanField('Утверждённая', choices=[(True, 'Да'), (False, 'Нет')], null=True)
     planned = models.BooleanField('Запланированная', choices=[(True, 'Да'), (False, 'Нет')], null=True)
     current_result = models.TextField('Текущий результат', null=True)
