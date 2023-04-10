@@ -12,11 +12,17 @@ $(".message-sender").each(function () {
     }
     if(this.style.height.split('px')[0] < 170){
         this.style.height = 0;
-        this.style.height = (this.scrollHeight) + "px";
-        $('.chat-container')[0].setAttribute('style', 'border-bottom:' + this.scrollHeight + 'px solid #F5F5F5')
-        var block = document.querySelector('.chat-container');
-        block.scrollTop = 9999;
+        if(this.scrollHeight > 170){
+            this.style.height = 170 + "px";
+            $('.chat-container')[0].setAttribute('style', 'border-bottom:' + 170 + 'px solid #F5F5F5')
+        }
+        else{
+            this.style.height = (this.scrollHeight) + "px";
+            $('.chat-container')[0].setAttribute('style', 'border-bottom:' + this.scrollHeight + 'px solid #F5F5F5')
+        }
     }
+    let div = $(".chat-container");
+    div.scrollTop(div.prop('scrollHeight'));
   });
 
 let block = ["Оценка", "Подбор", "Адаптация", "Корп. культура и бенефиты", "HR-бренд внешний", "HR-сопровождение", "Внутренняя работа отдела", "Кадровый учет и з/п", 
@@ -134,8 +140,10 @@ function OpenCard(id) {
     FillChat(card.chat, card.user_name)
     $('.blur').removeClass('hidden');
     $('.card-data').removeClass('hidden');
-    var block = document.querySelector('.chat-container');
-    block.scrollTop = 9999;
+    $('.message-sender').height(0)
+    $('.chat-container')[0].setAttribute('style', 'border-bottom:' + 33 + 'px solid #F5F5F5')
+    let div = $(".chat-container");
+    div.scrollTop(div.prop('scrollHeight'));
 }
 
 $(document).on('click', '.card', function(e){
