@@ -21,7 +21,7 @@ def update_history(goal, request):
     new_data = {'name': request.POST.get('name'),
                 'description': request.POST.get('description'),
                 'block': request.POST.get('block'),
-                'quarter': int(request.POST.get('quarter')),
+                'quarter': request.POST.get('quarter'),
                 'weight': float(request.POST.get('weight')),
                 'planned': true_converter[request.POST.get('planned')],
                 'current': true_converter[request.POST.get('current')],
@@ -101,7 +101,7 @@ def editing(request):
             goal.name = request.POST.get('name')
             goal.description = request.POST.get('description')
             goal.block = request.POST.get('block')
-            goal.quarter = int(request.POST.get('quarter'))
+            goal.quarter = request.POST.get('quarter')
             goal.weight = float(request.POST.get('weight'))
             goal.planned = true_converter[request.POST.get('planned')]
             goal.current = true_converter[request.POST.get('current')]

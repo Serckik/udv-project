@@ -79,28 +79,6 @@ export function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-$(document).on('submit','#more-form',async function(e){
-    e.preventDefault();
-    let data = {
-        goal_id: $('.active')[0].id,
-        name: $("#more-form #id_name").val(),
-        description: $('#more-form #id_description').val(),
-        current_result: $('#more-form #id_current_result').val(),
-        block: $('#more-form #id_block').val(),
-        quarter: $('#more-form #id_quarter').val(),
-        current: $('#more-form #id_current').val(),
-        planned: $('#more-form #id_planned').val(),
-        weight: $('#more-form #id_weight').val(),
-        mark: $('#more-form #id_mark').val(),
-        fact_mark: $('#more-form #id_fact_mark').val(),
-        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
-    }
-    request("POST", "/goal/edit", data)
-    await sleep(sleepTime);
-    request("GET", "/goal/get_goal", data)
-    $('p[class=active]').removeClass("active")
-});
-
 $(document).on('submit','#chat',async function(e){
     e.preventDefault();
     let data = {

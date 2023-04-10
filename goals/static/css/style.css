@@ -611,6 +611,7 @@ textarea{
 .chat{
     box-sizing: border-box;
     width: 558px;
+    height: 777px;
     padding: 24px 6px 0 0;
     font-family: 'Montserrat';
     font-style: normal;
@@ -620,7 +621,9 @@ textarea{
 }
 
 .chat-container{
-    height: 678px;
+    box-sizing: border-box;
+    border-bottom: 34px solid #F5F5F5;
+    height: 700px;
     margin-left: 8px;
     overflow: scroll;
     overflow-x: hidden;
@@ -643,6 +646,7 @@ textarea{
 
 .message{
     box-sizing: border-box;
+    word-wrap: break-word;
     width: 451px;
     min-height: 62px;
     background: #EAEAEA;
@@ -655,18 +659,19 @@ textarea{
 .chat form{
     display: flex;
     box-sizing: border-box;
+    position: fixed;
+    bottom: 0px;
+    max-height: 200px;
     width: 558px;
-    height: 49px;
     background: #EAEAEA;
     border: 0.1px solid rgba(0, 0, 0, 0.33);;
     padding: 8px 15px 8px 5px;
-    margin-top: 24px;
 }
 
 .message-sender{
     box-sizing: border-box;
     width: 499px;
-    height: 33px;
+    min-height: 33px;
     background: #F5F5F5;
     border: 1px solid rgba(0, 0, 0, 0.33);;
     border-radius: 3px;
@@ -680,6 +685,7 @@ textarea{
 }
 
 .chat-submit{
+    margin-top: auto;
     width: 28px;
     height: 28px;
 }
