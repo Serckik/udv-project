@@ -29,6 +29,8 @@ let block = ["Оценка", "Подбор", "Адаптация", "Корп. к
 "Развитие персонала"]
 let category = ['Запланированная', 'Незапланированная']
 let cvartal = ['1 квартал 2022', '2 квартал 2022', '3 квартал 2022', '4 квартал 2022', '1 квартал 2023', '2 квартал 2023', '3 квартал 2023', '4 квартал 2023', '1 квартал 2024']
+const monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+                    'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 let score = []
 for (let index = 1; index < 201; index++) {
     score.push(index + '%')
@@ -99,20 +101,23 @@ function FillCard(cardData) {
     SetVal("#more-form #card-approve", convertBool(cardData.current) ? 'Да' : 'Нет')
 }
 
-function FillChat(chatData, nameOwner) {
+function FillChat(chatData) {
     $('.chat-submit path').attr('fill', '#D9D9D9')
     let chatContainer = $('.chat-container')
     chatContainer.empty()
     chatData.forEach(item => {
-        if(nameOwner == item.name){
+        if($('.header-user p').text() == item.name){
             let messageContainer = $("<div class='self-message'></div>")
             let userData =  $("<div class='edit-user'></div>")
-            let userName = $("<p></p>").text(nameOwner)
+            let userName = $("<p></p>").text($('.header-user p').text())
             let userimage = $('<img class="user-logo" src="/static/img/user-logo.jpg">')
             userData.append(userName)
             userData.append(userimage)
             messageContainer.append(userData)
             let message = $("<div class='message'></div>").text(item.text)
+            let date = item.time.split('T')
+            let time = date[1].split('.')
+            message.append($("<p class='date'></p>").text(GetDate(date[0]) + ' ' + time[0]))
             messageContainer.append(message)
             chatContainer.append(messageContainer)
         }
@@ -125,10 +130,41 @@ function FillChat(chatData, nameOwner) {
             userData.append(userimage)
             messageContainer.append(userData)
             let message = $("<div class='message'></div>").text(item.text)
+            let date = item.time.split('T')
+            let time = date[1].split('.')
+            message.append($("<p class='date'></p>").text(GetDate(date[0]) + ' ' + time[0]))
             messageContainer.append(message)
             chatContainer.append(messageContainer)
         }
+
     });
+}
+
+function GetDate(str) { 
+    let dateObj = new Date(str);
+    return `${dateObj.getDate()} ${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`
+ }
+
+function FillHistory(historyData) { 
+    $('.history').empty()
+    historyData.forEach(item => {
+        let historyCard = $("<div class='history-card'></div>")
+        item.field_changes.forEach(change => {
+            let historyContainer = $("<div class='history-container'></div>")
+            let whatChange = $("<p></p>").text(`${item.name} изменил(а): `)
+            whatChange.append($('<b></b>').text(change.field))
+            let prevNow = $("<div class='prev-now'></div>")
+            prevNow.append($("<p class='prev'></p>").text('Было: ' + change.old_data))
+            prevNow.append($("<p class='now'></p>").text('Стало: ' + change.new_data))
+            historyContainer.append(whatChange)
+            historyContainer.append(prevNow)
+            historyCard.append(historyContainer)
+        })
+        let date = item.time.split('T')
+        let time = date[1].split('.')
+        historyCard.append($("<p class='date'></p>").text(GetDate(date[0]) + ' ' + time[0]))
+        $('.history').append(historyCard)
+    })
 }
 
 function OpenCard(id) {
@@ -137,12 +173,15 @@ function OpenCard(id) {
     } 
     let card = request('GET', '/goal/get_goal', data)
     FillCard(card)
-    FillChat(card.chat, card.user_name)
+    FillChat(card.chat)
+    FillHistory(card.history)
     $('.blur').removeClass('hidden');
     $('.card-data').removeClass('hidden');
     $('.message-sender').height(0)
     $('.chat-container')[0].setAttribute('style', 'border-bottom:' + 33 + 'px solid #F5F5F5')
     let div = $(".chat-container");
+    div.scrollTop(div.prop('scrollHeight'));
+    div = $(".history");
     div.scrollTop(div.prop('scrollHeight'));
 }
 

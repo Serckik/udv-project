@@ -656,6 +656,11 @@ textarea{
     font-size: 18px;
 }
 
+.message p{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 .chat form{
     display: flex;
     box-sizing: border-box;
@@ -705,7 +710,6 @@ textarea{
 
 .history-card{
     box-sizing: border-box;
-    width: 377px;
     min-height: 130px;
     background: #EAEAEA;
     border-radius: 1px;
@@ -727,7 +731,7 @@ textarea{
     color: #49A03A;
 }
 
-.prev-now{
+.history-container{
     margin-bottom: 31px;
 }
 
