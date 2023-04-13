@@ -153,12 +153,12 @@ def chatting(request):
     return HttpResponse('Успешно')
 
 @login_required(login_url='/user/login/')
-def history(request, goal_id):
-    goal = Goal.objects.get(id=goal_id)
-    messages = goal.history['history']
-    for item in messages:
-        item['name'] = User.objects.get(id=item['id']).get_full_name()
-    return render(request, 'browse/history.html', {'data': goal.history['history']})
+def get_chat(request):
+    goal = Goal.objects.get(id=request.POST.get('goal_id'))
+    chats = goal.chat_set.all()
+    return JsonResponse(chats)
+
+
 
 @login_required(login_url='/user/login/')
 def get_goal(request):
