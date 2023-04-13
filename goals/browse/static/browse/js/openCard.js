@@ -58,6 +58,9 @@ $(document).on('click', '.blur', function(e){
     $('.card-data').addClass('hidden')
     $('.active').removeClass('active')
     $('.message-sender').val('')
+    $('.edit input').removeClass('send')
+    $('.edit input').removeClass('remove')
+    $('.edit input').val('Сохранить')
 })
 
 function convertBool(bool){
@@ -190,6 +193,12 @@ $(document).on('click', '.card', function(e){
     OpenCard(e.currentTarget.id)
 })
 
+$('.message-sender').on('keypress', function(event) {
+    if (event.keyCode === 13 && !event.shiftKey && $('.message-sender').val() == '') {
+      event.preventDefault();
+    }
+  });
+
 $(document).on('click', '.chat-submit', function(e){
     let id = $('.active')[0].id
     if($('.message-sender').val() != ''){
@@ -203,8 +212,9 @@ $(document).on('click', '.chat-submit', function(e){
 
 $(document).on('keypress', '.message-sender', function(e){
     let id = $('.active')[0].id
-    if(e.which == 13 && !e.shiftKey){
+    if(e.which == 13 && !e.shiftKey && $('.message-sender').val() != ''){
         request('POST', '/goal/chat', {goal_id: id, message: $('.message-sender').val(), csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
+        e.preventDefault();
         $('.message-sender').val('')
         OpenCard(id)
     }
@@ -219,23 +229,51 @@ $(document).on('input', '.message-sender', function(e){
     }
 })
 
+$(document).on('input', "#more-form #card-name", function(e){
+    $("#more-form #card-name").attr('style', 'border: none')
+    $('.edit input').removeClass('error')
+    $('.edit input').val('Сохранить')
+})
+
 $(document).on('submit','#more-form',async function(e){
     e.preventDefault();
-    let data = {
-        goal_id: $('.active')[0].id,
-        name: $("#more-form #card-name").val(),
-        description: $('#more-form #card-description').val(),
-        current_result: $('#more-form #card-current-progress').val(),
-        block: $('#more-form #card-block').val(),
-        quarter: $('#more-form #card-cvartal').val(),
-        current: $('#more-form #card-approve').val() == 'Да' ? true : false,
-        planned: $('#more-form #card-category').val() == 'Запланированная' ? true : false,
-        weight: $('#more-form #card-weight').val(),
-        mark: $('#more-form #card-own-grade').val(),
-        fact_mark: $('#more-form #card-leader-grade').val(),
-        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+    let id = $('.active')[0].id
+    if($("#more-form #card-name").val() != '' && $('#more-form #card-description').val() != ''){
+        let data = {
+            goal_id: id,
+            name: $("#more-form #card-name").val(),
+            description: $('#more-form #card-description').val(),
+            current_result: $('#more-form #card-current-progress').val(),
+            block: $('#more-form #card-block').val(),
+            quarter: $('#more-form #card-cvartal').val(),
+            current: $('#more-form #card-approve').val() == 'Да' ? true : false,
+            planned: $('#more-form #card-category').val() == 'Запланированная' ? true : false,
+            weight: $('#more-form #card-weight').val(),
+            mark: $('#more-form #card-own-grade').val(),
+            fact_mark: $('#more-form #card-leader-grade').val(),
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+        }
+        request("POST", "/goal/edit", data)
+        await sleep(sleepTime);
+        GetCards(true)
+        $('#' + id).addClass('active')
+        OpenCard(id)
+        $('.edit input').addClass('send')
+        $('.edit input').val('✓')
     }
-    request("POST", "/goal/edit", data)
-    await sleep(sleepTime);
-    GetCards(true)
+    else{
+        if($("#more-form #card-name").val() == ''){ $("#more-form #card-name").attr('style', 'border: 1px solid red') }
+        $('.edit input').addClass('error')
+        $('.edit input').val('!')
+    }
 });
+
+$(document).on('input', "#more-form textarea", function(e){
+    $('.edit input').removeClass('send')
+    $('.edit input').val('Сохранить')
+})
+
+$(document).on('change', "#more-form select", function(e){
+    $('.edit input').removeClass('send')
+    $('.edit input').val('Сохранить')
+})
