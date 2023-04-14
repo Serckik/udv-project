@@ -154,9 +154,10 @@ def chatting(request):
 
 @login_required(login_url='/user/login/')
 def get_chat(request):
-    goal = Goal.objects.get(id=request.POST.get('goal_id'))
+    goal = Goal.objects.get(id=request.GET.get('goal_id'))
     chats = goal.chat_set.all()
-    return JsonResponse(chats)
+    chats = [model_to_dict(x) for x in chats]
+    return JsonResponse(chats, safe=False)
 
 
 
