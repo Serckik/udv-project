@@ -9,5 +9,6 @@ urlpatterns = [
     path('approve', views.approve_goal),
     path('add_goal', views.add_goal),
     path('chat', views.chatting),
-    path('get_goals', views.get_goals_by_filter)
+    path('get_goals', views.get_goals_by_filter),
+    path('get_chat', views.get_chat)
 ]
