@@ -156,11 +156,10 @@ def chatting(request):
 def get_chat(request):
     goal = Goal.objects.get(id=request.GET.get('goal_id'))
     chats = goal.chat_set.all()
-    chats = [model_to_dict(x) for x in chats]
+    chat_dict = {'chat': []}
     for chat in chats:
-        chat['time'] = chat.created_at,
-        chat['name'] = chat.owner_id.get_full_name()
-    return JsonResponse(chats, safe=False)
+            chat_dict['chat'].append({'text': chat.message, 'time': chat.created_at, 'name': chat.owner_id.get_full_name()})
+    return JsonResponse(chat_dict)
 
 
 
