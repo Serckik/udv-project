@@ -423,6 +423,8 @@ option:hover {
 }
 
 .card-top p{
+    word-wrap: break-word;
+    width: 348px;
     font-size: 23px;
     margin: 0;
 }
@@ -606,6 +608,7 @@ textarea{
     color: #333333;
     border: none;
     margin-left: auto;
+    transition: 0.5s;
 }
 
 .chat{
@@ -721,6 +724,7 @@ textarea{
 .history-card p{
     margin: 0;
     margin-bottom: 5px;
+    word-wrap: break-word;
 }
 
 .prev{
@@ -741,4 +745,18 @@ textarea{
 
 .hidden{
     display: none;
+}
+
+.send, .error{
+    background-color: #54d98c !important;
+    border-radius: 50% !important;
+    width: 35px !important; 
+    height: 35px !important;
+    transition: 0.5s;
+    color: white !important;
+    margin-right: 65px;
+}
+
+.error{
+    background-color: #F26065 !important;
 }

@@ -41,8 +41,13 @@ function SetCards(cards){
         cardBlock.attr('id', element.id)
         cardBlock.css("border-left-color", colors[element.block] )
         let cardTop = $("<div class='card-top'></div>")
-    
-        cardTop.append($("<p></p>").text(element.name))
+        
+        if(element.name.length > 60){
+            cardTop.append($("<p></p>").text(element.name.slice(0, 60) + '...'))
+        }
+        else{
+            cardTop.append($("<p></p>").text(element.name))
+        }
         let calendar = $("<div class='calendar'></div>")
         let svgCalendar = $('<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">')
         for (let index = 0; index < 4; index++) {
