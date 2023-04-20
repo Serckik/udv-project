@@ -60,7 +60,7 @@ $(document).on('click', '.blur', function(e){
     $('.message-sender').val('')
     $('.edit input').removeClass('send')
     $('.edit input').removeClass('remove')
-    $('.edit input').val('Сохранить')
+    $('.edit input').val('cохранить')
 })
 
 function convertBool(bool){
@@ -105,7 +105,9 @@ function FillCard(cardData) {
 }
 
 function FillChat(chatData) {
-    $('.chat-submit path').attr('fill', '#D9D9D9')
+    if($('.message-sender').val().length == 0){
+        $('.chat-submit path').attr('fill', '#D9D9D9')
+    }
     let chatContainer = $('.chat-container')
     chatContainer.empty()
     chatData.forEach(item => {
@@ -139,7 +141,6 @@ function FillChat(chatData) {
             messageContainer.append(message)
             chatContainer.append(messageContainer)
         }
-
     });
 }
 
@@ -186,6 +187,7 @@ function OpenCard(id) {
     div.scrollTop(div.prop('scrollHeight'));
     div = $(".history");
     div.scrollTop(div.prop('scrollHeight'));
+    executeQuery()
 }
 
 $(document).on('click', '.card', function(e){
@@ -232,7 +234,7 @@ $(document).on('input', '.message-sender', function(e){
 $(document).on('input', "#more-form #card-name", function(e){
     $("#more-form #card-name").attr('style', 'border: none')
     $('.edit input').removeClass('error')
-    $('.edit input').val('Сохранить')
+    $('.edit input').val('cохранить')
 })
 
 $(document).on('submit','#more-form',async function(e){
@@ -270,10 +272,27 @@ $(document).on('submit','#more-form',async function(e){
 
 $(document).on('input', "#more-form textarea", function(e){
     $('.edit input').removeClass('send')
-    $('.edit input').val('Сохранить')
+    if($('.edit .error').length == 0){
+        $('.edit input').val('cохранить')
+    }
 })
 
 $(document).on('change', "#more-form select", function(e){
     $('.edit input').removeClass('send')
-    $('.edit input').val('Сохранить')
+    if($('.edit .error').length == 0){
+        $('.edit input').val('cохранить')
+    }
 })
+
+function executeQuery() {
+    let id = $('.active')[0].id
+    $.ajax({
+        type: 'GET',
+        url: '/goal/get_chat',
+        data: {goal_id: id},
+        success: function(data) {
+            FillChat(data.chat)
+        }
+    });
+    setTimeout(executeQuery, 5000);
+}
