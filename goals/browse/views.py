@@ -206,7 +206,7 @@ def get_goals_by_filter(request):
     else:
         goals = goals.filter(current=False)
         
-    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id', 'quarter'))
+    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id', 'quarter', 'planned'))
     for item in data:
         user_name = User.objects.get(id=item['owner_id']).get_full_name().split()
         user_name = user_name[0] + ' ' + user_name[1][0] + '.'
