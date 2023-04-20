@@ -29,12 +29,14 @@ let vectors = ["M2 13.7412H33.8687V32.1915C33.8687 33.1179 33.1178 33.8688 32.19
             "M11.2246 2V8.70921",
             "M24.6436 2V8.70921"]
 
+export let cards = null
+
 export function GetCards(isAprooved=false) { 
-    let cards = request("GET", "/goal/get_goals", {current: isAprooved})
+    cards = request("GET", "/goal/get_goals", {current: isAprooved})
     SetCards(cards)
 }
 
-function SetCards(cards){
+export function SetCards(cards){
     $(".cards").empty()
     cards.forEach(element => {
         let cardBlock = $("<div class='card'></div>")
