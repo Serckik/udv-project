@@ -194,6 +194,7 @@ def get_goals_by_filter(request):
     current = request.GET.get('current')
     quarter = math.ceil(datetime.now().month/3.)
     goals = Goal.objects.all()
+    weight = request.GET.get('weight')
     if block:
         goals = goals.filter(block=block)
     if planned:
@@ -204,10 +205,8 @@ def get_goals_by_filter(request):
         goals = goals.filter(current=true_converter[current])
     else:
         goals = goals.filter(current=False)
-
-
         
-    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id'))
+    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id', 'quarter'))
     for item in data:
         user_name = User.objects.get(id=item['owner_id']).get_full_name().split()
         user_name = user_name[0] + ' ' + user_name[1][0] + '.'
