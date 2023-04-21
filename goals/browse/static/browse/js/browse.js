@@ -54,7 +54,8 @@ export function request(type, url, data){
             if(type == "GET"){
                 successFunction(data)
             }
-        }
+        },
+        async: false
     })
 }
 
