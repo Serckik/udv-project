@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 CHOICES_WEIGHT = [('', '')] + [(i, i) for i in range(101)] # вес
-CHOICES_MARK = [('', '')] + [(i, i) for i in range(201)] # оценка
+CHOICES_MARK = [('', '')] + [(i, i) for i in range(0, 201, 5)] # оценка
 
 
 class Quarter(models.Model):

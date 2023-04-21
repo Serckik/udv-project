@@ -246,6 +246,7 @@ def add_goal(request):
             goal.save()
             return HttpResponse('Успешно')
         else:
+            print(form.errors.as_data())
             return HttpResponse('Ошибка')
 
 @login_required(login_url='/user/login/')
