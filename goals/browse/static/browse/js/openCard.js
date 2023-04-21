@@ -285,6 +285,7 @@ $(document).on('change', "#more-form select", function(e){
 })
 
 function executeQuery() {
+    if($('.active').length == 0){ return }
     let id = $('.active')[0].id
     $.ajax({
         type: 'GET',

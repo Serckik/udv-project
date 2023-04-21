@@ -77,21 +77,21 @@
             </ul>
             <div class="line"></div>
             <p>Сортировка</p>
-            <ul>
-                <li>
+            <ul class="sort-list">
+                <li class="sort-list-element" id="owner_id">
                     <span>ОТВЕТСТВЕННЫЙ</span>
                     <div class="arrows">
                         <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <svg class="active-sort" width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                 </li>
-                <li>
+                <li class="sort-list-element" id="weight">
                     <span>ВЕС</span>
                     <div class="arrows">
                         <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -107,23 +107,26 @@
             </ul>
             <div class="line"></div>
             <p>Категория</p>
-            <ul>
-                <li class="active-sort">ВСЕ</li>
-                <li>ЗАПЛАНИРОВАННАЯ</li>
-                <li>НЕЗАПЛАНИРОВАННАЯ</li>
+            <ul class="planned-list">
+                <li class="planned-list-element active-sort" id="Все">ВСЕ</li>
+                <li class="planned-list-element" id="Запланированная">ЗАПЛАНИРОВАННАЯ</li>
+                <li class="planned-list-element" id="Незапланированная">НЕЗАПЛАНИРОВАННАЯ</li>
             </ul>
             <div class="line"></div>
             <p>Готовность</p>
-            <ul>
-                <li class="active-sort">ВСЕ</li>
-                <li>ВЫПОЛНЕННЫЕ</li>
-                <li>НЕВЫПОЛНЕННЫЕ</li>
+            <ul class="done-list">
+                <li class="done-list-element active-sort" id="Все">ВСЕ</li>
+                <li class="done-list-element" id="Выполненные">ВЫПОЛНЕННЫЕ</li>
+                <li class="done-list-element" id="Невыполненные">НЕВЫПОЛНЕННЫЕ</li>
             </ul>
             <div class="line"></div>
             <p>Квартал</p>
             <select class="cvartal-select">
-                <option>1 квартал 2024</option>
-                <option>2 квартал 2024</option>
+                <option value="Все" class="active-sort"></option>
+                <option value="1 квартал 2022">1 квартал 2022</option>
+                <option value="2 квартал 2022">2 квартал 2022</option>
+                <option value="3 квартал 2022">3 квартал 2022</option>
+                <option value="4 квартал 2022">4 квартал 2022</option>
             </select>
         </div>
         <div class="tasks">
@@ -148,5 +151,6 @@
     <script type="module" src="/static/browse/js/browse.js"></script>
     <script type="module" src="/static/browse/js/menu.js"></script>
     <script type="module" src="/static/browse/js/openCard.js"></script>
+    <script type="module" src="/static/browse/js/filter.js"></script>
 </body>
 </html>
