@@ -208,8 +208,7 @@ def get_goals_by_filter(request):
         
     data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id', 'quarter', 'planned'))
     for item in data:
-        user_name = User.objects.get(id=item['owner_id']).get_full_name().split()
-        user_name = user_name[0] + ' ' + user_name[1][0] + '.'
+        user_name = User.objects.get(id=item['owner_id']).get_full_name()
         item['owner_id'] = user_name
     return JsonResponse(data, safe=False)
 
