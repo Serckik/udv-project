@@ -28,11 +28,11 @@ $(".message-sender").each(function () {
 let block = ["Оценка", "Подбор", "Адаптация", "Корп. культура и бенефиты", "HR-бренд внешний", "HR-сопровождение", "Внутренняя работа отдела", "Кадровый учет и з/п", 
 "Развитие персонала"]
 let category = ['Запланированная', 'Незапланированная']
-let cvartal = ['1 квартал 2022', '2 квартал 2022', '3 квартал 2022', '4 квартал 2022', '1 квартал 2023', '2 квартал 2023', '3 квартал 2023', '4 квартал 2023', '1 квартал 2024']
+let cvartal = ['1 / 2022', '2 / 2022', '3 / 2022', '4 / 2022', '1 / 2023', '2 / 2023', '3 / 2023', '4 / 2023', '1 / 2024']
 const monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
                     'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 let score = []
-for (let index = 1; index < 201; index++) {
+for (let index = 0; index < 201; index += 5) {
     score.push(index + '%')
 }
 let answer = ['Да', 'Нет']
@@ -248,8 +248,8 @@ $(document).on('submit','#more-form',async function(e){
             current_result: $('#more-form #card-current-progress').val(),
             block: $('#more-form #card-block').val(),
             quarter: $('#more-form #card-cvartal').val(),
-            current: $('#more-form #card-approve').val() == 'Да' ? true : false,
-            planned: $('#more-form #card-category').val() == 'Запланированная' ? true : false,
+            current: $('#more-form #card-approve').val() == 'Да' ? 'True' : 'False',
+            planned: $('#more-form #card-category').val() == 'Запланированная' ? 'True' : 'False',
             weight: $('#more-form #card-weight').val(),
             mark: $('#more-form #card-own-grade').val(),
             fact_mark: $('#more-form #card-leader-grade').val(),

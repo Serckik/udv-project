@@ -21,22 +21,27 @@ $(document).on('click', '.planned-list-element', function(e){
     Filter('Категория', e.currentTarget.id)
 })
 
+$('.cvartal-select').change(function() {
+    currentSelect = $(this).val()
+    Filter('Готовность', currentSelect)
+});
+
+$(document).on('click', '.search-checkbox', function(e){
+    Filter('Только свои', $('.search-checkbox').is(':checked'))
+})
+
 $(document).on('click', '.done-list-element', function(e){
     $('.done-list-element.active-sort').removeClass('active-sort')
     e.currentTarget.classList.add('active-sort')
     Filter('Готовность', e.currentTarget.id)
 })
 
-$('.cvartal-select').change(function() {
-    currentSelect = $(this).val()
-    Filter('Готовность', currentSelect)
-});
-
 function Filter(filterName, filterParameter) { 
     BlockFilter($('.block-list-element.active-sort').attr('id'))
     PlannedFilter($('.planned-list-element.active-sort').attr('id'))
     DoneFilter($('.done-list-element.active-sort').attr('id'))
     QuarterFilter(currentSelect)
+    SelfFilter($('.search-checkbox').is(':checked'))
     if(filterName == 'Сортировка'){ 
         if(currentSort != '' && currentSort != filterParameter) { 
             $('#' + currentSort + ' .active-sort').removeClass('active-sort') 
@@ -116,7 +121,6 @@ function DoneFilter(filterParameter) {
 function QuarterFilter(filterParameter){
     let cardsblock = Array.from(filterCards)
     filterCards = []
-    console.log(filterParameter)
     if(filterParameter == 'Все'){
         filterCards = cardsblock
         return
@@ -124,6 +128,22 @@ function QuarterFilter(filterParameter){
 
     cardsblock.forEach(card => {
         if(card.quarter == filterParameter){
+            filterCards.push(card)
+        }
+    });
+    SetCards(filterCards)
+}
+
+function SelfFilter(filterParameter){
+    let cardsblock = Array.from(filterCards)
+    filterCards = []
+    if(filterParameter == false){
+        filterCards = cardsblock
+        return
+    }
+
+    cardsblock.forEach(card => {
+        if(card.owner_id == $('.header-user p').text()){
             filterCards.push(card)
         }
     });

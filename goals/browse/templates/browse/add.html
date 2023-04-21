@@ -4,34 +4,65 @@
 
 
 {% block content %}
-    <h1>Добавить новую задачу</h1>
-    <form method="POST" id="add-form">
-        {% csrf_token %}
-        {{ add_form }}
-        <a href=""><input type="submit"></a>
-    </form>
-    <h2> {{ status }}</h2>
-    <h1> Текущие не утверждённые задачи</h1>
-    <div class="cards">
-    </div>
-    <div class="hidden">
-        <form id="more-form" class="info">
-            {{ form }}
-            <input type="submit">
+    <div class="add">
+        <p class="add-header">Добавить новую задачу</p>
+        <form method="POST" id="add-form">
+            {% csrf_token %}
+            <div class="left-flex">
+                <p>Название:</p>
+                <textarea class="card-name" id="card-name"></textarea>
+                <div class="select-flex">
+                    <div>
+                        <div class="edit-flex">
+                            <p>Блок:</p>
+                            <select id="card-block"></select>
+                        </div>
+                        <div class="edit-flex">
+                            <p class="category-select">Категория:</p>
+                            <select id="card-category"></select>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="edit-flex">
+                            <p>Квартал:</p>
+                            <select id="card-cvartal"></select>
+                        </div>
+                        <div class="edit-flex">
+                            <p>Вес:</p>
+                            <select class="number-select" id="card-weight"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-flex">
+                <p>Образ результата:</p>
+                <textarea id="card-description"></textarea>
+                <input type="submit" value="добавить">
+            </div>
         </form>
-
-        <div class="history-block">
-                
-        </div>
-
-        <div class="chat-history-block">
-                
-        </div>
-        
-        <form id="chat" class="chat">
-            {{ chat_form }}
-            <input type="submit">
-        </form>
     </div>
+        <h2> {{ status }}</h2>
+        <h1> Текущие не утверждённые задачи</h1>
+        <div class="cards">
+        </div>
+        <div class="hidden">
+            <form id="more-form" class="info">
+                {{ form }}
+                <input type="submit">
+            </form>
+    
+            <div class="history-block">
+                    
+            </div>
+    
+            <div class="chat-history-block">
+                    
+            </div>
+            
+            <form id="chat" class="chat">
+                {{ chat_form }}
+                <input type="submit">
+            </form>
+        </div>
     <script type="module" src="/static/browse/js/add.js"></script>
 {% endblock %}

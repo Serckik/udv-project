@@ -595,7 +595,7 @@ textarea{
     width: 102px;
 }
 
-.edit input{
+.edit input, .add input{
     display: block;
     width: 170px;
     height: 35px;
@@ -758,4 +758,59 @@ textarea{
 
 .error{
     background-color: #F26065 !important;
+}
+
+.add{
+    width: 1193px;
+    box-sizing: border-box;
+    background: rgba(196, 188, 178, 0.15);
+    border-radius: 6px;
+    padding: 16px 29px 7px 36px;
+    font-family: 'Montserrat';
+    font-style: normal;
+}
+
+#add-form{
+    display: flex;
+    gap: 11px;
+
+    font-size: 24px;
+    font-family: 'OfficinaSansWinCTT';
+
+    color: #333333;
+}
+
+.right-flex{
+    width: 100%;
+}
+
+.select-flex{
+    display: flex;
+    gap: 18px;
+}
+
+.add p{
+    margin: 0;
+}
+
+.add textarea{
+    width: 100%;
+}
+
+.add select{
+    width: 213px;
+    background: rgba(217, 217, 217, 0.55);
+    border-radius: 4px;
+}
+
+.add-header{
+    font-weight: 700;
+    font-size: 25px;
+
+    color: #504949;
+    margin-bottom: 14px !important;
+}
+
+.add #card-cvartal{
+    width: auto;
 }
