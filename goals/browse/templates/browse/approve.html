@@ -5,23 +5,7 @@
 {% block content %}
     <h1> Текущие не утверждённые задачи</h1>
     
-    <div class="hidden">
-        <form id="more-form" class="info">
-            {{ form }}
-            <input type="submit">
-        </form>
-
-        <div class="history-block">
-                
-        </div>
-
-        <div class="chat-history-block">
-                
-        </div>
-        
-        <form id="chat" class="chat">
-            {{ chat_form }}
-            <input type="submit">
-        </form>
+    <div class="cards">
     </div>
+    <script type="module" src="/static/browse/js/approve.js"></script>
 {% endblock %}
