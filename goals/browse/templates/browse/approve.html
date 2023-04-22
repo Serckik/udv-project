@@ -4,12 +4,7 @@
 
 {% block content %}
     <h1> Текущие не утверждённые задачи</h1>
-    {% for item in data %}
-        {% if perms.browse.change_goal and not item.current and user.groups.all.0 == item.group %}
-            {{ item.name }}
-            <p class="more" id="{{ item.id }}">Подробнее</p>
-        {% endif %}
-    {% endfor %}
+    
     <div class="hidden">
         <form id="more-form" class="info">
             {{ form }}

@@ -1,6 +1,6 @@
 import { GetCards } from "./SetCards.js"
 const sleepTime = 100
-function sleep(ms) {
+export function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
@@ -64,31 +64,36 @@ $(document).on('click', '.blur', function(e){
 })
 
 function convertBool(bool){
+    console.log(bool)
     if(bool){
-        return "True"
+        return true
     }
-    return "False"
+    return false
 }
 
 function SetVal(id, value){
     $(id).val(value)
 }
 
-function CreateOprionBlocks(values, id){
+function CreateOptionBlocks(values, id){
+    if($(id).length == 0) { return }
     values.forEach(element => {
         let option = $("<option></option>").text(element)
         option.attr('value', element.split('%')[0])
         $(id).append(option);
+        console.log($(id))
     });
 }
-
-CreateOprionBlocks(block, '#card-block')
-CreateOprionBlocks(category, '#card-category')
-CreateOprionBlocks(cvartal, '#card-cvartal')
-CreateOprionBlocks(score, '#card-own-grade')
-CreateOprionBlocks(score, '#card-leader-grade')
-CreateOprionBlocks(score, '#card-weight')
-CreateOprionBlocks(answer, '#card-approve')
+FillForm('more-form')
+export function FillForm(idForm) { 
+    CreateOptionBlocks(block, '#' + idForm +' #card-block')
+    CreateOptionBlocks(category, '#' + idForm +' #card-category')
+    CreateOptionBlocks(cvartal, '#' + idForm +' #card-cvartal')
+    CreateOptionBlocks(score, '#' + idForm +' #card-own-grade')
+    CreateOptionBlocks(score, '#' + idForm +' #card-leader-grade')
+    CreateOptionBlocks(score, '#' + idForm +' #card-weight')
+    CreateOptionBlocks(answer, '#' + idForm +' #card-approve')
+}
 
 function FillCard(cardData) { 
     $('.edit-header .edit-user p').text(cardData.user_name)
@@ -105,6 +110,7 @@ function FillCard(cardData) {
 }
 
 function FillChat(chatData) {
+    console.log($('.message-sender').val())
     if($('.message-sender').val().length == 0){
         $('.chat-submit path').attr('fill', '#D9D9D9')
     }
@@ -231,16 +237,10 @@ $(document).on('input', '.message-sender', function(e){
     }
 })
 
-$(document).on('input', "#more-form #card-name", function(e){
-    $("#more-form #card-name").attr('style', 'border: none')
-    $('.edit input').removeClass('error')
-    $('.edit input').val('cохранить')
-})
-
 $(document).on('submit','#more-form',async function(e){
     e.preventDefault();
     let id = $('.active')[0].id
-    if($("#more-form #card-name").val() != '' && $('#more-form #card-description').val() != ''){
+    if($("#more-form #card-name").val() != ''){
         let data = {
             goal_id: id,
             name: $("#more-form #card-name").val(),
@@ -255,34 +255,59 @@ $(document).on('submit','#more-form',async function(e){
             fact_mark: $('#more-form #card-leader-grade').val(),
             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
         }
+        console.log($('input[name=csrfmiddlewaretoken]').val())
         request("POST", "/goal/edit", data)
         await sleep(sleepTime);
-        GetCards(true)
+        if($('#add-form').length != 0){
+            GetCards(false)
+        }
+        else{
+            GetCards(true)
+        }
         $('#' + id).addClass('active')
         OpenCard(id)
-        $('.edit input').addClass('send')
-        $('.edit input').val('✓')
+        CardSend('edit')
     }
     else{
-        if($("#more-form #card-name").val() == ''){ $("#more-form #card-name").attr('style', 'border: 1px solid red') }
-        $('.edit input').addClass('error')
-        $('.edit input').val('!')
+        CardNameError('edit', 'card-name')
     }
 });
 
+$(document).on('input', "#more-form #card-name", function(e){
+    CardNameChange('edit', 'card-name')
+})
+
 $(document).on('input', "#more-form textarea", function(e){
-    $('.edit input').removeClass('send')
-    if($('.edit .error').length == 0){
-        $('.edit input').val('cохранить')
-    }
+    FormChange('edit')
 })
 
 $(document).on('change', "#more-form select", function(e){
-    $('.edit input').removeClass('send')
-    if($('.edit .error').length == 0){
-        $('.edit input').val('cохранить')
-    }
+    FormChange('edit')
 })
+
+export function CardSend(classForm) { 
+    $('.' + classForm + ' input').addClass('send')
+    $('.' + classForm + ' input').val('✓')
+ }
+
+export function CardNameError(classForm, nameId) { 
+    $('.' + classForm + ' #' + nameId).attr('style', 'border: 1px solid red')
+    $('.' + classForm + ' input').addClass('error')
+    $('.' + classForm + ' input').val('!')
+}
+
+export function CardNameChange(classForm, nameId){
+    $('.' + classForm + ' #' + nameId).attr('style', 'border: none')
+    $('.' + classForm + ' input').removeClass('error')
+    $('.' + classForm + ' input').val('cохранить')
+}
+
+export function FormChange(classForm) { 
+    $('.' + classForm + ' input').removeClass('send')
+    if($('.' + classForm + ' .error').length == 0){
+        $('.' + classForm + ' input').val('cохранить')
+    }
+ }
 
 function executeQuery() {
     if($('.active').length == 0){ return }
