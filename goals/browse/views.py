@@ -68,7 +68,11 @@ def update_history(goal, request):
                   'current_result': 'Текущий результат',
                   'mark': 'Оценка сотрудника',
                   'fact_mark': 'Оценка руководителя'}
-    
+
+    if request.user == goal.owner_id:
+        new_data['fact_mark'] = old_data['fact_mark']
+        new_data['current'] = old_data['current']
+
     is_change = False
     for i in new_data:
         if old_data[i] != new_data[i]:
@@ -90,7 +94,8 @@ def update_history(goal, request):
                           user=goal.owner_id,
                           field=translator[i],
                           old_data=old_data[i],
-                          new_data=new_data[i])        
+                          new_data=new_data[i])       
+     
     if goal.owner_id == request.user:
         users = User.objects.filter(groups__name=request.user.groups.all()[0])
         for user in users:
@@ -111,7 +116,7 @@ def editing(request):
     if request.method == "POST":
         goal = Goal.objects.get(id=request.POST.get('goal_id'))
         if request.user == goal.owner_id or \
-        request.user.is_superuser or request.user.groups.all()[0] == goal.owner_id.groups.all()[0] \
+        request.user.is_superuser or len(request.user.groups.all() & goal.owner_id.groups.all()) > 0 \
         and request.user.has_perm('browse.change_goal'):
             if not goal_validator(request):
                 return HttpResponse('Ошибка')
@@ -122,10 +127,11 @@ def editing(request):
             goal.quarter = request.POST.get('quarter')
             goal.weight = float(request.POST.get('weight'))
             goal.planned = true_converter[request.POST.get('planned')]
-            goal.current = true_converter[request.POST.get('current')]
             goal.current_result = request.POST.get('current_result')
             goal.mark = int(request.POST.get('mark'))
-            goal.fact_mark = int(request.POST.get('fact_mark'))
+            if not request.user == goal.owner_id:
+                goal.current = true_converter[request.POST.get('current')]
+                goal.fact_mark = int(request.POST.get('fact_mark'))
             goal.save(update_fields=['name', 'description', 'block', 'quarter', 'weight', 'planned', 'current', 'current_result', 'mark', 'fact_mark'])
             return HttpResponse('Успешно')
         else:
@@ -230,8 +236,6 @@ def add_goal(request):
                         current=False,
                         current_result='',
                         planned=true_converter[request.POST.get('planned')],
-                        chat={"chat": []},
-                        history={"history": []},
                         mark=0,
                         fact_mark=0,
                         isdone=False)
@@ -255,7 +259,7 @@ def get_non_approve_goals(request):
         goals = goals.filter(current=False)
         goals_list = []
         for goal in goals:
-            if request.user.groups.all()[0] == goal.owner_id.groups.all()[0]:
+            if len(request.user.groups.all() & goal.owner_id.groups.all()) > 0 and request.user != goal.owner_id:
                 goals_list.append(model_to_dict(goal))
         for goal in goals_list:
             user_name = User.objects.get(id=goal['owner_id']).get_full_name()
