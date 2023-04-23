@@ -11,6 +11,7 @@ from users.models import Notification
 from django.contrib.auth.decorators import login_required
 import math
 import re
+from .models import CHOICES_QUARTER
 
 def split_text(text, max_length):
     words = re.findall(r'\b\w+\b', text)
@@ -265,6 +266,13 @@ def get_non_approve_goals(request):
         for goal in goals:
             if request.user.groups.all()[0] == goal.owner_id.groups.all()[0]:
                 goals_list.append(model_to_dict(goal))
+        for goal in goals_list:
+            user_name = User.objects.get(id=goal['owner_id']).get_full_name()
+            goal['owner_id'] = user_name
         return JsonResponse(goals_list, safe=False)
     else:
         return HttpResponse('Нет прав')
+
+@login_required(login_url='/user/login/')
+def get_quarters(request):
+    return JsonResponse(CHOICES_QUARTER, safe=False)
