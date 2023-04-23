@@ -242,6 +242,10 @@ main{
     margin-right: 10px;
 }
 
+.left-submenu li span, select, input[type="checkbox"], input[type="submit"], .chat-submit{
+    cursor: pointer;
+}
+
 .block-list-element:nth-child(1) .point{
     background: #D9D9D9;
 }
@@ -401,6 +405,13 @@ option:hover {
     box-shadow: 2px 2px 4px 3px rgba(0, 0, 0, 0.5);
     border-radius: 2px;
     font-family: 'OfficinaSansWinCTT';
+    cursor: pointer;
+    transition: 1s;
+}
+
+.card:hover{
+    scale: 1.1;
+    transition: 0.5s;
 }
 
 .card img{
@@ -471,7 +482,7 @@ option:hover {
     max-width: 1670px;
     background-color: #F5F5F5;
     border-radius: 8px;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     margin-right: -50%;
@@ -754,6 +765,7 @@ textarea{
     height: 35px !important;
     transition: 0.5s;
     color: white !important;
+    cursor: default !important;
 }
 
 .error{

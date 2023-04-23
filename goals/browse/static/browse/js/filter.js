@@ -61,7 +61,6 @@ function Filter(filterName, filterParameter) {
             $('#' + filterParameter + ' .active-sort').removeClass('active-sort')
             sortDir = ''
             currentSort = ''
-            console.log(filterCards)
             SetCards(filterCards)
         }
     }

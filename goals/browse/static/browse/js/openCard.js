@@ -54,6 +54,7 @@ function request(type, url, data){
 }
 
 $(document).on('click', '.blur', function(e){
+    $('body').css("overflow", "auto");
     $('.blur').addClass('hidden')
     $('.card-data').addClass('hidden')
     $('.active').removeClass('active')
@@ -64,7 +65,6 @@ $(document).on('click', '.blur', function(e){
 })
 
 function convertBool(bool){
-    console.log(bool)
     if(bool){
         return true
     }
@@ -81,7 +81,6 @@ function CreateOptionBlocks(values, id){
         let option = $("<option></option>").text(element)
         option.attr('value', element.split('%')[0])
         $(id).append(option);
-        console.log($(id))
     });
 }
 FillForm('more-form')
@@ -110,7 +109,6 @@ function FillCard(cardData) {
 }
 
 function FillChat(chatData) {
-    console.log($('.message-sender').val())
     if($('.message-sender').val().length == 0){
         $('.chat-submit path').attr('fill', '#D9D9D9')
     }
@@ -178,6 +176,7 @@ function FillHistory(historyData) {
 }
 
 function OpenCard(id) {
+    $('body').css("overflow", "hidden");
     let data = {
         goal_id: id,
     } 
@@ -255,7 +254,6 @@ $(document).on('submit','#more-form',async function(e){
             fact_mark: $('#more-form #card-leader-grade').val(),
             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
         }
-        console.log($('input[name=csrfmiddlewaretoken]').val())
         request("POST", "/goal/edit", data)
         await sleep(sleepTime);
         if($('#add-form').length != 0){

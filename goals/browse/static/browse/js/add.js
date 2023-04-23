@@ -18,7 +18,6 @@ $(document).on('submit', '#add-form', async function(e){
             weight: $('#add-form #card-weight').val(),
             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
         }
-        console.log($('input[name=csrfmiddlewaretoken]').val())
         request("POST", "/goal/add_goal", data)
         await sleep(sleepTime);
         GetCards(false)
