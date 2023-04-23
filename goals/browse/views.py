@@ -162,8 +162,6 @@ def get_chat(request):
             chat_dict['chat'].append({'text': chat.message, 'time': chat.created_at, 'name': chat.owner_id.get_full_name()})
     return JsonResponse(chat_dict)
 
-
-
 @login_required(login_url='/user/login/')
 def get_goal(request):
     if request.user.is_authenticated:
@@ -268,4 +266,5 @@ def get_non_approve_goals(request):
 
 @login_required(login_url='/user/login/')
 def get_quarters(request):
-    return JsonResponse(CHOICES_QUARTER, safe=False)
+    choices = [x[0] for x in CHOICES_QUARTER][1:]
+    return JsonResponse(choices, safe=False)
