@@ -189,6 +189,7 @@ def get_goal(request):
 
 @login_required(login_url='/user/login/')
 def get_goals_by_filter(request):
+    goals = Goal.objects.all()
     goals = goals.filter(current=True)
     data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id', 'quarter', 'planned'))
     for item in data:
