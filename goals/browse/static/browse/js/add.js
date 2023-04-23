@@ -1,8 +1,23 @@
-import { request } from "./browse.js"
-import { GetCards } from "./SetCards.js"
+import { SetCards } from "./SetCards.js"
 import { CardSend, CardNameError, FormChange, CardNameChange, sleep, FillForm  } from "./openCard.js"
 
 const sleepTime = 100
+
+function request(type, url, data){
+    let returnData = ''
+    $.ajax({
+        type: type,
+        url: url,
+        data: data,
+        success: function(data) { 
+            if(type == 'GET'){
+                returnData = data
+            }
+        },
+        async: false
+    })
+    return returnData
+}
 
 FillForm('add-form')
 
@@ -20,7 +35,8 @@ $(document).on('submit', '#add-form', async function(e){
         }
         request("POST", "/goal/add_goal", data)
         await sleep(sleepTime);
-        GetCards(false)
+        let cards = request("GET", "/goal/get_yours_non_approved_goals")
+        SetCards(cards)
         CardSend('add')
     }
     else{
@@ -40,4 +56,5 @@ $(document).on('change', "#add-form select", function(e){
     FormChange('add')
 })
 
-GetCards(false)
+let cards = request("GET", "/goal/get_yours_non_approved_goals")
+SetCards(cards)

@@ -1,4 +1,4 @@
-import { GetCards } from "./SetCards.js"
+import { GetCards, SetCards } from "./SetCards.js"
 const sleepTime = 100
 export function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -28,7 +28,7 @@ $(".message-sender").each(function () {
 let block = ["Оценка", "Подбор", "Адаптация", "Корп. культура и бенефиты", "HR-бренд внешний", "HR-сопровождение", "Внутренняя работа отдела", "Кадровый учет и з/п", 
 "Развитие персонала"]
 let category = ['Запланированная', 'Незапланированная']
-let cvartal = ['1 / 2022', '2 / 2022', '3 / 2022', '4 / 2022', '1 / 2023', '2 / 2023', '3 / 2023', '4 / 2023', '1 / 2024']
+let cvartal = request('GET','/goal/get_quarters')
 const monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
                     'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 let score = []
@@ -256,8 +256,13 @@ $(document).on('submit','#more-form',async function(e){
         }
         request("POST", "/goal/edit", data)
         await sleep(sleepTime);
-        if($('#add-form').length != 0){
-            GetCards(false)
+        if($('.current-page').text() == 'ДОБАВИТЬ'){
+            let cards = request("GET", "/goal/get_yours_non_approved_goals")
+            SetCards(cards)
+        }
+        else if($('.current-page').text() == 'УТВЕРДИТЬ'){
+            let cards = request("GET", "/goal/get_non_approved_goals")
+            SetCards(cards)
         }
         else{
             GetCards(true)

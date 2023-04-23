@@ -31,8 +31,8 @@ let vectors = ["M2 13.7412H33.8687V32.1915C33.8687 33.1179 33.1178 33.8688 32.19
 
 export let cards = null
 
-export function GetCards(isAprooved=false) { 
-    cards = request("GET", "/goal/get_goals", {current: isAprooved})
+export function GetCards() { 
+    cards = request("GET", "/goal/get_goals")
     SetCards(cards)
 }
 

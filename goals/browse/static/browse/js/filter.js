@@ -1,9 +1,18 @@
 import { cards, SetCards } from "./SetCards.js"
 
+let notFilteredCards = cards
 let filterCards = cards
 let currentSort = ''
 let sortDir = ''
 let currentSelect = 'Все'
+
+export function SetFilterCards(approvecards) { 
+    console.log(approvecards)
+    filterCards = approvecards
+    if(cards == null){
+        notFilteredCards = approvecards
+    } 
+}
 
 $(document).on('click', '.block-list-element', function(e){
     $('.block-list-element.active-sort').removeClass('active-sort')
@@ -27,6 +36,7 @@ $('.cvartal-select').change(function() {
 });
 
 $(document).on('click', '.search-checkbox', function(e){
+    console.log(filterCards)
     Filter('Только свои', $('.search-checkbox').is(':checked'))
 })
 
@@ -70,12 +80,12 @@ function Filter(filterName, filterParameter) {
 function BlockFilter(filterParameter){
     filterCards = []
     if(filterParameter == 'Все'){
-        filterCards = cards
-        SetCards(cards)
+        filterCards = notFilteredCards
+        SetCards(filterCards)
         return
     }
 
-    cards.forEach(card => {
+    notFilteredCards.forEach(card => {
         if(card.block == filterParameter){
             filterCards.push(card)
         }
