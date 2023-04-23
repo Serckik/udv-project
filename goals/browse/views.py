@@ -109,7 +109,7 @@ def browse(request):
 def editing(request):
     if request.method == "POST":
         goal = Goal.objects.get(id=request.POST.get('goal_id'))
-        if request.user.is_authenticated and request.user == goal.owner_id or \
+        if request.user == goal.owner_id or \
         request.user.is_superuser or request.user.groups.all()[0] == goal.owner_id.groups.all()[0] \
         and request.user.has_perm('browse.change_goal'):
             if not goal_validator(request):
@@ -251,10 +251,20 @@ def add_goal(request):
 
 @login_required(login_url='/user/login/')
 def approve_goal(request):
+    if request.user.has_perm('browse.change_goal'):
+        return render(request, 'browse/approve.html')  
+    else:
+        return HttpResponse('Нет прав')
+    
+@login_required(login_url='/user/login/')
+def get_non_approve_goals(request):
     goals = Goal.objects.all()
     if request.user.has_perm('browse.change_goal'):
+        goals = goals.filter(current=False)
+        goals_list = []
         for goal in goals:
-            goal.group = goal.owner_id.groups.all()[0]
-        return render(request, 'browse/approve.html', {'data': goals})  
+            if request.user.groups.all()[0] == goal.owner_id.groups.all()[0]:
+                goals_list.append(model_to_dict(goal))
+        return JsonResponse(goals_list, safe=False)
     else:
         return HttpResponse('Нет прав')
