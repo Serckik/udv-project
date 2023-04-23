@@ -189,30 +189,22 @@ def get_goal(request):
 
 @login_required(login_url='/user/login/')
 def get_goals_by_filter(request):
-    block = request.GET.get('block')
-    planned = request.GET.get('planned')
-    done = request.GET.get('done')
-    current = request.GET.get('current')
-    quarter = math.ceil(datetime.now().month/3.)
-    goals = Goal.objects.all()
-    weight = request.GET.get('weight')
-    if block:
-        goals = goals.filter(block=block)
-    if planned:
-        goals = goals.filter(planned=true_converter[planned])
-    if done:
-        goals = goals.filter(isdone=true_converter[done])
-    if current:
-        goals = goals.filter(current=true_converter[current])
-    else:
-        goals = goals.filter(current=False)
-        
+    goals = goals.filter(current=True)
     data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id', 'quarter', 'planned'))
     for item in data:
         user_name = User.objects.get(id=item['owner_id']).get_full_name()
         item['owner_id'] = user_name
     return JsonResponse(data, safe=False)
 
+@login_required(login_url='/user/login/')
+def get_yours_non_approved_goals(request):
+    goals = Goal.objects.all()
+    goals = goals.filter(current=False, owner_id=request.user)
+    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id', 'quarter', 'planned'))
+    for item in data:
+        user_name = User.objects.get(id=item['owner_id']).get_full_name()
+        item['owner_id'] = user_name
+    return JsonResponse(data, safe=False)
 
 @login_required(login_url='/user/login/')
 def browse_add(request):
