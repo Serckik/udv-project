@@ -103,9 +103,20 @@ function FillCard(cardData) {
     SetVal("#more-form #card-category", convertBool(cardData.planned) ? 'Запланированная' : 'Незапланированная')
     SetVal("#more-form #card-cvartal", cardData.quarter)
     SetVal("#more-form #card-own-grade", cardData.mark)
-    SetVal("#more-form #card-leader-grade", cardData.fact_mark)
     SetVal("#more-form #card-weight", cardData.weight)
+    SetVal("#more-form #card-leader-grade", cardData.fact_mark)
     SetVal("#more-form #card-approve", convertBool(cardData.current) ? 'Да' : 'Нет')
+    if(cardData.rights == false){
+        console.log("uwu")
+        $('.ruk-edit').addClass('disabled')
+        $('.ruk-edit select').attr('disabled', 'disabled')
+        $('.ruk-edit select').attr('style', 'cursor:default')
+    }
+    else{
+        $('.ruk-edit').removeClass('disabled')
+        $('.ruk-edit select').removeAttr('disabled')
+        $('.ruk-edit select').attr('style', 'cursor:pointer')
+    }
 }
 
 function FillChat(chatData) {

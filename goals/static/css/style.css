@@ -773,7 +773,6 @@ textarea{
 }
 
 .add{
-    width: 1193px;
     box-sizing: border-box;
     background: rgba(196, 188, 178, 0.15);
     border-radius: 6px;
@@ -793,12 +792,24 @@ textarea{
 }
 
 .right-flex{
-    width: 100%;
+    width: 50%;
+}
+
+.left-flex{
+    width: 50%;
 }
 
 .select-flex{
     display: flex;
     gap: 18px;
+}
+
+.select-flex .block-flex:nth-child(1){
+    width: 60%;
+}
+
+.select-flex .block-flex:nth-child(2){
+    width: 40%;
 }
 
 .add p{
@@ -825,4 +836,17 @@ textarea{
 
 .add #card-cvartal{
     width: auto;
+}
+
+.ruk-block{
+    margin-bottom: 20px;
+    height: 1px;
+}
+
+#card-current-progress{
+    margin-bottom: 5px;
+}
+
+.disabled{
+    color: gray;
 }
