@@ -187,6 +187,7 @@ def get_goal(request):
                                          'time': hist.created_at,
                                          'field_changes': hist_fc})
         goal_dict['user_name'] = User.objects.get(id=goal_dict['owner_id']).get_full_name()
+        goal_dict['rights'] = len(request.user.groups.all() & goal.owner_id.groups.all()) > 0 and request.user != goal.owner_id
         return JsonResponse(goal_dict)
     else:
         return HttpResponse("Please login.")
@@ -199,6 +200,7 @@ def get_goals_by_filter(request):
     for item in data:
         user_name = User.objects.get(id=item['owner_id']).get_full_name()
         item['owner_id'] = user_name
+    
     return JsonResponse(data, safe=False)
 
 @login_required(login_url='/user/login/')
