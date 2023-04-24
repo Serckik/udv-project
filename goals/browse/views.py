@@ -188,6 +188,8 @@ def get_goal(request):
                                          'field_changes': hist_fc})
         goal_dict['user_name'] = User.objects.get(id=goal_dict['owner_id']).get_full_name()
         goal_dict['rights'] = len(request.user.groups.all() & goal.owner_id.groups.all()) > 0 and request.user != goal.owner_id
+        if request.user.is_superuser:
+            goal_dict['rights'] = True
         return JsonResponse(goal_dict)
     else:
         return HttpResponse("Please login.")
