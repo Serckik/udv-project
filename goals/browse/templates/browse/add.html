@@ -7,35 +7,39 @@
     <div class="add">
         <p class="add-header">Добавить новую задачу</p>
         <form method="POST" id="add-form">
-            <div class="left-flex">
-                <p>Название:</p>
-                <textarea class="card-name" id="card-name"></textarea>
-                <div class="select-flex">
-                    <div class="block-flex">
-                        <div class="edit-flex">
-                            <p>Блок:</p>
-                            <select id="card-block"></select>
+            <div class="add-form-flex">
+                <div class="left-flex">
+                    <p>Название:</p>
+                    <textarea class="card-name" id="card-name"></textarea>
+                    <div class="select-flex">
+                        <div class="block-flex">
+                            <div class="edit-flex">
+                                <p>Блок:</p>
+                                <select id="card-block"></select>
+                            </div>
                         </div>
-                        <div class="edit-flex">
-                            <p class="category-select">Категория:</p>
-                            <select id="card-category"></select>
-                        </div>
-                    </div>
-                    <div class="block-flex">
-                        <div class="edit-flex">
-                            <p>Квартал:</p>
-                            <select id="card-cvartal"></select>
-                        </div>
-                        <div class="edit-flex">
-                            <p>Вес:</p>
-                            <select class="number-select" id="card-weight"></select>
+                        <div class="block-flex">
+                            <div class="edit-flex">
+                                <p>Вес:</p>
+                                <select class="number-select" id="card-weight"></select>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="right-flex">
+                    <p>Образ результата:</p>
+                    <textarea id="card-description"></textarea>
+                </div>
             </div>
-            <div class="right-flex">
-                <p>Образ результата:</p>
-                <textarea id="card-description"></textarea>
+            <div class="add-form-bottom-flex">
+                <div class="edit-flex">
+                    <p class="category-select">Категория:</p>
+                    <select id="card-category"></select>
+                </div>
+                <div class="edit-flex">
+                    <p>Квартал:</p>
+                    <select id="card-cvartal"></select>
+                </div>
                 <input type="submit" value="добавить">
             </div>
         </form>

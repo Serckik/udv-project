@@ -1,4 +1,11 @@
 export const sleepTime = 100
+
+$('option').mousedown(function(e) {
+    e.preventDefault();
+    $(this).prop('selected', !$(this).prop('selected'));
+    return false;
+});
+
 function convertBool(bool){
     if(bool){
         return "True"

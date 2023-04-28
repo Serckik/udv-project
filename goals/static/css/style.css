@@ -21,24 +21,28 @@ body{
 }
 
 div::-webkit-scrollbar, 
-textarea::-webkit-scrollbar{
+textarea::-webkit-scrollbar,
+#card-cvartal::-webkit-scrollbar{
     background: rgba(217, 217, 217, 0.44);
     border-radius: 5px;
     width: 11px;
 }
 
 div::-webkit-scrollbar-thumb:hover, 
-textarea::-webkit-scrollbar-thumb:hover{
+textarea::-webkit-scrollbar-thumb:hover,
+#card-cvartal::-webkit-scrollbar-thumb:hover{
     background: #BEBEBE;
 }
 
 div::-webkit-scrollbar-thumb:active, 
-textarea::-webkit-scrollbar-thumb:active{
+textarea::-webkit-scrollbar-thumb:active,
+#card-cvartal::-webkit-scrollbar-thumb:active{
     background: rgba(0, 0, 0, 0.44);
 }
 
 div::-webkit-scrollbar-thumb, 
-textarea::-webkit-scrollbar-thumb{
+textarea::-webkit-scrollbar-thumb,
+#card-cvartal::-webkit-scrollbar-thumb{
     background: #D9D9D9;
     border-radius: 7.5px;
 }
@@ -319,13 +323,28 @@ select{
     border: none;
     border-radius: 7px;
     color: #333333;
-    padding: 4px 8px 4px 8px;
     width: 240px;
     box-sizing: border-box;
+    overflow: auto;
+    max-height: 178px;
+}
+
+select:focus-visible{
+    outline: none;
+}
+
+option{
+    padding-left: 8px;
 }
 
 option:hover {
-    background-color: yellow;
+    color: rgba(248, 156, 29, 0.75);
+    font-weight:bold;
+}
+
+option:checked {
+    background: #ECD7BA linear-gradient(0deg, #ECD7BA 0%, #ECD7BA 100%);
+    -webkit-text-fill-color: #000000;
 }
 
 .line{
@@ -586,7 +605,6 @@ textarea{
 .edit-flex{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 11px;
 }
 
 .edit-flex select{
@@ -782,13 +800,35 @@ textarea{
 }
 
 #add-form{
-    display: flex;
     gap: 11px;
 
     font-size: 24px;
     font-family: 'OfficinaSansWinCTT';
 
     color: #333333;
+}
+
+.add-form-flex, .add-form-bottom-flex{
+    display: flex;
+    gap: 18px;
+}
+
+.add-form-bottom-flex .edit-flex:nth-child(2){
+    gap:55px;
+}
+
+.add-form-bottom-flex .edit-flex{
+    width: 370px;
+    justify-content:flex-start;
+    gap: 50px;
+}
+
+.add-form-flex #card-name{
+    margin-bottom: 11px;
+}
+
+#more-form select{
+    margin-bottom: 11px;
 }
 
 .right-flex{
@@ -832,6 +872,14 @@ textarea{
 
     color: #504949;
     margin-bottom: 14px !important;
+}
+
+#card-cvartal, #card-weight, #card-own-grade, #card-leader-grade{
+    font-family: 'Roboto Mono';
+}
+
+#card-cvartal--focus{
+    border-color: red;
 }
 
 .add #card-cvartal{

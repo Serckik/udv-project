@@ -157,6 +157,8 @@ function FillChat(chatData) {
             chatContainer.append(messageContainer)
         }
     });
+    let div = $(".chat-container");
+    div.scrollTop(div.prop('scrollHeight'));
 }
 
 function GetDate(str) { 
@@ -224,7 +226,8 @@ $(document).on('click', '.chat-submit', function(e){
         $('.message-sender').val('')
         $('.message-sender').height(0)
         $('.chat-container')[0].setAttribute('style', 'border-bottom:' + 33 + 'px solid #F5F5F5')
-        OpenCard(id)
+        let data = request('GET', '/goal/get_chat', {goal_id: id})
+        FillChat(data.chat)
     }
 })
 
@@ -234,7 +237,8 @@ $(document).on('keypress', '.message-sender', function(e){
         request('POST', '/goal/chat', {goal_id: id, message: $('.message-sender').val(), csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
         e.preventDefault();
         $('.message-sender').val('')
-        OpenCard(id)
+        let data = request('GET', '/goal/get_chat', {goal_id: id})
+        FillChat(data.chat)
     }
 })
 
