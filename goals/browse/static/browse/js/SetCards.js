@@ -1,4 +1,4 @@
-import { quarterRequestData } from "./openCard.js"
+import { Filter, quarterRequestData } from "./filter.js"
 
 export let colors = {"Оценка": "rgba(255, 81, 81, 0.44)",
               "Подбор": "rgba(255, 153, 0, 0.44)",
@@ -34,18 +34,7 @@ let vectors = ["M2 13.7412H33.8687V32.1915C33.8687 33.1179 33.1178 33.8688 32.19
 export let cards = null
 
 export function GetCards() { 
-    let data = {
-        block: 'Все',
-        sort: '',
-        planned: 'Все',
-        done: 'Все',
-        self: false,
-        search: '',
-        quarter: [quarterRequestData.current_quarter],
-        current: true
-    }
-    cards = request("GET", "/goal/get_goals", data)
-    SetCards(cards)
+    Filter()
 }
 
 export function SetCards(cards){

@@ -1,4 +1,5 @@
 import { GetCards, SetCards } from "./SetCards.js"
+import { Filter, quarterRequestData } from "./filter.js";
 const sleepTime = 100
 export function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -27,7 +28,6 @@ $(".message-sender").each(function () {
 
 let block = ["Оценка", "Подбор", "Адаптация", "Корп. культура и бенефиты", "HR-бренд внешний", "HR-сопровождение", "Внутренняя работа отдела", "Кадровый учет и з/п", 
 "Развитие персонала"]
-export let quarterRequestData = request('GET','/goal/get_quarters')
 let quarters = quarterRequestData.quarters
 let category = ['Запланированная', 'Незапланированная']
 const monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
@@ -277,17 +277,7 @@ $(document).on('submit','#more-form',async function(e){
         }
         request("POST", "/goal/edit", data)
         await sleep(sleepTime);
-        if($('.current-page').text() == 'ДОБАВИТЬ'){
-            let cards = request("GET", "/goal/get_yours_non_approved_goals")
-            SetCards(cards)
-        }
-        else if($('.current-page').text() == 'УТВЕРДИТЬ'){
-            let cards = request("GET", "/goal/get_non_approved_goals")
-            SetCards(cards)
-        }
-        else{
-            GetCards(true)
-        }
+        Filter()
         $('#' + id).addClass('active')
         OpenCard(id)
         CardSend('edit')

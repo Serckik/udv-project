@@ -1,5 +1,6 @@
 import {SetCards } from "./SetCards.js"
-import { quarterRequestData } from "./openCard.js"
+
+export let quarterRequestData = request('GET','/goal/get_quarters')
 
 let block = 'Все'
 let sort = ''
@@ -25,16 +26,7 @@ function request(type, url, data){
     return returnData
 }
 
-export function SetFilterCards(approvecards) { 
-    console.log(approvecards)
-    filterCards = approvecards
-    if(cards == null){
-        notFilteredCards = approvecards
-    } 
-}
-
 $(document).on('click', '.block-list-element', function(e){
-    console.log('uwu')
     $('.block-list-element.active-sort').removeClass('active-sort')
     e.currentTarget.classList.add('active-sort')
     block = e.currentTarget.id
@@ -54,7 +46,6 @@ $(document).on('click', '.planned-list-element', function(e){
 })
 
 $(document).on('click', '.cvartal-select option',function () { 
-    console.log('uwu')
     let select = $(this).val()
     if(quarter.includes(select)){
         let index = quarter.indexOf(select);
@@ -94,17 +85,17 @@ export function Filter() {
         self: self,
         search: search,
         quarter: quarter,
-        current: true
+        current: true,
+        approve: false
     }
+    console.log(data)
     if(window.location.href.split('/')[4] == 'add'){
         data.current = false
         data.self = true
     }
     if(window.location.href.split('/')[4] == 'approve'){
-        data.current = false
+        data.approve = true
     }
-    console.log(window.location)
-    console.log(data)
     let cards = request('GET', '/goal/get_goals', data)
     SetCards(cards)
 }

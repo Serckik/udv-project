@@ -1,6 +1,6 @@
 import { SetCards } from "./SetCards.js"
 import { CardSend, CardNameError, FormChange, CardNameChange, sleep, FillForm  } from "./openCard.js"
-import { quarterRequestData } from "./openCard.js"
+import { quarterRequestData } from "./filter.js"
 
 const sleepTime = 100
 
