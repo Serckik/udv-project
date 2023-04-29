@@ -189,8 +189,13 @@ def get_goal(request):
                                          'time': hist.created_at,
                                          'field_changes': hist_fc})
         goal_dict['user_name'] = User.objects.get(id=goal_dict['owner_id']).get_full_name()
-        goal_dict['rights'] = len(request.user.groups.all() & goal.owner_id.groups.all()) > 0 and request.user != goal.owner_id
+        goal_dict['admin_rights'] = len(request.user.groups.all() & goal.owner_id.groups.all()) > 0 \
+            and request.user != goal.owner_id \
+            and request.user.has_perm('browse.change_goal')
         if request.user.is_superuser:
+            goal_dict['admin_rights'] = True
+        goal_dict['rights'] = goal.owner_id == request.user
+        if goal_dict['admin_rights']:
             goal_dict['rights'] = True
         return JsonResponse(goal_dict)
     else:
@@ -206,7 +211,10 @@ def get_goals_by_filter(request):
     search = request.GET.get('search')
     quarters = request.GET.getlist('quarter[]')
     current = true_converter[request.GET.get('current')]
+    approve = true_converter[request.GET.get('approve')]
     done = request.GET.get('done') if request.GET.get('done') != 'Все' else None
+    if approve:
+        goals = goals.filter(owner_id__groups__in=request.user.groups.all()).exclude(owner_id=request.user)
     if block:
         goals = goals.filter(block=block)
     if sorting:
@@ -216,7 +224,6 @@ def get_goals_by_filter(request):
     if my:
         goals = goals.filter(owner_id=request.user)
     if search:
-        q1 = goals.filter(owner_id__username__icontains=search)
         q2 = goals.filter(name__icontains=search)
         q3 = goals.filter(description__icontains=search)
         q4 = goals.filter(current_result__icontains=search)
@@ -234,16 +241,6 @@ def get_goals_by_filter(request):
         user_name = User.objects.get(id=item['owner_id']).get_full_name()
         item['owner_id'] = user_name
     
-    return JsonResponse(data, safe=False)
-
-@login_required(login_url='/user/login/')
-def get_yours_non_approved_goals(request):
-    goals = Goal.objects.all()
-    goals = goals.filter(current=False, owner_id=request.user)
-    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id', 'quarter', 'planned'))
-    for item in data:
-        user_name = User.objects.get(id=item['owner_id']).get_full_name()
-        item['owner_id'] = user_name
     return JsonResponse(data, safe=False)
 
 @login_required(login_url='/user/login/')
@@ -284,22 +281,6 @@ def add_goal(request):
 def approve_goal(request):
     if request.user.has_perm('browse.change_goal'):
         return render(request, 'browse/approve.html')  
-    else:
-        return HttpResponse('Нет прав')
-    
-@login_required(login_url='/user/login/')
-def get_non_approve_goals(request):
-    goals = Goal.objects.all()
-    if request.user.has_perm('browse.change_goal'):
-        goals = goals.filter(current=False)
-        goals_list = []
-        for goal in goals:
-            if len(request.user.groups.all() & goal.owner_id.groups.all()) > 0 and request.user != goal.owner_id:
-                goals_list.append(model_to_dict(goal))
-        for goal in goals_list:
-            user_name = User.objects.get(id=goal['owner_id']).get_full_name()
-            goal['owner_id'] = user_name
-        return JsonResponse(goals_list, safe=False)
     else:
         return HttpResponse('Нет прав')
 
