@@ -95,6 +95,7 @@ export function Filter() {
     }
     if(window.location.href.split('/')[4] == 'approve'){
         data.approve = true
+        data.current = false
     }
     let cards = request('GET', '/goal/get_goals', data)
     SetCards(cards)
