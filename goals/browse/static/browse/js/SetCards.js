@@ -1,3 +1,5 @@
+import { quarterRequestData } from "./openCard.js"
+
 export let colors = {"Оценка": "rgba(255, 81, 81, 0.44)",
               "Подбор": "rgba(255, 153, 0, 0.44)",
               "Адаптация": "rgba(119, 255, 107, 0.44)",
@@ -39,7 +41,7 @@ export function GetCards() {
         done: 'Все',
         self: false,
         search: '',
-        quarter: [],
+        quarter: [quarterRequestData.current_quarter],
         current: true
     }
     cards = request("GET", "/goal/get_goals", data)
