@@ -110,7 +110,7 @@ function FillCard(cardData) {
     SetVal("#more-form #card-weight", cardData.weight)
     SetVal("#more-form #card-leader-grade", cardData.fact_mark)
     SetVal("#more-form #card-approve", convertBool(cardData.current) ? 'Да' : 'Нет')
-    if(cardData.rights == false){
+    if(cardData.rights == false || cardData.adminrights == false){
         console.log("uwu")
         $('.ruk-edit').addClass('disabled')
         $('.ruk-edit select').attr('disabled', 'disabled')
