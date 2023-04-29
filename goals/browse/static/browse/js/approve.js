@@ -1,5 +1,4 @@
 import { SetCards } from "./SetCards.js"
-import { SetFilterCards } from "./filter.js"
 import { quarterRequestData } from "./openCard.js"
 
 function request(type, url, data){
