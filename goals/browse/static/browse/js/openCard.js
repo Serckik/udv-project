@@ -27,8 +27,8 @@ $(".message-sender").each(function () {
 
 let block = ["Оценка", "Подбор", "Адаптация", "Корп. культура и бенефиты", "HR-бренд внешний", "HR-сопровождение", "Внутренняя работа отдела", "Кадровый учет и з/п", 
 "Развитие персонала"]
+export let cvartal = request('GET','/goal/get_quarters')
 let category = ['Запланированная', 'Незапланированная']
-let cvartal = request('GET','/goal/get_quarters')
 const monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
                     'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 let score = []
@@ -75,7 +75,7 @@ function SetVal(id, value){
     $(id).val(value)
 }
 
-function CreateOptionBlocks(values, id){
+export function CreateOptionBlocks(values, id){
     if($(id).length == 0) { return }
     values.forEach(element => {
         let option = $("<option></option>").text(element)
@@ -157,8 +157,6 @@ function FillChat(chatData) {
             chatContainer.append(messageContainer)
         }
     });
-    let div = $(".chat-container");
-    div.scrollTop(div.prop('scrollHeight'));
 }
 
 function GetDate(str) { 
@@ -228,6 +226,8 @@ $(document).on('click', '.chat-submit', function(e){
         $('.chat-container')[0].setAttribute('style', 'border-bottom:' + 33 + 'px solid #F5F5F5')
         let data = request('GET', '/goal/get_chat', {goal_id: id})
         FillChat(data.chat)
+        let div = $(".chat-container");
+        div.scrollTop(div.prop('scrollHeight'));
     }
 })
 
@@ -239,6 +239,8 @@ $(document).on('keypress', '.message-sender', function(e){
         $('.message-sender').val('')
         let data = request('GET', '/goal/get_chat', {goal_id: id})
         FillChat(data.chat)
+        let div = $(".chat-container");
+        div.scrollTop(div.prop('scrollHeight'));
     }
 })
 

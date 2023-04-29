@@ -4,7 +4,7 @@ let notFilteredCards = cards
 let filterCards = cards
 let currentSort = ''
 let sortDir = ''
-let currentSelect = 'Все'
+let currentSelect = []
 
 export function SetFilterCards(approvecards) { 
     console.log(approvecards)
@@ -30,10 +30,19 @@ $(document).on('click', '.planned-list-element', function(e){
     Filter('Категория', e.currentTarget.id)
 })
 
-$('.cvartal-select').change(function() {
-    currentSelect = $(this).val()
+$('.cvartal-select option').mousedown(function () { 
+    let select = $(this).val()
+    if(currentSelect.includes(select)){
+        let index = currentSelect.indexOf(select);
+        if (index !== -1) {
+            currentSelect.splice(index, 1);
+        }
+    }
+    else{
+        currentSelect.push(select)
+    }
     Filter('Готовность', currentSelect)
-});
+})
 
 $(document).on('click', '.search-checkbox', function(e){
     console.log(filterCards)
@@ -130,13 +139,13 @@ function DoneFilter(filterParameter) {
 function QuarterFilter(filterParameter){
     let cardsblock = Array.from(filterCards)
     filterCards = []
-    if(filterParameter == 'Все'){
+    if(filterParameter.length == 0){
         filterCards = cardsblock
         return
     }
 
     cardsblock.forEach(card => {
-        if(card.quarter == filterParameter){
+        if(filterParameter.includes(card.quarter)){
             filterCards.push(card)
         }
     });
