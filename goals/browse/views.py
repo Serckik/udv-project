@@ -216,7 +216,13 @@ def get_goals_by_filter(request):
     if my:
         goals = goals.filter(owner_id=request.user)
     if search:
-        pass
+        q1 = goals.filter(owner_id__username__icontains=search)
+        q2 = goals.filter(name__icontains=search)
+        q3 = goals.filter(description__icontains=search)
+        q4 = goals.filter(current_result__icontains=search)
+        q5 = goals.filter(owner_id__first_name__icontains=search)
+        q6 = goals.filter(owner_id__last_name__icontains=search)
+        goals = q1 | q2 | q3 | q4 | q5 | q6
     if quarters:
         goals = goals.filter(quarter__in=quarters)
     goals = goals.filter(current=current)
