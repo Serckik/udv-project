@@ -3,7 +3,7 @@ from .models import CHOICES_WEIGHT, CHOICES_MARK, CHOICES_QUARTER
 
 class GoalForm(forms.Form):
     name = forms.CharField(label='Название задачи', widget=forms.Textarea(), required=True)
-    description = forms.CharField(label='Образ результата', widget=forms.Textarea())
+    description = forms.CharField(label='Образ результата', widget=forms.Textarea(), required=False)
     current_result = forms.CharField(label='Текущий результат', widget=forms.Textarea(), required=False)
     block = forms.ChoiceField(label='Блок', choices=[('', ''), ('Подбор', 'Подбор'), ('Адаптация', 'Адаптация'),
      ('Развитие персонала', 'Развитие персонала'), ('HR-сопровождение', 'HR-сопровождение'),
@@ -24,7 +24,7 @@ class ChatForm(forms.Form):
 
 class AddGoalForm(forms.Form):
     name = forms.CharField(label='Название задачи', widget=forms.Textarea(), required=True)
-    description = forms.CharField(label='Образ результата', widget=forms.Textarea())
+    description = forms.CharField(label='Образ результата', widget=forms.Textarea(), required=False)
     block = forms.ChoiceField(label='Блок', choices=[('', ''), ('Подбор', 'Подбор'), ('Адаптация', 'Адаптация'),
      ('Развитие персонала', 'Развитие персонала'), ('HR-сопровождение', 'HR-сопровождение'),
      ('Корп. культура и бенефиты', 'Корп. культура и бенефиты'), ('Кадровый учет и з/п', 'Кадровый учет и з/п'),

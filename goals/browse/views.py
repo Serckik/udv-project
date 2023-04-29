@@ -13,6 +13,7 @@ import math
 import re
 import json
 from datetime import date
+from django.utils.timezone import localtime
 from .models import CHOICES_QUARTER
 
 def split_text(text, max_length):
@@ -42,7 +43,7 @@ def update_history(goal, request):
                 'description': request.POST.get('description'),
                 'block': request.POST.get('block'),
                 'quarter': request.POST.get('quarter'),
-                'weight': float(request.POST.get('weight')),
+                'weight': int(request.POST.get('weight')),
                 'planned': true_converter[request.POST.get('planned')],
                 'current': true_converter[request.POST.get('current')],
                 'current_result': request.POST.get('current_result'),
@@ -71,7 +72,7 @@ def update_history(goal, request):
                   'mark': 'Оценка сотрудника',
                   'fact_mark': 'Оценка руководителя'}
 
-    if request.user == goal.owner_id:
+    if request.user == goal.owner_id and not request.user.is_superuser:
         new_data['fact_mark'] = old_data['fact_mark']
         new_data['current'] = old_data['current']
 
@@ -87,6 +88,16 @@ def update_history(goal, request):
     goal.history_set.add(history, bulk=False)
     for i in new_data:
         if old_data[i] != new_data[i]:
+            if i == 'planned':
+                print(old_data[i], new_data[i])
+                old_data[i] = 'Запланированная' if old_data[i] else 'Незапланированная'
+                new_data[i] = 'Запланированная' if new_data[i] else 'Незапланированная'
+            if i == 'current':
+                old_data[i] = 'Да' if old_data[i] else 'Нет'
+                new_data[i] = 'Да' if new_data[i] else 'Нет'
+            if i in ['mark', 'weight', 'fact_mark']:
+                old_data[i] = str(old_data[i]) + '%'
+                new_data[i] = str(new_data[i]) + '%'
             history.fieldchange_set.create(field=translator[i],
                                            old_data=old_data[i],
                                            new_data=new_data[i])
@@ -127,11 +138,11 @@ def editing(request):
             goal.description = request.POST.get('description')
             goal.block = request.POST.get('block')
             goal.quarter = request.POST.get('quarter')
-            goal.weight = float(request.POST.get('weight'))
+            goal.weight = int(request.POST.get('weight'))
             goal.planned = true_converter[request.POST.get('planned')]
             goal.current_result = request.POST.get('current_result')
             goal.mark = int(request.POST.get('mark'))
-            if not request.user == goal.owner_id:
+            if not request.user == goal.owner_id or request.user.is_superuser:
                 goal.current = true_converter[request.POST.get('current')]
                 goal.fact_mark = int(request.POST.get('fact_mark'))
             goal.save(update_fields=['name', 'description', 'block', 'quarter', 'weight', 'planned', 'current', 'current_result', 'mark', 'fact_mark'])
@@ -167,7 +178,8 @@ def get_chat(request):
     chats = goal.chat_set.all()
     chat_dict = {'chat': []}
     for chat in chats:
-            chat_dict['chat'].append({'text': chat.message, 'time': chat.created_at, 'name': chat.owner_id.get_full_name()})
+            chat_dict['chat'].append({'text': chat.message, 'time': localtime(chat.created_at), 'name': chat.owner_id.get_full_name()})
+            #print(localtime(chat.created_at))
     return JsonResponse(chat_dict)
 
 @login_required(login_url='/user/login/')
@@ -180,13 +192,13 @@ def get_goal(request):
         goal_dict['chat'] = []
         goal_dict['history'] = []
         for chat in chats:
-            goal_dict['chat'].append({'text': chat.message, 'time': chat.created_at, 'name': chat.owner_id.get_full_name()})
+            goal_dict['chat'].append({'text': chat.message, 'time': localtime(chat.created_at), 'name': chat.owner_id.get_full_name()})
         for hist in histories:
             hist_fc = []
             for fc in hist.fieldchange_set.all():
                 hist_fc.append(model_to_dict(fc))
             goal_dict['history'].append({'name': hist.owner_id.get_full_name(),
-                                         'time': hist.created_at,
+                                         'time': localtime(hist.created_at),
                                          'field_changes': hist_fc})
         goal_dict['user_name'] = User.objects.get(id=goal_dict['owner_id']).get_full_name()
         goal_dict['admin_rights'] = len(request.user.groups.all() & goal.owner_id.groups.all()) > 0 \

@@ -136,3 +136,10 @@ if DEBUG:
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+USE_TZ = True
+TIME_ZONE = 'Asia/Yekaterinburg'
+
+USE_I18N = True
+
+USE_L10N = False
