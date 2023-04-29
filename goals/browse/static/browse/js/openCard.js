@@ -111,8 +111,10 @@ function FillCard(cardData) {
     SetVal("#more-form #card-leader-grade", cardData.fact_mark)
     SetVal("#more-form #card-approve", convertBool(cardData.current) ? 'Да' : 'Нет')
     $('.disabled').removeClass('disabled')
-    $('.select-form-container select').removeAttr('disabled', 'disabled')
-    $('.select-form-container select').attr('style', 'cursor:pointer')
+    $('#more-form select').removeAttr('disabled', 'disabled')
+    $('#more-form select').attr('style', 'cursor:pointer')
+    $('#more-form textarea').removeAttr('disabled', 'disabled')
+    $('#more-form textarea').attr('style', 'cursor:pointer')
     if(cardData.rights == true && cardData.admin_rights == false){
         console.log("uwu")
         $('.ruk-edit').addClass('disabled')
@@ -120,9 +122,11 @@ function FillCard(cardData) {
         $('.ruk-edit select').attr('style', 'cursor:default')
     }
     else if(cardData.rights == false && cardData.admin_rights == false){
-        $('.select-form-container').addClass('disabled')
-        $('.select-form-container select').attr('disabled', 'disabled')
-        $('.select-form-container select').attr('style', 'cursor:default')
+        $('#more-form').addClass('disabled')
+        $('#more-form select').attr('disabled', 'disabled')
+        $('#more-form select').attr('style', 'cursor:default')
+        $('#more-form textarea').attr('disabled', 'disabled')
+        $('#more-form textarea').attr('style', 'cursor:default')
     }
 }
 
