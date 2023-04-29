@@ -1,5 +1,6 @@
 import { SetCards } from "./SetCards.js"
 import { CardSend, CardNameError, FormChange, CardNameChange, sleep, FillForm  } from "./openCard.js"
+import { quarterRequestData } from "./openCard.js"
 
 const sleepTime = 100
 
@@ -19,6 +20,17 @@ function request(type, url, data){
     return returnData
 }
 
+let filterData = {
+    block: 'Все',
+    sort: '',
+    planned: 'Все',
+    done: 'Все',
+    self: true,
+    search: '',
+    quarter: [quarterRequestData.current_quarter],
+    current: false
+}
+
 FillForm('add-form')
 
 $(document).on('submit', '#add-form', async function(e){
@@ -35,7 +47,7 @@ $(document).on('submit', '#add-form', async function(e){
         }
         request("POST", "/goal/add_goal", data)
         await sleep(sleepTime);
-        let cards = request("GET", "/goal/get_yours_non_approved_goals")
+        let cards = request('GET', '/goal/get_goals', filterData)
         SetCards(cards)
         CardSend('add')
     }
@@ -56,5 +68,5 @@ $(document).on('change', "#add-form select", function(e){
     FormChange('add')
 })
 
-let cards = request("GET", "/goal/get_yours_non_approved_goals")
+let cards = request('GET', '/goal/get_goals', filterData)
 SetCards(cards)

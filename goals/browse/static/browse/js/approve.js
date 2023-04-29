@@ -1,5 +1,6 @@
 import { SetCards } from "./SetCards.js"
 import { SetFilterCards } from "./filter.js"
+import { quarterRequestData } from "./openCard.js"
 
 function request(type, url, data){
     let returnData = ''
@@ -17,10 +18,17 @@ function request(type, url, data){
     return returnData
 }
 
-GetApproveCards()
-
-function GetApproveCards(){
-    let cards = request('GET', '/goal/get_non_approved_goals')
-    SetCards(cards)
-    SetFilterCards(cards)
+let filterData = {
+    block: 'Все',
+    sort: '',
+    planned: 'Все',
+    done: 'Все',
+    self: false,
+    search: '',
+    quarter: [quarterRequestData.current_quarter],
+    current: false
 }
+
+let cards = request('GET', '/goal/get_goals', filterData)
+console.log(cards)
+SetCards(cards)
