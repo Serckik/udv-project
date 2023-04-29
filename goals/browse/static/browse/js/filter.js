@@ -1,4 +1,5 @@
 import {SetCards } from "./SetCards.js"
+import { quarterRequestData } from "./openCard.js"
 
 let block = 'Все'
 let sort = ''
@@ -6,7 +7,7 @@ let planned = 'Все'
 let done = 'Все'
 let self = false
 let search = ''
-let quarter = []
+let quarter = [quarterRequestData.current_quarter]
 
 function request(type, url, data){
     let returnData = ''

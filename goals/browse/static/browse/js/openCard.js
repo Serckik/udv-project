@@ -27,7 +27,8 @@ $(".message-sender").each(function () {
 
 let block = ["Оценка", "Подбор", "Адаптация", "Корп. культура и бенефиты", "HR-бренд внешний", "HR-сопровождение", "Внутренняя работа отдела", "Кадровый учет и з/п", 
 "Развитие персонала"]
-export let cvartal = request('GET','/goal/get_quarters')
+export let quarterRequestData = request('GET','/goal/get_quarters')
+let quarters = quarterRequestData.quarters
 let category = ['Запланированная', 'Незапланированная']
 const monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
                     'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
@@ -80,6 +81,9 @@ export function CreateOptionBlocks(values, id){
     values.forEach(element => {
         let option = $("<option></option>").text(element)
         option.attr('value', element.split('%')[0])
+        if(element == quarterRequestData.current_quarter){
+            option.attr('selected','selected')
+        }
         $(id).append(option);
     });
 }
@@ -87,7 +91,7 @@ FillForm('more-form')
 export function FillForm(idForm) { 
     CreateOptionBlocks(block, '#' + idForm +' #card-block')
     CreateOptionBlocks(category, '#' + idForm +' #card-category')
-    CreateOptionBlocks(cvartal, '#' + idForm +' #card-cvartal')
+    CreateOptionBlocks(quarters, '#' + idForm +' #card-cvartal')
     CreateOptionBlocks(score, '#' + idForm +' #card-own-grade')
     CreateOptionBlocks(score, '#' + idForm +' #card-leader-grade')
     CreateOptionBlocks(score, '#' + idForm +' #card-weight')

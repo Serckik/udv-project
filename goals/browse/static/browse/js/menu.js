@@ -1,5 +1,5 @@
 import { GetCards, SetCards } from "./SetCards.js"
-import { CreateOptionBlocks, cvartal } from "./openCard.js"
+import { CreateOptionBlocks, quarterRequestData } from "./openCard.js"
 
 
 function request(type, url, data){
@@ -18,7 +18,7 @@ function request(type, url, data){
     return returnData
 }
 
-CreateOptionBlocks(cvartal, '#card-cvartal')
+CreateOptionBlocks(quarterRequestData.quarters, '#card-cvartal')
 
 let title = $('title')[0].text
 $('.' + title).addClass('current-page')
