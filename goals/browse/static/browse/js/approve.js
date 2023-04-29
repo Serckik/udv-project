@@ -1,5 +1,5 @@
 import { SetCards } from "./SetCards.js"
-import { quarterRequestData } from "./openCard.js"
+import { Filter } from "./filter.js"
 
 function request(type, url, data){
     let returnData = ''
@@ -17,17 +17,4 @@ function request(type, url, data){
     return returnData
 }
 
-let filterData = {
-    block: 'Все',
-    sort: '',
-    planned: 'Все',
-    done: 'Все',
-    self: false,
-    search: '',
-    quarter: [quarterRequestData.current_quarter],
-    current: false
-}
-
-let cards = request('GET', '/goal/get_goals', filterData)
-console.log(cards)
-SetCards(cards)
+Filter()
