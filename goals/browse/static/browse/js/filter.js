@@ -90,7 +90,8 @@ function Filter() {
         done: done,
         self: self,
         search: search,
-        quarter: quarter
+        quarter: quarter,
+        current: true
     }
     console.log(data)
     let cards = request('GET', '/goal/get_goals', data)
