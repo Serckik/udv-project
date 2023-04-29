@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Goal, Chat, History, FieldChange
+from .models import Goal, Chat, History, FieldChange, Quarter
 from .forms import GoalForm, ChatForm, AddGoalForm
 from django.contrib.auth.models import User
 import datetime
@@ -11,6 +11,8 @@ from users.models import Notification
 from django.contrib.auth.decorators import login_required
 import math
 import re
+import json
+from datetime import date
 from .models import CHOICES_QUARTER
 
 def split_text(text, max_length):
@@ -197,8 +199,31 @@ def get_goal(request):
 @login_required(login_url='/user/login/')
 def get_goals_by_filter(request):
     goals = Goal.objects.all()
-    goals = goals.filter(current=True)
-    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id', 'quarter', 'planned'))
+    block = request.GET.get('block') if request.GET.get('block') != 'Все' else None
+    sorting = request.GET.get('sort')
+    planned = request.GET.get('planned') if request.GET.get('planned') != 'Все' else None
+    my = true_converter[request.GET.get('self')]
+    search = request.GET.get('search')
+    quarters = request.GET.getlist('quarter[]')
+    current = true_converter[request.GET.get('current')]
+    done = request.GET.get('done') if request.GET.get('done') != 'Все' else None
+    if block:
+        goals = goals.filter(block=block)
+    if sorting:
+        goals = goals.order_by(sorting)
+    if planned:
+        goals = goals.filter(planned=True if planned == 'Запланированная' else False)
+    if my:
+        goals = goals.filter(owner_id=request.user)
+    if search:
+        pass
+    if quarters:
+        goals = goals.filter(quarter__in=quarters)
+    goals = goals.filter(current=current)
+    if done:
+        goals = goals.filter(isdone=True if done == 'Выполненные' else False)
+    
+    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id'))
     for item in data:
         user_name = User.objects.get(id=item['owner_id']).get_full_name()
         item['owner_id'] = user_name
@@ -274,5 +299,12 @@ def get_non_approve_goals(request):
 
 @login_required(login_url='/user/login/')
 def get_quarters(request):
-    choices = [x[0] for x in CHOICES_QUARTER][1:]
-    return JsonResponse(choices, safe=False)
+    choices_Q = [(i.quarter, i.quarter) for i in Quarter.objects.all()]
+    choices = sorted([x[0] for x in choices_Q], key=lambda x: (x.split()[2], x.split()[0]), reverse=True)
+    now = datetime.now()
+    current_year = date.today().year
+    quarter_of_the_year = f'{(now.month-1)//3+1}'
+    d = {'quarters': choices}
+    d['current_quarter'] = f'{quarter_of_the_year} квартал {current_year}'
+    #print(d)
+    return JsonResponse(d)
