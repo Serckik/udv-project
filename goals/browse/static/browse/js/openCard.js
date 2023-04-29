@@ -110,21 +110,19 @@ function FillCard(cardData) {
     SetVal("#more-form #card-weight", cardData.weight)
     SetVal("#more-form #card-leader-grade", cardData.fact_mark)
     SetVal("#more-form #card-approve", convertBool(cardData.current) ? 'Да' : 'Нет')
+    $('.disabled').removeClass('disabled')
+    $('.select-form-container select').removeAttr('disabled', 'disabled')
+    $('.select-form-container select').attr('style', 'cursor:pointer')
     if(cardData.rights == true && cardData.admin_rights == false){
         console.log("uwu")
         $('.ruk-edit').addClass('disabled')
         $('.ruk-edit select').attr('disabled', 'disabled')
         $('.ruk-edit select').attr('style', 'cursor:default')
     }
-    if(cardData.rights == false && cardData.admin_rights == false){
+    else if(cardData.rights == false && cardData.admin_rights == false){
         $('.select-form-container').addClass('disabled')
         $('.select-form-container select').attr('disabled', 'disabled')
         $('.select-form-container select').attr('style', 'cursor:default')
-    }
-    else{
-        $('.ruk-edit').removeClass('disabled')
-        $('.ruk-edit select').removeAttr('disabled')
-        $('.ruk-edit select').attr('style', 'cursor:pointer')
     }
 }
 
