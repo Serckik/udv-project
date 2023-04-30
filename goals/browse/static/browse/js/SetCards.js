@@ -1,4 +1,4 @@
-import { Filter, quarterRequestData } from "./filter.js"
+import { Filter } from "./filter.js"
 
 export let colors = {"Оценка": "rgba(255, 81, 81, 0.44)",
               "Подбор": "rgba(255, 153, 0, 0.44)",

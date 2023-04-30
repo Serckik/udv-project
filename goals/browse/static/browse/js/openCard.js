@@ -1,4 +1,3 @@
-import { GetCards, SetCards } from "./SetCards.js"
 import { Filter, quarterRequestData } from "./filter.js";
 const sleepTime = 100
 let timoutID = 0
@@ -62,7 +61,7 @@ $(document).on('click', '.blur', function(e){
     $('.card-header').removeClass('hidden')
     $('.card-content').removeClass('hidden')
     $('.card-data').addClass('hidden')
-    $('.active').removeClass('active')
+    $('.card.active').removeClass('active')
     $('.message-sender').val('')
     $('.edit input').removeClass('send')
     $('.edit input').removeClass('remove')
@@ -178,10 +177,10 @@ function FillChat(chatData) {
     });
 }
 
-function GetDate(str) { 
+export function GetDate(str) { 
     let dateObj = new Date(str);
     return `${dateObj.getDate()} ${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`
- }
+}
 
 function FillHistory(historyData) { 
     $('.history').empty()
@@ -205,7 +204,7 @@ function FillHistory(historyData) {
     })
 }
 
-function OpenCard(id) {
+export function OpenCard(id) {
     $('body').css("overflow", "hidden");
     let data = {
         goal_id: id,
@@ -226,6 +225,7 @@ function OpenCard(id) {
 }
 
 $(document).on('click', '.card', function(e){
+    console.log(e)
     e.currentTarget.classList.add('active')
     OpenCard(e.currentTarget.id)
 })
@@ -237,7 +237,7 @@ $('.message-sender').on('keypress', function(event) {
   });
 
 $(document).on('click', '.chat-submit', function(e){
-    let id = $('.active')[0].id
+    let id = $('.card.active')[0].id
     if($('.message-sender').val() != ''){
         request('POST', '/goal/chat', {goal_id: id, message: $('.message-sender').val(), csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
         $('.message-sender').val('')
@@ -251,7 +251,7 @@ $(document).on('click', '.chat-submit', function(e){
 })
 
 $(document).on('keypress', '.message-sender', function(e){
-    let id = $('.active')[0].id
+    let id = $('.card.active')[0].id
     if(e.which == 13 && !e.shiftKey && $('.message-sender').val() != ''){
         request('POST', '/goal/chat', {goal_id: id, message: $('.message-sender').val(), csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
         e.preventDefault();
@@ -274,7 +274,7 @@ $(document).on('input', '.message-sender', function(e){
 
 $(document).on('submit','#more-form',async function(e){
     e.preventDefault();
-    let id = $('.active')[0].id
+    let id = $('.card.active')[0].id
     if($("#more-form #card-name").val() != ''){
         let data = {
             goal_id: id,
@@ -354,8 +354,8 @@ export function FormChange(classForm) {
  }
 
 function executeQuery() {
-    if($('.active').length == 0){ return }
-    let id = $('.active')[0].id
+    if($('.card.active').length == 0){ return }
+    let id = $('.card.active')[0].id
     $.ajax({
         type: 'GET',
         url: '/goal/get_chat',

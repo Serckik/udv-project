@@ -191,10 +191,12 @@ header a{
 }
 
 .ringbell{
+    cursor: pointer;
+    user-select:none;
     position: relative;
-    width: 31px;
-    height: 35px;
-    margin-top: 14px;
+    width: 41px;
+    height: 45px;
+    margin-top: 10px;
     margin-right: 19px;
     font-weight: 400;
 }
@@ -204,6 +206,81 @@ header a{
     top: 6px;
     left: 12px;
     font-size: 20px;
+}
+
+.ringbell .active{
+    box-sizing: border-box;
+    position: absolute;
+    top: 18px;
+    left: 15px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: orange;
+    text-align: center;
+    color: white;
+    padding-top: 2px;
+    font-size: 17px;
+}
+
+.notification-block{
+    z-index: 100;
+    box-sizing: border-box;
+    position: absolute;
+    width: 433px;
+    height: 670px;
+    overflow: auto;
+    overflow-x: hidden;
+    background-color: #F5F5F5;
+    left: 1310px;
+    top: 55px;
+    border: 1px solid #D9D9D9;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 400;
+    color: #333333;
+}
+
+.notification-container{
+    transition: 0.5s;
+    position: relative;
+    margin: 0 auto;
+    background: #EAEAEA;
+    border-radius: 1px;
+    padding: 4px 11px 4px 15px;
+    margin-bottom: 14px;
+    cursor: pointer;
+}
+
+.notification-container:hover{
+    transition: 0.5s;
+    background-color: #ECD7BA;
+}
+
+.notification{
+    display: flex;
+    
+}
+
+.notification-circle{
+    position: absolute;
+    left: 2px;
+    top: 7px;
+    box-sizing: border-box;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #F89C1D;
+}
+
+.notification-container:nth-last-child(1){
+    margin-bottom: 0;
+}
+
+.notification-container p{
+    margin: 0;
+    margin-bottom: 5px;
+    word-wrap: break-word;
 }
 
 .user-logo{
@@ -486,6 +563,7 @@ option:checked {
 }
 
 .blur{
+    z-index: 200;
     position: fixed;
     width: 100%;
     min-height: 100%;
@@ -495,6 +573,7 @@ option:checked {
 }
 
 .card-data{
+    z-index: 200;
     box-sizing: border-box;
     justify-content: space-between;
     width: 100%;
@@ -743,6 +822,10 @@ textarea{
     padding: 0 6px 0 5px;
     overflow: scroll;
     overflow-x: hidden;
+}
+
+.history-card:nth-last-child(1){
+    margin-bottom: 0;
 }
 
 .history-card{

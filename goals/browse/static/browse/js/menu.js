@@ -1,23 +1,5 @@
-import { GetCards, SetCards } from "./SetCards.js"
 import { CreateOptionBlocks } from "./openCard.js"
 import { quarterRequestData } from "./filter.js"
-
-
-function request(type, url, data){
-    let returnData = ''
-    $.ajax({
-        type: type,
-        url: url,
-        data: data,
-        success: function(data) { 
-            if(type == 'GET'){
-                returnData = data
-            }
-        },
-        async: false
-    })
-    return returnData
-}
 
 CreateOptionBlocks(quarterRequestData.quarters, '#card-cvartal')
 

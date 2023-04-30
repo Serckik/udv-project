@@ -1,4 +1,3 @@
-import { SetCards } from "./SetCards.js"
 import { Filter } from "./filter.js"
 
 function request(type, url, data){
