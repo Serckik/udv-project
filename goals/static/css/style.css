@@ -512,6 +512,11 @@ option:checked {
     color: #333333;
 }
 
+.card-message{
+    text-align: center;
+    font-size: 60px;
+}
+
 .card-content{
     display: flex;
 }
