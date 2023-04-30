@@ -113,7 +113,7 @@ def update_history(goal, request):
         for user in users:
             if user.has_perm('browse.change_goal'):
                 notifi.user=user
-    notifi.save()
+        notifi.save()
     goal.save()
 
 @login_required(login_url='/user/login/')
