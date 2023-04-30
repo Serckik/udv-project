@@ -112,10 +112,12 @@ def update_history(goal, request):
         users = User.objects.filter(groups__in=request.user.groups.all())
         for user in users:
             if user.has_perm('browse.change_goal'):
+                user2 = user
                 if user == request.user:
-                    user = User.objects.get(is_superuser=True)
-                notifi.user=user
-    notifi.save()
+                    user2 = User.objects.get(is_superuser=True)
+                notifi.user=user2
+    if not Notification.objects.filter(goal=goal, is_read=False, is_goal=True).exists():
+            notifi.save()
     goal.save()
 
 @login_required(login_url='/user/login/')
@@ -166,13 +168,15 @@ def chatting(request):
                               user=goal.owner_id,
                               is_goal=False,)
         if goal.owner_id == request.user:
-                users = User.objects.filter(groups__name__in=request.user.groups.all())
+                users = User.objects.filter(groups__in=request.user.groups.all())
                 for user in users:
                     if user.has_perm('browse.change_goal'):
-                        if user == request.user:
-                            user = User.objects.get(is_superuser=True)
-                        notifi.user=user
-        notifi.save()
+                        user2 = user
+                        if user == request.user: 
+                            user2 = User.objects.get(is_superuser=True)
+                        notifi.user=user2
+        if not Notification.objects.filter(goal=goal, is_read=False, is_goal=False).exists():
+            notifi.save()
     return HttpResponse('Успешно')
 
 @login_required(login_url='/user/login/')

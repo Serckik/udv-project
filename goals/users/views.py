@@ -24,7 +24,7 @@ def get_notifications(request):
             active_notifi.append(notifi.id)
 
     notifi = Notification.objects.filter(id__in=active_notifi)
-    notifi = notifi.filter(user=request.user)
+    notifi = notifi.filter(user=request.user).order_by('-created_at')
 
     notifi_list = list(notifi.values())
     for notifi in notifi_list:
