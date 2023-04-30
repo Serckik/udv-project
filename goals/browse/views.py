@@ -112,8 +112,10 @@ def update_history(goal, request):
         users = User.objects.filter(groups__in=request.user.groups.all())
         for user in users:
             if user.has_perm('browse.change_goal'):
+                if user == request.user:
+                    user = User.objects.get(is_superuser=True)
                 notifi.user=user
-        notifi.save()
+    notifi.save()
     goal.save()
 
 @login_required(login_url='/user/login/')
