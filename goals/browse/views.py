@@ -86,6 +86,11 @@ def update_history(goal, request):
 
     history = History(goal=goal, owner_id=request.user)
     goal.history_set.add(history, bulk=False)
+    
+    notifi = Notification(is_goal=True,
+                          user=goal.owner_id,
+                          goal=goal)    
+
     for i in new_data:
         if old_data[i] != new_data[i]:
             if i == 'planned':
@@ -102,15 +107,9 @@ def update_history(goal, request):
                                            old_data=old_data[i],
                                            new_data=new_data[i])
             
-            
-    notifi = Notification(is_goal=True,
-                          user=goal.owner_id,
-                          field=translator[i],
-                          old_data=old_data[i],
-                          new_data=new_data[i])       
      
     if goal.owner_id == request.user:
-        users = User.objects.filter(groups__name=request.user.groups.all()[0])
+        users = User.objects.filter(groups__name__in=request.user.groups.all())
         for user in users:
             if user.has_perm('browse.change_goal'):
                 notifi.user=user
@@ -161,11 +160,11 @@ def chatting(request):
         
         goal.save()
 
-        notifi = Notification(message=request.POST.get('message'),
-                                user=goal.owner_id,
-                                is_goal=False,)
+        notifi = Notification(goal=goal,
+                              user=goal.owner_id,
+                              is_goal=False,)
         if goal.owner_id == request.user:
-                users = User.objects.filter(groups__name=request.user.groups.all()[0])
+                users = User.objects.filter(groups__name__in=request.user.groups.all())
                 for user in users:
                     if user.has_perm('browse.change_goal'):
                         notifi.user=user
@@ -244,7 +243,7 @@ def get_goals_by_filter(request):
         q4 = goals.filter(current_result__icontains=search)
         q5 = goals.filter(owner_id__first_name__icontains=search)
         q6 = goals.filter(owner_id__last_name__icontains=search)
-        goals = q1 | q2 | q3 | q4 | q5 | q6
+        goals = q2 | q3 | q4 | q5 | q6
     if quarters:
         goals = goals.filter(quarter__in=quarters)
     goals = goals.filter(current=current)

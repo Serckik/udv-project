@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
 
 CHOICES_WEIGHT = [('', '')] + [(i, i) for i in range(0, 201, 5)] # вес
 CHOICES_MARK = [('', '')] + [(i, i) for i in range(0, 201, 5)] # оценка

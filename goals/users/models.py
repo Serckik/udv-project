@@ -1,16 +1,25 @@
 from django.db import models
 from django.contrib.auth.models import User
+from browse.models import Goal
+from django.utils.timezone import localtime
+from django.utils import timezone
 
 class Notification(models.Model):
-    is_read = models.BooleanField(default=False)
-    message = models.TextField(null=True)
-    old_data = models.TextField(null=True)
-    new_data = models.TextField(null=True)
-    field = models.TextField(null=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField('Прочитано', default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    is_goal = models.BooleanField(default=False)
+    is_goal = models.BooleanField('Задача', default=False)
+    goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+
+    def is_month_passed(self):
+            """
+            Проверяет, прошел ли месяц с момента создания объекта
+            """
+            now = localtime(timezone.now())
+            delta = now - self.created_at
+            return delta.days > 30
 
     class Meta:
         verbose_name = 'Уведомление'
         verbose_name_plural = 'Уведомления'
+
