@@ -169,6 +169,8 @@ def chatting(request):
                 users = User.objects.filter(groups__name__in=request.user.groups.all())
                 for user in users:
                     if user.has_perm('browse.change_goal'):
+                        if user == request.user:
+                            user = User.objects.get(is_superuser=True)
                         notifi.user=user
         notifi.save()
     return HttpResponse('Успешно')
