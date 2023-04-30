@@ -85,6 +85,7 @@ $(document).on('click', 'main', function(e){
 
 $(document).on('click', '.notification-container', function(e){
     let id = e.currentTarget.id.split(' ')
+    e.currentTarget.classList.add('active')
     console.log(id)
     OpenCard(id[0])
     request('POST', '/user/read_notification', {id: id[1], csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})

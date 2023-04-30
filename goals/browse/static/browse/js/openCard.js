@@ -1,6 +1,8 @@
 import { Filter, quarterRequestData } from "./filter.js";
 const sleepTime = 100
-let timoutID = 0
+let timeutID = 0
+let currentIdCard = ''
+
 export function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -53,7 +55,7 @@ function request(type, url, data){
 }
 
 $(document).on('click', '.blur', function(e){
-    clearTimeout(timoutID)
+    clearTimeout(timeutID)
     $('body').css("overflow", "auto");
     $('.blur').addClass('hidden')
     $('.card-message').empty()
@@ -206,6 +208,7 @@ function FillHistory(historyData) {
 
 export function OpenCard(id) {
     $('body').css("overflow", "hidden");
+    currentIdCard = id
     let data = {
         goal_id: id,
     } 
@@ -237,13 +240,12 @@ $('.message-sender').on('keypress', function(event) {
   });
 
 $(document).on('click', '.chat-submit', function(e){
-    let id = $('.card.active')[0].id
     if($('.message-sender').val() != ''){
-        request('POST', '/goal/chat', {goal_id: id, message: $('.message-sender').val(), csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
+        request('POST', '/goal/chat', {goal_id: currentIdCard, message: $('.message-sender').val(), csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
         $('.message-sender').val('')
         $('.message-sender').height(0)
         $('.chat-container')[0].setAttribute('style', 'border-bottom:' + 33 + 'px solid #F5F5F5')
-        let data = request('GET', '/goal/get_chat', {goal_id: id})
+        let data = request('GET', '/goal/get_chat', {goal_id: currentIdCard})
         FillChat(data.chat)
         let div = $(".chat-container");
         div.scrollTop(div.prop('scrollHeight'));
@@ -251,12 +253,11 @@ $(document).on('click', '.chat-submit', function(e){
 })
 
 $(document).on('keypress', '.message-sender', function(e){
-    let id = $('.card.active')[0].id
     if(e.which == 13 && !e.shiftKey && $('.message-sender').val() != ''){
-        request('POST', '/goal/chat', {goal_id: id, message: $('.message-sender').val(), csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
+        request('POST', '/goal/chat', {goal_id: currentIdCard, message: $('.message-sender').val(), csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
         e.preventDefault();
         $('.message-sender').val('')
-        let data = request('GET', '/goal/get_chat', {goal_id: id})
+        let data = request('GET', '/goal/get_chat', {goal_id: currentIdCard})
         FillChat(data.chat)
         let div = $(".chat-container");
         div.scrollTop(div.prop('scrollHeight'));
@@ -274,10 +275,9 @@ $(document).on('input', '.message-sender', function(e){
 
 $(document).on('submit','#more-form',async function(e){
     e.preventDefault();
-    let id = $('.card.active')[0].id
     if($("#more-form #card-name").val() != ''){
         let data = {
-            goal_id: id,
+            goal_id: currentIdCard,
             name: $("#more-form #card-name").val(),
             description: $('#more-form #card-description').val(),
             current_result: $('#more-form #card-current-progress').val(),
@@ -297,8 +297,9 @@ $(document).on('submit','#more-form',async function(e){
         }
         await sleep(sleepTime);
         Filter()
-        $('#' + id).addClass('active')
-        OpenCard(id)
+        $('#' + currentIdCard).addClass('active')
+        clearTimeout(timeutID)
+        OpenCard(currentIdCard)
         CardSend('edit')
         if(data.current == 'True' && (window.location.href.split('/')[4] == 'approve' || window.location.href.split('/')[4] == 'add') || data.current == 'False' && window.location.href.split('/')[4] == 'browse'){
             $('.card-header').addClass('hidden')
@@ -354,15 +355,13 @@ export function FormChange(classForm) {
  }
 
 function executeQuery() {
-    if($('.card.active').length == 0){ return }
-    let id = $('.card.active')[0].id
     $.ajax({
         type: 'GET',
         url: '/goal/get_chat',
-        data: {goal_id: id},
+        data: {goal_id: currentIdCard},
         success: function(data) {
             FillChat(data.chat)
         }
     });
-    timoutID = setTimeout(executeQuery, 5000);
+    timeutID = setTimeout(executeQuery, 5000);
 }
