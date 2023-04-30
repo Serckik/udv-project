@@ -109,7 +109,7 @@ def update_history(goal, request):
             
      
     if goal.owner_id == request.user:
-        users = User.objects.filter(groups__name__in=request.user.groups.all())
+        users = User.objects.filter(groups__in=request.user.groups.all())
         for user in users:
             if user.has_perm('browse.change_goal'):
                 notifi.user=user

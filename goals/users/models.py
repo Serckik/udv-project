@@ -11,13 +11,13 @@ class Notification(models.Model):
     is_goal = models.BooleanField('Задача', default=False)
     goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
 
-    def is_month_passed(self):
+    def is_active(self):
             """
             Проверяет, прошел ли месяц с момента создания объекта
             """
             now = localtime(timezone.now())
-            delta = now - self.created_at
-            return delta.days > 30
+            delta = now - localtime(self.created_at)
+            return delta.days <= 30
 
     class Meta:
         verbose_name = 'Уведомление'
