@@ -63,7 +63,6 @@ $(document).on('click', '.blur', function(e){
     $('.card-header').removeClass('hidden')
     $('.card-content').removeClass('hidden')
     $('.card-data').addClass('hidden')
-    $('.card.active').removeClass('active')
     $('.message-sender').val('')
     $('.edit input').removeClass('send')
     $('.edit input').removeClass('remove')
@@ -228,8 +227,6 @@ export function OpenCard(id) {
 }
 
 $(document).on('click', '.card', function(e){
-    console.log(e)
-    e.currentTarget.classList.add('active')
     OpenCard(e.currentTarget.id)
 })
 
@@ -297,7 +294,6 @@ $(document).on('submit','#more-form',async function(e){
         }
         await sleep(sleepTime);
         Filter()
-        $('#' + currentIdCard).addClass('active')
         clearTimeout(timeutID)
         OpenCard(currentIdCard)
         CardSend('edit')
