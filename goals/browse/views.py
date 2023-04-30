@@ -230,7 +230,10 @@ def get_goals_by_filter(request):
     if block:
         goals = goals.filter(block=block)
     if sorting:
-        goals = goals.order_by('-'+sorting)
+        if sorting == 'weight':
+            goals = goals.order_by('-'+sorting)
+        else:
+            goals = goals.order_by(sorting)
     if planned:
         goals = goals.filter(planned=True if planned == 'Запланированная' else False)
     if my:
