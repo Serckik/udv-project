@@ -1,6 +1,7 @@
 import { GetCards, SetCards } from "./SetCards.js"
 import { Filter, quarterRequestData } from "./filter.js";
 const sleepTime = 100
+let timoutID = 0
 export function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -45,18 +46,21 @@ function request(type, url, data){
         url: url,
         data: data,
         success: function(data) { 
-            if(type == 'GET'){
                 returnData = data
-            }
-        },
+            },
         async: false
     })
     return returnData
 }
 
 $(document).on('click', '.blur', function(e){
+    clearTimeout(timoutID)
     $('body').css("overflow", "auto");
     $('.blur').addClass('hidden')
+    $('.card-message').empty()
+    $('.card-message').addClass('hidden')
+    $('.card-header').removeClass('hidden')
+    $('.card-content').removeClass('hidden')
     $('.card-data').addClass('hidden')
     $('.active').removeClass('active')
     $('.message-sender').val('')
@@ -114,7 +118,9 @@ function FillCard(cardData) {
     $('#more-form select').removeAttr('disabled', 'disabled')
     $('#more-form select').attr('style', 'cursor:pointer')
     $('#more-form textarea').removeAttr('disabled', 'disabled')
-    $('#more-form textarea').attr('style', 'cursor:pointer')
+    $('#more-form textarea').attr('style', 'cursor:text')
+    $('#more-form input[type=submit]').removeAttr('disabled', 'disabled')
+    $('#more-form input[type=submit]').attr('style', 'cursor:pointer; color:#333333')
     if(cardData.rights == true && cardData.admin_rights == false){
         console.log("uwu")
         $('.ruk-edit').addClass('disabled')
@@ -127,6 +133,8 @@ function FillCard(cardData) {
         $('#more-form select').attr('style', 'cursor:default')
         $('#more-form textarea').attr('disabled', 'disabled')
         $('#more-form textarea').attr('style', 'cursor:default')
+        $('#more-form input[type=submit]').attr('disabled', 'disabled')
+        $('#more-form input[type=submit]').attr('style', 'cursor:default; color:gray')
     }
 }
 
@@ -282,12 +290,27 @@ $(document).on('submit','#more-form',async function(e){
             fact_mark: $('#more-form #card-leader-grade').val(),
             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
         }
-        request("POST", "/goal/edit", data)
+
+        let message = request("POST", "/goal/edit", data)
+        if(message != 'Успешно'){
+            alert(message)
+        }
         await sleep(sleepTime);
         Filter()
         $('#' + id).addClass('active')
         OpenCard(id)
         CardSend('edit')
+        if(data.current == 'True' && (window.location.href.split('/')[4] == 'approve' || window.location.href.split('/')[4] == 'add') || data.current == 'False' && window.location.href.split('/')[4] == 'browse'){
+            $('.card-header').addClass('hidden')
+            $('.card-content').addClass('hidden')
+            $('.card-message').removeClass('hidden')
+            if(data.current == 'True'){
+                $('.card-message').text(`Задача ${data.name}  утверждена`)
+            }
+            else{
+                $('.card-message').text(`С задачи ${data.name} снято утверждение`)
+            }
+        }
     }
     else{
         CardNameError('edit', 'card-name')
@@ -341,5 +364,5 @@ function executeQuery() {
             FillChat(data.chat)
         }
     });
-    setTimeout(executeQuery, 5000);
+    timoutID = setTimeout(executeQuery, 5000);
 }

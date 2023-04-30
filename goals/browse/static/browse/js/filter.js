@@ -34,6 +34,8 @@ $(document).on('click', '.block-list-element', function(e){
 })
 
 $(document).on('click', '.sort-list-element', function(e){
+    $('.sort-list-element.active-sort').removeClass('active-sort')
+    e.currentTarget.classList.add('active-sort')
     sort = e.currentTarget.id
     Filter()
 })
