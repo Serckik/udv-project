@@ -17,7 +17,7 @@
         <div class="header-nav">
             <a class="Задачи" href="/">ЗАДАЧИ</a>
             <a class="Добавить" href="/goal/add">ДОБАВИТЬ</a>
-            {% if perms.browse_goal.change %}
+            {% if perms.browse.change_goal %}
                 <a class="Утвердить" href="/goal/approve">УТВЕРДИТЬ</a>
             {% endif %}
             {% if request.user.is_superuser %}

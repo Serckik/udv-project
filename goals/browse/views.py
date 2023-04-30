@@ -217,7 +217,7 @@ def get_goal(request):
 def get_goals_by_filter(request):
     goals = Goal.objects.all()
     block = request.GET.get('block') if request.GET.get('block') != 'Все' else None
-    sorting = request.GET.get('sort')
+    sorting = request.GET.get('sort') if request.GET.get('sort') != 'Все' else None
     planned = request.GET.get('planned') if request.GET.get('planned') != 'Все' else None
     my = true_converter[request.GET.get('self')]
     search = request.GET.get('search')
@@ -230,7 +230,7 @@ def get_goals_by_filter(request):
     if block:
         goals = goals.filter(block=block)
     if sorting:
-        goals = goals.order_by(sorting)
+        goals = goals.order_by('-'+sorting)
     if planned:
         goals = goals.filter(planned=True if planned == 'Запланированная' else False)
     if my:
