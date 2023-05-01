@@ -50,6 +50,10 @@ select::-webkit-scrollbar-thumb{
     border-radius: 7.5px;
 }
 
+form{
+    margin: 0;
+}
+
 .login-form{
     display: inline-block;
     width: 654px;
@@ -115,19 +119,50 @@ select::-webkit-scrollbar-thumb{
 }
 
 .login-form .submit{
+    text-decoration: none;
+    position:absolute;
+    top:0;              
+    bottom:0;           
+    left:0;              
+    right:0; 
     font-family: 'Montserrat';
     font-weight: 400;
     font-size: 24px;
     color: #FFFFFF;
-    width: 135px;
+    width: fit-content;
     height: 42px;
     background: #FF9900;
     border-radius: 10px;
-    padding: 7px 0 7px 0;
+    padding: 7px 28px 7px 28px;
     text-align: center;
-    margin-top: 37px;
-    margin-left: 163px;
+    margin: 0 auto;
+    margin-top: auto;
+    margin-bottom: 30px;
     border: none;
+}
+
+.login-link{
+    text-decoration: none;
+    position:absolute;
+    top:0;              
+    bottom:0;           
+    left:0;              
+    right:0; 
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-size: 24px;
+    color: #FFFFFF;
+    width: fit-content;
+    height: 42px;
+    background: #FF9900;
+    border-radius: 10px;
+    padding: 7px 28px 7px 28px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: auto;
+    margin-bottom: 30px;
+    border: none;
+    line-height: 40px;
 }
 
 .icon-login{
@@ -144,9 +179,42 @@ select::-webkit-scrollbar-thumb{
     padding: 7px 0 7px 8px;
 }
 
+.icon-mail{
+    position: absolute;
+    width: 18px;
+    height: 14px;
+    padding: 10px 0 10px 10px;
+}
+
 .login-form span{
     font-weight: 300;
     font-size: 17px;
+}
+
+.mail-form p{
+    margin-top: 57px;
+}
+
+.mail-send{
+    margin-top: 49px;
+    font-size: 22px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.mail-send p{
+    position: absolute;
+    left: 0;
+    margin-top: 12px;
+}
+
+.new-password-form input{
+    padding-left: 10px;
+}
+
+.fieldWrapper{
+    font-size: 14px;
+    color: rgba(209, 0, 0, 0.57);
 }
 
 ul{

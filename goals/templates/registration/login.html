@@ -13,7 +13,7 @@
     <div class="logo">
       <img src="/static/img/logo.svg">
     </div>
-    <form method="post" action="{% url 'login' %}">
+    <form method="post">
       {% csrf_token %}
         <p>Логин</p>
         <div class="input-container">
@@ -22,7 +22,7 @@
         </div>
         <p class="password">
           Пароль
-          <a>Забыли пароль?</a>
+          <a href="/user/password_reset">Забыли пароль?</a>
         </p>
         <div class="input-container">
           <img class="icon-lock" src="/static/img/icon-lock.svg">
