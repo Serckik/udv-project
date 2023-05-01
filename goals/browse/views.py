@@ -163,10 +163,10 @@ def chatting(request):
     goal = Goal.objects.get(id=request.POST.get('goal_id'))
     if request.method == "POST":
         text = request.POST.get('message')
-        for chunk in split_text(text, 2000):
-            if len(chunk) > 0:
-                goal.chat_set.create(owner_id=request.user, message=chunk)
-        
+        #for chunk in split_text(text, 2000):
+        #    if len(chunk) > 0:
+        #        goal.chat_set.create(owner_id=request.user, message=chunk)
+        goal.chat_set.create(owner_id=request.user, message=text)
         goal.save()
 
         send_notification(request, goal)
