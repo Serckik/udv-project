@@ -76,12 +76,26 @@ function setNotifications() {
     });
 }
 
-$(document).on('click', 'main', function(e){
-    console.log('uwu')
+
+let ringbellClicked = false
+$(document).on('click', 'main, header, .ringbell', function(e){
+    if(e.currentTarget.classList[0] == 'ringbell'){
+        console.log('uwu')
+        ringbellClicked = true
+        return
+    }
+    
+    if(ringbellClicked){
+        ringbellClicked = false
+        return
+    }
+
     if($('.notification-block.hidden').length == 0){
         $('.notification-block').addClass('hidden')
     }
 })
+
+
 
 $(document).on('click', '.notification-container', function(e){
     let id = e.currentTarget.id.split(' ')

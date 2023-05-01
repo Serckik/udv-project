@@ -58,10 +58,6 @@ $(document).on('click', '.blur', function(e){
     clearTimeout(timeutID)
     $('body').css("overflow", "auto");
     $('.blur').addClass('hidden')
-    $('.card-message').empty()
-    $('.card-message').addClass('hidden')
-    $('.card-header').removeClass('hidden')
-    $('.card-content').removeClass('hidden')
     $('.card-data').addClass('hidden')
     $('.message-sender').val('')
     $('.edit input').removeClass('send')
@@ -297,17 +293,6 @@ $(document).on('submit','#more-form',async function(e){
         clearTimeout(timeutID)
         OpenCard(currentIdCard)
         CardSend('edit')
-        if(data.current == 'True' && (window.location.href.split('/')[4] == 'approve' || window.location.href.split('/')[4] == 'add') || data.current == 'False' && window.location.href.split('/')[4] == 'browse'){
-            $('.card-header').addClass('hidden')
-            $('.card-content').addClass('hidden')
-            $('.card-message').removeClass('hidden')
-            if(data.current == 'True'){
-                $('.card-message').text(`Задача ${data.name}  утверждена`)
-            }
-            else{
-                $('.card-message').text(`С задачи ${data.name} снято утверждение`)
-            }
-        }
     }
     else{
         CardNameError('edit', 'card-name')
