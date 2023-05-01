@@ -17,7 +17,7 @@ from django.utils.timezone import localtime
 from .models import CHOICES_QUARTER
 
 def split_text(text, max_length):
-    words = re.findall(r'\b\w+\b', text)
+    words = re.findall(r'\S+', text)
     chunks = []
     current_chunk = ''
     for word in words:
@@ -30,6 +30,7 @@ def split_text(text, max_length):
     for chunk in chunks:
         true_chunks += [chunk[i:i+max_length] for i in range(0, len(chunk), max_length)]
     return true_chunks
+
 
 
 true_converter = {'true': True, 'True': True, 'False': False, 'false': False}
@@ -163,10 +164,10 @@ def chatting(request):
     goal = Goal.objects.get(id=request.POST.get('goal_id'))
     if request.method == "POST":
         text = request.POST.get('message')
-        #for chunk in split_text(text, 2000):
-        #    if len(chunk) > 0:
-        #        goal.chat_set.create(owner_id=request.user, message=chunk)
-        goal.chat_set.create(owner_id=request.user, message=text)
+        for chunk in split_text(text, 2000):
+            if len(chunk) > 0:
+                goal.chat_set.create(owner_id=request.user, message=chunk)
+        #goal.chat_set.create(owner_id=request.user, message=text)
         goal.save()
 
         send_notification(request, goal)
