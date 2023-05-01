@@ -22,7 +22,8 @@ body{
 
 div::-webkit-scrollbar, 
 textarea::-webkit-scrollbar,
-#card-cvartal::-webkit-scrollbar{
+#card-cvartal::-webkit-scrollbar,
+select::-webkit-scrollbar{
     background: rgba(217, 217, 217, 0.44);
     border-radius: 5px;
     width: 11px;
@@ -30,7 +31,8 @@ textarea::-webkit-scrollbar,
 
 div::-webkit-scrollbar-thumb:hover, 
 textarea::-webkit-scrollbar-thumb:hover,
-#card-cvartal::-webkit-scrollbar-thumb:hover{
+#card-cvartal::-webkit-scrollbar-thumb:hover,
+select::-webkit-scrollbar-thumb:hover{
     background: #BEBEBE;
 }
 
@@ -42,7 +44,8 @@ textarea::-webkit-scrollbar-thumb:active,
 
 div::-webkit-scrollbar-thumb, 
 textarea::-webkit-scrollbar-thumb,
-#card-cvartal::-webkit-scrollbar-thumb{
+#card-cvartal::-webkit-scrollbar-thumb,
+select::-webkit-scrollbar-thumb{
     background: #D9D9D9;
     border-radius: 7.5px;
 }
