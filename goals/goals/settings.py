@@ -144,6 +144,13 @@ USE_I18N = True
 
 USE_L10N = False
 
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+#EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 PASSWORD_RESET_TIMEOUT_DAYS = 1
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+
+EMAIL_HOST_USER = ''
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = 'ies7fLyQ32YL0rfEGDma'
