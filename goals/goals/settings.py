@@ -143,3 +143,7 @@ TIME_ZONE = 'Asia/Yekaterinburg'
 USE_I18N = True
 
 USE_L10N = False
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+PASSWORD_RESET_TIMEOUT_DAYS = 1

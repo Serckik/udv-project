@@ -87,9 +87,6 @@ def update_history(goal, request):
     history = History(goal=goal, owner_id=request.user)
     goal.history_set.add(history, bulk=False)
     
-    notifi = Notification(is_goal=True,
-                          user=goal.owner_id,
-                          goal=goal)    
 
     for i in new_data:
         if old_data[i] != new_data[i]:
@@ -107,8 +104,17 @@ def update_history(goal, request):
                                            old_data=old_data[i],
                                            new_data=new_data[i])
             
-     
+    send_notification(request, goal)
+    goal.save()
+
+
+def send_notification(request, goal):
+    notifi = Notification(is_goal=True,
+                          user=goal.owner_id,
+                          goal=goal)    
     if goal.owner_id == request.user:
+        if request.user.is_superuser:
+            return
         users = User.objects.filter(groups__in=request.user.groups.all())
         for user in users:
             if user.has_perm('browse.change_goal'):
@@ -118,7 +124,6 @@ def update_history(goal, request):
                 notifi.user=user2
     if not Notification.objects.filter(goal=goal, is_read=False, is_goal=True).exists():
             notifi.save()
-    goal.save()
 
 @login_required(login_url='/user/login/')
 def browse(request):
@@ -164,19 +169,7 @@ def chatting(request):
         
         goal.save()
 
-        notifi = Notification(goal=goal,
-                              user=goal.owner_id,
-                              is_goal=False,)
-        if goal.owner_id == request.user:
-                users = User.objects.filter(groups__in=request.user.groups.all())
-                for user in users:
-                    if user.has_perm('browse.change_goal'):
-                        user2 = user
-                        if user == request.user: 
-                            user2 = User.objects.get(is_superuser=True)
-                        notifi.user=user2
-        if not Notification.objects.filter(goal=goal, is_read=False, is_goal=False).exists():
-            notifi.save()
+        send_notification(request, goal)
     return HttpResponse('Успешно')
 
 @login_required(login_url='/user/login/')
@@ -308,12 +301,34 @@ def approve_goal(request):
 
 @login_required(login_url='/user/login/')
 def get_quarters(request):
-    choices_Q = [(i.quarter, i.quarter) for i in Quarter.objects.all()]
-    choices = sorted([x[0] for x in choices_Q], key=lambda x: (x.split()[2], x.split()[0]), reverse=True)
     now = datetime.now()
     current_year = date.today().year
-    quarter_of_the_year = f'{(now.month-1)//3+1}'
+    quarter_of_the_year = int(f'{(now.month-1)//3+1}')
+    current_quarter_string = f'{quarter_of_the_year} квартал {current_year}'
+    if len(Quarter.objects.all()) == 0:
+        new_quarter = Quarter(quarter=current_quarter_string)
+        new_quarter.save()
+    last_quarter_model = Quarter.objects.last().quarter.split()
+    last_quarter = int(last_quarter_model[0])
+    last_year = int(last_quarter_model[2])
+
+    if current_quarter_string == ' '.join(last_quarter_model):
+        last_quarter += 1
+        if last_quarter == 5:
+            last_quarter = 1
+            last_year += 1
+        
+        new_quarter = Quarter(quarter=f'{last_quarter} квартал {last_year}')
+        new_quarter.save()
+
+    choices_Q = [(i.quarter, i.quarter) for i in Quarter.objects.all()]
+    choices = sorted([x[0] for x in choices_Q], key=lambda x: (x.split()[2], x.split()[0]), reverse=True)
+
     d = {'quarters': choices}
-    d['current_quarter'] = f'{quarter_of_the_year} квартал {current_year}'
+    d['current_quarter'] = current_quarter_string
+
+ 
+    
+
     #print(d)
     return JsonResponse(d)

@@ -28,8 +28,7 @@ def get_notifications(request):
 
     notifi_list = list(notifi.values())
     for notifi in notifi_list:
-        notifi['goal_name'] = Goal.objects.get(id=notifi['goal_id']).name
-        
+        notifi['goal_name'] = Goal.objects.get(id=notifi['goal_id']).name 
     return JsonResponse(notifi_list, safe=False)
 
 @login_required(login_url='/user/login/')
@@ -38,3 +37,7 @@ def read_notification(request):
     notifi.is_read = True
     notifi.save()
     return HttpResponse('Успешно')
+
+@login_required(login_url='/user/login/')
+def get_user_name(request):
+    return JsonResponse({'name': request.user.get_full_name()})
