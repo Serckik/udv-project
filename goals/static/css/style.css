@@ -70,6 +70,25 @@ select::-webkit-scrollbar-thumb{
     font-size: 25px;
 }
 
+.login-form .login-error{
+    color: rgba(209, 0, 0, 0.57);
+    position: fixed;
+}
+
+.login-form .password{
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.login-form .password a{
+    text-decoration: none;
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #000000;
+}
+
 .login-form .logo{
     margin-left: auto;
     margin-right: auto;
@@ -96,14 +115,16 @@ select::-webkit-scrollbar-thumb{
 }
 
 .login-form .submit{
-    font-weight: 600;
-    font-size: 25px;
-    color: #333333;
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-size: 24px;
+    color: #FFFFFF;
     width: 135px;
-    height: 34px;
+    height: 42px;
     background: #FF9900;
-    border-radius: 33px;
-    padding: 2px 26px 2px 26px;
+    border-radius: 10px;
+    padding: 7px 0 7px 0;
+    text-align: center;
     margin-top: 37px;
     margin-left: 163px;
     border: none;
@@ -144,10 +165,10 @@ header{
 }
 
 .current-page{
-    color: #F89C1D;
+    color: #F89C1D !important;
 }
 
-header a{
+.header-nav a{
     text-decoration: none;
     color: #333333;
 }
@@ -190,6 +211,7 @@ header a{
 }
 
 .header-user{
+    position: relative;
     display: flex;
     margin-left: auto;
     padding-left: 61px;
@@ -243,7 +265,7 @@ header a{
     overflow: auto;
     overflow-x: hidden;
     background-color: #F5F5F5;
-    left: 1310px;
+    right: 0;
     top: 55px;
     border: 1px solid #D9D9D9;
     font-family: 'Montserrat';
@@ -295,9 +317,74 @@ header a{
 }
 
 .user-logo{
+    cursor: pointer;
     width: 61px;
     height: 61px;
     border-radius: 50%;
+}
+
+.personal-area-block{
+    z-index: 200;
+    right: 0;
+    top: 65px;
+    position: absolute;
+    width:max-content;
+    min-width: 375px;
+    background: #EBEBEB;
+    border-radius: 15px;
+    padding: 8px 0 8px 10px;
+    font-size: 25px;
+}
+
+.personal-area-content p{
+    cursor: pointer;
+}
+
+.personal-area-block a{
+    text-decoration: none;
+    color: #333333;
+}
+
+.personal-area-block .name{
+    padding: 0 10px;
+    margin-right: 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+.personal-area-block svg{
+    width: 21px;
+    height: 21px;
+}
+
+.personal-area-block p{
+    font-weight: normal;
+    transition: 0.1s;
+    margin-top: 8px
+}
+
+.personal-area-block path{
+    transition: 0.1s;
+}
+
+.personal-area-content p:nth-child(1):hover a, .personal-area-content p:nth-child(1):hover path{
+    color:rgba(0, 210, 157, 1);
+    stroke: rgba(0, 210, 157, 1);
+    transition: 0.1s;
+}
+
+.personal-area-content p:nth-child(2):hover a, .personal-area-content p:nth-child(2):hover path{
+    color:rgba(248, 156, 29, 1);
+    stroke: rgba(248, 156, 29, 1);
+    transition: 0.1s;
+}
+
+.personal-area-content p:nth-child(3):hover a, .personal-area-content p:nth-child(3):hover path,
+.personal-area-content p:nth-child(4):hover a, .personal-area-content p:nth-child(4):hover path,
+.personal-area-content p:nth-child(5):hover a, .personal-area-content p:nth-child(5):hover path{
+    color:rgba(240, 145, 145, 1);
+    stroke: rgba(240, 145, 145, 1);
+    transition: 0.1s;
 }
 
 main{
@@ -310,6 +397,10 @@ main{
     font-family: 'Montserrat';
     font-weight: 700;
     color: #333333;
+}
+
+.left-submenu ul{
+    user-select:none;
 }
 
 .left-submenu li:hover{

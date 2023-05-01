@@ -78,9 +78,8 @@ function setNotifications() {
 
 
 let ringbellClicked = false
-$(document).on('click', 'main, header, .ringbell', function(e){
+$(document).on('click', 'html, .ringbell', function(e){
     if(e.currentTarget.classList[0] == 'ringbell'){
-        console.log('uwu')
         ringbellClicked = true
         return
     }
@@ -99,7 +98,6 @@ $(document).on('click', 'main, header, .ringbell', function(e){
 
 $(document).on('click', '.notification-container', function(e){
     let id = e.currentTarget.id.split(' ')
-    e.currentTarget.classList.add('active')
     console.log(id)
     OpenCard(id[0])
     request('POST', '/user/read_notification', {id: id[1], csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
