@@ -15,6 +15,9 @@ import json
 from datetime import date
 from django.utils.timezone import localtime
 from .models import CHOICES_QUARTER
+from django.db.models import Q
+from django.contrib.auth.models import User, Permission
+
 
 def split_text(text, max_length):
     words = re.findall(r'\S+', text)
@@ -227,7 +230,11 @@ def get_goals_by_filter(request):
     approve = true_converter[request.GET.get('approve')]
     done = request.GET.get('done') if request.GET.get('done') != 'Все' else None
     if approve:
-        goals = goals.filter(owner_id__groups__in=request.user.groups.all()).exclude(owner_id=request.user)
+        if request.user.is_superuser:
+            perm = Permission.objects.get(codename='change_goal')  
+            goals = goals.filter(Q(owner_id__groups__permissions=perm) | Q(owner_id__user_permissions=perm)).distinct()
+        else:
+            goals = goals.filter(owner_id__groups__in=request.user.groups.all())
     if block:
         goals = goals.filter(block=block)
     if sorting:
@@ -240,11 +247,21 @@ def get_goals_by_filter(request):
     if my:
         goals = goals.filter(owner_id=request.user)
     if search:
+        search = search.strip()
         q2 = goals.filter(name__icontains=search)
         q3 = goals.filter(description__icontains=search)
         q4 = goals.filter(current_result__icontains=search)
-        q5 = goals.filter(owner_id__first_name__icontains=search)
-        q6 = goals.filter(owner_id__last_name__icontains=search)
+        splitted_search = search.split()
+        q5 = Goal.objects.none()
+        if len(splitted_search) == 1:
+            q5 = goals.filter(owner_id__first_name__icontains=search)
+            q6 = goals.filter(owner_id__last_name__icontains=search)
+        elif len(splitted_search) == 2:
+            q5 = goals.filter(owner_id__first_name__icontains=splitted_search[0], owner_id__last_name__icontains=splitted_search[1])
+            q6 = goals.filter(owner_id__first_name__icontains=splitted_search[1], owner_id__last_name__icontains=splitted_search[0])
+        else:
+            q5 = Goal.objects.none()
+            q6 = Goal.objects.none()
         goals = q2 | q3 | q4 | q5 | q6
     if quarters:
         goals = goals.filter(quarter__in=quarters)

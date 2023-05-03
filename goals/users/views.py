@@ -8,6 +8,7 @@ from django.forms.models import model_to_dict
 from browse.models import Goal
 from django.utils import timezone
 from django.db.models import Q
+from django.utils.timezone import localtime
 
 @login_required(login_url='/user/login/')
 @cache_control(no_cache=True, must_revalidate=True)
@@ -28,7 +29,9 @@ def get_notifications(request):
 
     notifi_list = list(notifi.values())
     for notifi in notifi_list:
-        notifi['goal_name'] = Goal.objects.get(id=notifi['goal_id']).name 
+        notifi['goal_name'] = Goal.objects.get(id=notifi['goal_id']).name
+        notifi['created_at'] = localtime(notifi['created_at'])
+       
     return JsonResponse(notifi_list, safe=False)
 
 @login_required(login_url='/user/login/')
