@@ -1,4 +1,4 @@
-import { Filter, quarterRequestData } from "./filter.js";
+import { Filter, quarterRequestData, quarter } from "./filter.js";
 const sleepTime = 100
 let timeutID = 0
 let currentIdCard = ''
@@ -81,7 +81,7 @@ export function CreateOptionBlocks(values, id){
     values.forEach(element => {
         let option = $("<option></option>").text(element)
         option.attr('value', element.split('%')[0])
-        if(element == quarterRequestData.current_quarter){
+        if(quarter.includes(element)){
             option.attr('selected','selected')
         }
         $(id).append(option);

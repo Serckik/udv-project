@@ -23,6 +23,9 @@ FillForm('add-form')
 
 $(document).on('submit', '#add-form', async function(e){
     e.preventDefault();
+    if($('#add-form .send').length != 0){
+        return
+    }
     if($("#add-form #card-name").val() != ''){
         let data = {
             name: $('#add-form #card-name').val(),
