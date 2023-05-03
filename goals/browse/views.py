@@ -234,7 +234,9 @@ def get_goals_by_filter(request):
             perm = Permission.objects.get(codename='change_goal')  
             goals = goals.filter(Q(owner_id__groups__permissions=perm) | Q(owner_id__user_permissions=perm)).distinct()
         else:
-            goals = goals.filter(owner_id__groups__in=request.user.groups.all())
+            goals = goals.filter(owner_id__groups__in=request.user.groups.all()).exclude(owner_id=request.user)
+            
+        
     if block:
         goals = goals.filter(block=block)
     if sorting:
