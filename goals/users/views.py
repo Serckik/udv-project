@@ -13,6 +13,11 @@ import openpyxl
 from django.http import HttpResponse
 from tempfile import NamedTemporaryFile
 import tempfile
+from openpyxl.styles import Font, Alignment
+from openpyxl.styles.borders import Border, Side
+from openpyxl.styles import PatternFill
+from urllib.parse import quote
+
 
 @login_required(login_url='/user/login/')
 @cache_control(no_cache=True, must_revalidate=True)
@@ -51,22 +56,83 @@ def get_user_name(request):
 
 @login_required(login_url='/user/login/')
 def download_excel(request):
-    # Создаем новый документ Excel
     wb = openpyxl.Workbook()
-    
-    # Получаем активный лист
+    quarter = request.GET.get('quarter')
+    goals = list(Goal.objects.filter(owner_id=request.user, quarter=quarter, current=True).values())
+    goals_count = len(goals)
     ws = wb.active
+    thin_border = Border(left=Side(style='thin'), 
+                     right=Side(style='thin'), 
+                     top=Side(style='thin'), 
+                     bottom=Side(style='thin'))
+
+    ws['A2'] = f'Сводка за {quarter} {request.user.get_full_name()}'
+    ws['A2'].font = Font(bold=True, size=14)
+    ws['A2'].alignment = Alignment(horizontal="center")
+    ws['A2'].border = thin_border
+    ws.merge_cells('A2:H2')
+
+    ws['A3'] = 'Название задачи'
+    ws['A3'].alignment = Alignment(horizontal="center")
+    ws['A3'].border = thin_border
+    ws.merge_cells('A3:E3')
+
+    ws['F3'] = 'Вес, %'
+    ws['F3'].alignment = Alignment(horizontal="center")
+    ws['F3'].border = thin_border
+
+    ws['G3'] = 'Оценка, %'
+    ws['G3'].alignment = Alignment(horizontal="center")
+    ws.column_dimensions['G'].width = 13
+    ws['G3'].border = thin_border
     
-    # Записываем данные в ячейки
-    ws['A1'] = 'Привет, мир!'
-    
-    # Создаем временный файл для сохранения документа Excel
+    ws['H3'] = 'Итог'
+    ws['H3'].alignment = Alignment(horizontal="center")
+    ws['H3'].border = thin_border
+
+    ws['J3'] = 'Итоговый коэффициент:'
+    ws['J3'].fill = PatternFill(start_color='FFC000',
+                                end_color='FFC000',
+                                fill_type='solid')
+    ws['J3'].alignment = Alignment(horizontal="center")
+    ws['J3'].border = Border(left=Side(style='medium'), 
+                     top=Side(style='medium'), 
+                     bottom=Side(style='medium'))
+    ws.merge_cells('J3:L3')
+
+    ws['M3'] = f'=SUM(H4:H{4+goals_count})'
+    ws['M3'].alignment = Alignment(horizontal="right")
+    ws['M3'].fill = PatternFill(start_color='D9D9D9',
+                                end_color='D9D9D9',
+                                fill_type='solid')
+    ws['M3'].border = Border(right=Side(style='medium'), 
+                            top=Side(style='medium'), 
+                            bottom=Side(style='medium'))
+
+    for row, goal in zip(ws[f'A4:A{goals_count+4}'], goals):
+        for cell in row:
+            cell.border = thin_border
+            cell.value = goal['name']
+            cell.alignment = Alignment(horizontal="center")
+            number = int(''.join(filter(str.isdigit, cell.coordinate)))
+            ws.merge_cells(f'{cell.coordinate}:E{number}')
+
+    for row_idx, goal in enumerate(goals, start=4):
+        cell = ws.cell(row=row_idx, column=6, value=goal['weight'])
+        cell.border = thin_border
+        cell.alignment = Alignment(horizontal="right")
+        cell = ws.cell(row=row_idx, column=7, value=goal['fact_mark'])
+        cell.border = thin_border
+        cell.alignment = Alignment(horizontal="right")
+        cell = ws.cell(row=row_idx, column=8, value=f"=F{row_idx}/100 * G{row_idx}/100")
+        cell.border = thin_border
+        cell.alignment = Alignment(horizontal="right")
+
     with NamedTemporaryFile(delete=True) as tmp_file:
-        # Сохраняем документ во временный файл
         wb.save(tmp_file.name)
-        
-        # Открываем временный файл и читаем его содержимое
+        title = f'Сводка за {quarter} {request.user.get_full_name()}'
+        print(title)
         with open(tmp_file.name, 'rb') as f:
             response = HttpResponse(f.read(), content_type='application/vnd.ms-excel')
-            response['Content-Disposition'] = 'attachment; filename=test.xlsx'
+            response['Content-Disposition'] = f'attachment; filename*=UTF-8\'\'{quote(title)}.xlsx'
             return response
