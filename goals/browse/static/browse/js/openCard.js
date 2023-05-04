@@ -1,4 +1,5 @@
 import { Filter, quarterRequestData, quarter } from "./filter.js";
+import { userName } from "./profile.js";
 const sleepTime = 100
 let timeutID = 0
 let currentIdCard = ''
@@ -24,8 +25,6 @@ $(".message-sender").each(function () {
             $('.chat-container')[0].setAttribute('style', 'border-bottom:' + this.scrollHeight + 'px solid #F5F5F5')
         }
     }
-    let div = $(".chat-container");
-    div.scrollTop(div.prop('scrollHeight'));
   });
 
 let block = ["Оценка", "Подбор", "Адаптация", "Корп. культура и бенефиты", "HR-бренд внешний", "HR-сопровождение", "Внутренняя работа отдела", "Кадровый учет и з/п", 
@@ -135,18 +134,23 @@ function FillCard(cardData) {
 }
 
 function FillChat(chatData) {
+    let isScrollDown = false
+    let div = $(".chat-container");
+    if(Math.round(div.prop('scrollTop')) === div.prop('scrollHeight') - div.prop('clientHeight')){
+        isScrollDown = true
+    }
     if($('.message-sender').val().length == 0){
         $('.chat-submit path').attr('fill', '#D9D9D9')
     }
     let chatContainer = $('.chat-container')
     chatContainer.empty()
     chatData.forEach(item => {
-        if($('.header-user p').text() == item.name){
+        if(userName == item.name){
             let messageContainer = $("<div class='self-message'></div>")
             let userData =  $("<div class='edit-user'></div>")
-            let userName = $("<p></p>").text($('.header-user p').text())
+            let name = $("<p></p>").text(userName)
             let userimage = $('<img class="user-logo" src="/static/img/user-logo.jpg">')
-            userData.append(userName)
+            userData.append(name)
             userData.append(userimage)
             messageContainer.append(userData)
             let message = $("<div class='message'></div>").text(item.text)
@@ -159,9 +163,9 @@ function FillChat(chatData) {
         else{
             let messageContainer = $("<div class='sender-message'></div>")
             let userData =  $("<div class='edit-user'></div>")
-            let userName = $("<p></p>").text(item.name)
+            let name = $("<p></p>").text(item.name)
             let userimage = $('<img class="user-logo" src="/static/img/user-logo.jpg">')
-            userData.append(userName)
+            userData.append(name)
             userData.append(userimage)
             messageContainer.append(userData)
             let message = $("<div class='message'></div>").text(item.text)
@@ -172,6 +176,9 @@ function FillChat(chatData) {
             chatContainer.append(messageContainer)
         }
     });
+    if(isScrollDown){
+        div.scrollTop(div.prop('scrollHeight'));
+    }
 }
 
 export function GetDate(str) { 

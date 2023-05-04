@@ -15,6 +15,7 @@ function request(type, url, data){
 }
 
 let data = request('GET', '/user/get_user_name')
+export let userName = data.name
 $('.personal-area-block .name').text(data.name)
 
 $(document).on('click', '.user-logo', function(e){
