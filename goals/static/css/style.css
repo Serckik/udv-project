@@ -12,7 +12,8 @@
 	font-style: normal;
 }
 
-textarea, input{
+#more-form textarea, #more-form input,
+#add-form textarea, #add-form input{
     overflow-x: hidden;
 }
 
@@ -690,7 +691,14 @@ option:checked {
     padding: 7px 14px 4px 28px;
     box-sizing: border-box;
     border-left: 5px solid #D9D9D9;
-    box-shadow: 2px 2px 4px 3px rgba(0, 0, 0, 0.5);
+    box-shadow:
+    1px 1px #BEBEBE,
+    2px 2px #BEBEBE,
+    3px 3px #BEBEBE,
+    4px 4px #BEBEBE,
+    5px 5px #BEBEBE,
+    6px 6px #BEBEBE,
+    7px 7px #BEBEBE;
     border-radius: 2px;
     font-family: 'OfficinaSansWinCTT';
     cursor: pointer;
@@ -698,15 +706,7 @@ option:checked {
 }
 
 .card:hover{
-    box-shadow:
-    1px 1px #E9E9E9,
-    2px 2px #E9E9E9,
-    3px 3px #E9E9E9,
-    4px 4px #E9E9E9,
-    5px 5px #E9E9E9,
-    6px 6px #E9E9E9,
-    7px 7px #E9E9E9;
-    transform: translateX(-7px);
+    box-shadow: 2px 2px 4px 3px rgba(0, 0, 0, 0.5);
     transition: 0.5s;
 }
 
@@ -944,6 +944,10 @@ textarea{
     overflow: scroll;
     overflow-x: hidden;
     padding-right: 5px;
+}
+
+.self-message .message{
+    background-color: #ECD7BA;
 }
 
 .self-message, .sender-message{
