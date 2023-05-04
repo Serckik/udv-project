@@ -12,6 +12,10 @@
 	font-style: normal;
 }
 
+textarea, input{
+    overflow-x: hidden;
+}
+
 body{
     max-width: 1740px;
     margin: 0 auto;
@@ -1068,6 +1072,7 @@ textarea{
     transition: 0.5s;
     color: white !important;
     cursor: default !important;
+    overflow: hidden;
 }
 
 .error{
