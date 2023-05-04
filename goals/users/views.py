@@ -9,6 +9,10 @@ from browse.models import Goal
 from django.utils import timezone
 from django.db.models import Q
 from django.utils.timezone import localtime
+import openpyxl
+from django.http import HttpResponse
+from tempfile import NamedTemporaryFile
+import tempfile
 
 @login_required(login_url='/user/login/')
 @cache_control(no_cache=True, must_revalidate=True)
@@ -44,3 +48,25 @@ def read_notification(request):
 @login_required(login_url='/user/login/')
 def get_user_name(request):
     return JsonResponse({'name': request.user.get_full_name()})
+
+@login_required(login_url='/user/login/')
+def download_excel(request):
+    # Создаем новый документ Excel
+    wb = openpyxl.Workbook()
+    
+    # Получаем активный лист
+    ws = wb.active
+    
+    # Записываем данные в ячейки
+    ws['A1'] = 'Привет, мир!'
+    
+    # Создаем временный файл для сохранения документа Excel
+    with NamedTemporaryFile(delete=True) as tmp_file:
+        # Сохраняем документ во временный файл
+        wb.save(tmp_file.name)
+        
+        # Открываем временный файл и читаем его содержимое
+        with open(tmp_file.name, 'rb') as f:
+            response = HttpResponse(f.read(), content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=test.xlsx'
+            return response
