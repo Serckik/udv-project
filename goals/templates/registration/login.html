@@ -18,7 +18,7 @@
         <p>Логин</p>
         <div class="input-container">
           <img class="icon-login" src="/static/img/icon-login.svg">
-          <input type="text" name="username" required id="id_username" placeholder="Введите логин">
+          <input type="text" name="username" required id="id_username" placeholder="Введите логин" autocomplete="off">
         </div>
         <p class="password">
           Пароль
@@ -26,7 +26,7 @@
         </p>
         <div class="input-container">
           <img class="icon-lock" src="/static/img/icon-lock.svg">
-          <input type="password" name="password" required id="current-password" placeholder="Введите пароль">
+          <input type="password" name="password" required id="current-password" placeholder="Введите пароль" autocomplete="off">
         </div>
 
         {% if form.errors %}
