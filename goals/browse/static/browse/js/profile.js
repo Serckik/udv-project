@@ -62,12 +62,8 @@ $('.excel-load').on('click', function(){
 
 $('.personal-area-block option').on('click', function(e){
     let quarter = $(e.target).val()
-    let data = request('GET', '/user/download_excel', { quarter: quarter })
-    const blob = new Blob([data], {type: 'application/vnd.ms-excel'});
-    const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = 'filename.xls';
+    a.href = '/user/download_excel?quarter=' + quarter;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
