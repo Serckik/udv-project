@@ -409,6 +409,11 @@ header{
     font-size: 25px;
 }
 
+.personal-area-block .cvartal-select{
+    position: absolute;
+    right: 100%;
+}
+
 .personal-area-content p{
     cursor: pointer;
 }

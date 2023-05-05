@@ -65,7 +65,7 @@ $(document).on('click', '.planned-list-element', function(e){
     Filter()
 })
 
-$(document).on('click', '.cvartal-select option',function () { 
+$(document).on('click', '.left-submenu .cvartal-select option',function () { 
     let select = $(this).val()
     if(quarter.includes(select)){
         let index = quarter.indexOf(select);
