@@ -131,7 +131,6 @@ def download_excel(request):
     with NamedTemporaryFile(delete=True) as tmp_file:
         wb.save(tmp_file.name)
         title = f'Сводка за {quarter} {request.user.get_full_name()}'
-        print(title)
         with open(tmp_file.name, 'rb') as f:
             response = HttpResponse(f.read(), content_type='application/vnd.ms-excel')
             response['Content-Disposition'] = f'attachment; filename*=UTF-8\'\'{quote(title)}.xlsx'
