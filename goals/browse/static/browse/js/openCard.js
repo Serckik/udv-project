@@ -75,12 +75,15 @@ function SetVal(id, value){
     $(id).val(value)
 }
 
-export function CreateOptionBlocks(values, id){
+export function CreateOptionBlocks(values, id, isCurrentOnly=false){
     if($(id).length == 0) { return }
     values.forEach(element => {
         let option = $("<option></option>").text(element)
         option.attr('value', element.split('%')[0])
-        if(quarter.includes(element)){
+        if(quarterRequestData.current_quarter.includes(element) && isCurrentOnly){
+            option.attr('selected','selected')
+        }
+        else if(quarter.includes(element) && !isCurrentOnly){
             option.attr('selected','selected')
         }
         $(id).append(option);

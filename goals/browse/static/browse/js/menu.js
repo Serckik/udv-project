@@ -1,7 +1,7 @@
 import { CreateOptionBlocks } from "./openCard.js"
 import { quarterRequestData } from "./filter.js"
 
-CreateOptionBlocks(quarterRequestData.quarters, '#card-cvartal')
+CreateOptionBlocks(quarterRequestData.quarters, '.left-submenu #card-cvartal')
 
 let title = $('title')[0].text
 $('.' + title).addClass('current-page')
