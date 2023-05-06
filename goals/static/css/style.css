@@ -467,11 +467,12 @@ header{
 
 main{
     display: flex;
-    padding: 9px 60px 0 0;
+    padding: 9px 0 0 0;
+    gap:10px
 }
 
 .left-submenu{
-    width: 274px;
+    width: 15%;
     font-family: 'Montserrat';
     font-weight: 700;
     color: #333333;
@@ -623,7 +624,6 @@ option:checked {
 }
 
 .line{
-    width: 274px;
     height: 1px;
     background-color: #333333;
     opacity: 0.15;
@@ -632,7 +632,7 @@ option:checked {
 
 
 .tasks{
-    width: 1347px;
+    width: 85%;
     margin-left: auto;
 }
 
@@ -684,12 +684,20 @@ option:checked {
 
 .cards{
     display: flex;
+    max-height: 771px;
+    padding-bottom: 10px;
+    overflow: auto;
+    overflow-x: hidden;
     flex-wrap: wrap;
     gap: 27px;
 }
 
+.add-page{
+    max-height: 400px;
+}
+
 .card{
-    width: 431px;
+    width: 31%;
     height: 106px;
     background-color: white;
     color: #333333;
