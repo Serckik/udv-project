@@ -25,6 +25,7 @@ def logout_user(request):
     logout(request)
     return HttpResponseRedirect('/user/login')
 
+
 @login_required(login_url='/user/login/')
 def get_notifications(request):
     active_notifi = []

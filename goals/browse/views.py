@@ -108,14 +108,12 @@ def update_history(goal, request):
                                            old_data=old_data[i],
                                            new_data=new_data[i])
             
-    send_notification(request, goal)
+    send_notification(request, goal, True)
     goal.save()
 
 
-def send_notification(request, goal):
-    notifi = Notification(is_goal=True,
-                          user=goal.owner_id,
-                          goal=goal)    
+def send_notification(request, goal, is_goal):
+    users_to_send = []
     if goal.owner_id == request.user:
         if request.user.is_superuser:
             return
@@ -125,16 +123,23 @@ def send_notification(request, goal):
                 user2 = user
                 if user == request.user:
                     user2 = User.objects.get(is_superuser=True)
-                notifi.user=user2
-    if not Notification.objects.filter(goal=goal, is_read=False, is_goal=True).exists():
+                users_to_send.append(user2)
+    print(users_to_send)
+    if len(users_to_send) == 0:
+        users_to_send.append(goal.owner_id)
+    for user in users_to_send:
+        notifi = Notification(is_goal=is_goal,
+                              user=user,
+                              goal=goal,
+                              is_read=False)   
+        print(notifi.user)
+        if not Notification.objects.filter(goal=goal, is_read=False, is_goal=is_goal, user=user).exists():
+            print('saved')
             notifi.save()
 
 @login_required(login_url='/user/login/')
 def browse(request):
-    data = Goal.objects.all()
-    form = GoalForm()
-    chat_form = ChatForm()
-    return render(request, 'browse/browse.html', {'data': data, 'form': form, 'chat_form': chat_form})
+    return render(request, 'browse/browse.html')
 
 @login_required(login_url='/user/login/')
 def editing(request):
@@ -173,7 +178,7 @@ def chatting(request):
         #goal.chat_set.create(owner_id=request.user, message=text)
         goal.save()
 
-        send_notification(request, goal)
+        send_notification(request, goal, False)
     return HttpResponse('Успешно')
 
 @login_required(login_url='/user/login/')
@@ -280,14 +285,7 @@ def get_goals_by_filter(request):
 
 @login_required(login_url='/user/login/')
 def browse_add(request):
-    data = {}
-    add_form = AddGoalForm()
-    form = GoalForm()
-    chat_form = ChatForm()
-    goals = Goal.objects.all()
-    for goal in goals:
-        goal.group = goal.owner_id.groups.all()[0]
-    return render(request, 'browse/add.html', {'add_form': add_form, 'data': goals, 'form': form, 'chat_form': chat_form})
+    return render(request, 'browse/add.html')
 
 @login_required(login_url='/user/login/')
 def add_goal(request):
