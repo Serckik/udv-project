@@ -38,6 +38,8 @@ function countNotRead(data){
     }
 }
 
+setNotifications()
+
 const ringbell = document.querySelector('.ringbell');
 const profileBlock = document.querySelector('.notification-block');
 
@@ -48,7 +50,6 @@ ringbell.addEventListener('click', () => {
     else{
         profileBlock.classList.add('hidden');
     }
-    setNotifications()
 });
 
 document.addEventListener('click', (e) => {
