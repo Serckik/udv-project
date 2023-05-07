@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import Goal, Chat, History, FieldChange, Quarter
 
-# Register your models here.
 
 admin.site.register(Goal)
 admin.site.register(Chat)
