@@ -48,19 +48,36 @@ ringbell.addEventListener('click', () => {
         profileBlock.classList.remove('hidden');
     }
     else{
+        console.log('wuwu')
         profileBlock.classList.add('hidden');
     }
 });
+let openCard = false
+$(document).on('click', '.notification-container', function(e){
+    let id = e.currentTarget.id.split(' ')
+    console.log(id)
+    OpenCard(id[0])
+    request('POST', '/user/read_notification', {id: id[1], csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
+    data = request('GET', '/user/get_notifications')
+    countNotRead(data)
+    openCard = true
+    setNotifications()
+})
 
 document.addEventListener('click', (e) => {
     if (e.target.closest('.notification-block') || e.target.closest('.ringbell') || e.target.closest('.blur') || e.target.closest('.card-data')) {
       return;
+    }
+    if(openCard){
+        openCard = false
+        return
     }
     $('.notification-block').addClass('hidden')
 });
 
 function setNotifications() {
     let notificationBlock = $('.notification-block')
+    notificationBlock.empty()
     data.forEach(element => {
         let notificationContainer = $("<div class='notification-container'></div>")
         notificationContainer.attr('id', element.goal_id + ' ' + element.id)
@@ -85,15 +102,3 @@ function setNotifications() {
         notificationBlock.append(notificationContainer)
     });
 }
-
-
-
-$(document).on('click', '.notification-container', function(e){
-    let id = e.currentTarget.id.split(' ')
-    console.log(id)
-    OpenCard(id[0])
-    request('POST', '/user/read_notification', {id: id[1], csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
-    data = request('GET', '/user/get_notifications')
-    countNotRead(data)
-    setNotifications()
-})
