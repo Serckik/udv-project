@@ -38,16 +38,25 @@ function countNotRead(data){
     }
 }
 
-$(document).on('click', '.ringbell', function(e){
-    $('.notification-block').empty()
-    if( $('.notification-block.hidden').length != 0){
-        $('.notification-block').removeClass('hidden')
+const ringbell = document.querySelector('.ringbell');
+const profileBlock = document.querySelector('.notification-block');
+
+ringbell.addEventListener('click', () => {
+    if (profileBlock.classList.contains('hidden')) {
+        profileBlock.classList.remove('hidden');
     }
     else{
-        $('.notification-block').addClass('hidden')
+        profileBlock.classList.add('hidden');
     }
     setNotifications()
-})
+});
+
+document.addEventListener('click', (e) => {
+    if (e.target.closest('.notification-block') || e.target.closest('.ringbell') || e.target.closest('.blur') || e.target.closest('.card-data')) {
+      return;
+    }
+    $('.notification-block').addClass('hidden')
+});
 
 function setNotifications() {
     let notificationBlock = $('.notification-block')
@@ -75,24 +84,6 @@ function setNotifications() {
         notificationBlock.append(notificationContainer)
     });
 }
-
-
-let ringbellClicked = false
-$(document).on('click', 'html, .ringbell', function(e){
-    if(e.currentTarget.classList[0] == 'ringbell'){
-        ringbellClicked = true
-        return
-    }
-    
-    if(ringbellClicked){
-        ringbellClicked = false
-        return
-    }
-
-    if($('.notification-block.hidden').length == 0){
-        $('.notification-block').addClass('hidden')
-    }
-})
 
 
 

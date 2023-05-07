@@ -31,9 +31,7 @@ const profileBlock = document.querySelector('.personal-area-block');
 
 profile.addEventListener('click', () => {
     if (profileBlock.classList.contains('hidden')) {
-        console.log(profileBlock.classList)
         profileBlock.classList.remove('hidden');
-        console.log(profileBlock.classList)
     } 
     else {
         profileBlock.classList.add('hidden');
@@ -43,7 +41,7 @@ profile.addEventListener('click', () => {
 
 
 document.addEventListener('click', (e) => {
-    if (e.target.closest('.personal-area-block') || e.target.closest('.user-logo')) {
+    if (e.target.closest('.personal-area-block') || e.target.closest('.user-logo') || e.target.closest('.blur') || e.target.closest('.update-image')) {
       return;
     }
     $('.personal-area-block').addClass('hidden')
@@ -52,12 +50,16 @@ document.addEventListener('click', (e) => {
 
 $('.excel-load').on('click', function(){
     if(select.attr('class').includes('hidden')){
-        console.log('uwu')
         select.removeClass('hidden')
     }
     else{
         select.addClass('hidden')
     }
+})
+
+$('.update-image-link').on('click', function(){
+    $('.update-image').removeClass('hidden')
+    $('.blur').removeClass('hidden')
 })
 
 $('.personal-area-block option').on('click', function(e){

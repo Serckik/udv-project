@@ -57,6 +57,7 @@ $(document).on('click', '.blur', function(e){
     clearTimeout(timeutID)
     $('body').css("overflow", "auto");
     $('.blur').addClass('hidden')
+    $('.update-image').addClass('hidden')
     $('.card-data').addClass('hidden')
     $('.message-sender').val('')
     $('.edit input').removeClass('send')

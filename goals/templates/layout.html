@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="/static/img/mini-logo.png"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,300&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script type="module" src="/static/browse/js/SetCards.js"></script>
 </head>
 <body>
@@ -53,7 +53,7 @@
                         <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M21 17.2653V18L0.375 18L0 17.2653H21ZM13.65 0L18.9 5.14286L7.35 16.4571H2.1V11.3143L13.65 0ZM9.3672 5.4878L2.625 11.7551V15.7959H7.125L13.5 9.55102L9.3672 5.4878ZM13.6806 1.46939L10.1556 4.92239L14.1 8.78629L17.625 5.33329L13.6806 1.46939Z" fill="#333333"/>
                         </svg> 
-                        <a>Обновить фотографию</a>
+                        <a class="update-image-link">Обновить фотографию</a>
                     </p>
                     <p>
                         <svg width="24" height="28" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -275,6 +275,18 @@
                 </div>
                 <div class="history">
                 </div>
+            </div>
+        </div>
+        <div class="update-image hidden">
+            <div class="update-image-header">
+                <p>Загрузка новой фотографии</p>
+            </div>
+            <div class="update-image-body">
+                <p>Вы можете загрузить изображении в форматах: PNG, JPEG</p>
+                <button type="button">Выбрать файл</button>
+            </div>
+            <div class="update-image-footer">
+                <p>Если возникают проблемы с загрузкой попробуйте выбрать фотографию меньшего размера</p>
             </div>
         </div>
     </main>

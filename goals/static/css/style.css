@@ -785,7 +785,7 @@ option:checked {
     background: rgba(217, 217, 217, 0.75);
 }
 
-.card-data{
+.card-data, .update-image{
     z-index: 200;
     box-sizing: border-box;
     justify-content: space-between;
@@ -802,6 +802,55 @@ option:checked {
     font-style: normal;
     font-weight: 400;
     color: #333333;
+}
+
+.update-image{
+    width: 65%;
+    font-size: 25px;
+    font-family: 'Montserrat';
+    color: black;
+    font-weight: 500;
+}
+
+.update-image p{
+    margin: 0;
+}
+
+.update-image-header{
+    box-sizing: border-box;
+    padding-top: 34px;
+    padding-left: 34px;
+    height: 98px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.13);
+}
+
+.update-image-body{
+    box-sizing: border-box;
+    padding-top: 97px;
+    height: 324px;
+    text-align: center;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.13);
+}
+
+.update-image-body button{
+    box-sizing: border-box;
+    margin-top: 70px;
+    width: 211px;
+    height: 54px;
+    border: none;
+    font-size: 22px;
+    color: white;
+
+    background: #F89C1D;
+    border-radius: 14px;
+}
+
+.update-image-footer{
+    box-sizing: border-box;
+    text-align: center;
+    padding-top: 36px;
+    height: 100px;
+    font-size: 22px;
 }
 
 .card-message{
@@ -1151,11 +1200,11 @@ textarea{
 }
 
 .select-flex .block-flex:nth-child(1){
-    width: 60%;
+    width: 55%;
 }
 
 .select-flex .block-flex:nth-child(2){
-    width: 40%;
+    width: 45%;
 }
 
 .add p{
