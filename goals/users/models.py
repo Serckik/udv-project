@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from browse.models import Goal
 from django.utils.timezone import localtime
 from django.utils import timezone
+from .validators import file_size, validate_image_extension
 
 
 class Notification(models.Model):
@@ -23,3 +24,14 @@ class Notification(models.Model):
     class Meta:
         verbose_name = 'Уведомление'
         verbose_name_plural = 'Уведомления'
+
+
+class Image(models.Model):
+    image = models.ImageField('Аватар', upload_to='users/static/users/img/',
+                              null=True, blank=True,
+                              validators=[validate_image_extension, file_size])
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Аватарка'
+        verbose_name_plural = 'Аватарки'

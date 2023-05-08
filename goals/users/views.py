@@ -2,7 +2,7 @@ from django.views.decorators.cache import cache_control
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
-from .models import Notification
+from .models import Notification, Image
 from browse.models import Goal
 from django.utils.timezone import localtime
 import openpyxl
@@ -11,6 +11,8 @@ from openpyxl.styles import Font, Alignment
 from openpyxl.styles.borders import Border, Side
 from openpyxl.styles import PatternFill
 from urllib.parse import quote
+from .forms import ImageUploadForm
+
 
 
 @login_required(login_url='/user/login/')
@@ -45,6 +47,23 @@ def read_notification(request):
     notifi.is_read = True
     notifi.save()
     return HttpResponse('Успешно')
+
+
+@login_required(login_url='/user/login/')
+def upload_image(request):
+    form = ImageUploadForm(data=request.POST, files=request.FILES)
+    if form.is_valid():
+        if Image.objects.get(user=request.user).exists():
+            image = Image.objects.get(user=request.user)
+            request.FILES['file'].name = request.user
+            image.image = request.FILES['file']
+            image.save()
+        else:
+            request.FILES['file'].name = request.user
+            image = Image(user=request.user, image=request.FILES['file'])
+            image.save()
+    else:
+        return HttpResponse(form.errors)
 
 
 @login_required(login_url='/user/login/')
