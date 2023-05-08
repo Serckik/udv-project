@@ -66,7 +66,8 @@ def get_chat(request):
     for chat in chats:
         chat_dict['chat'].append({'text': chat.message,
                                   'time': localtime(chat.created_at),
-                                  'name': chat.owner_id.get_full_name()})
+                                  'name': chat.owner_id.get_full_name(),
+                                  'user_id': chat.owner_id.id})
     return JsonResponse(chat_dict)
 
 
@@ -184,8 +185,9 @@ def get_goals_by_filter(request):
                              'block',
                              'id'))
     for item in data:
-        user_name = User.objects.get(id=item['owner_id']).get_full_name()
-        item['owner_id'] = user_name
+        user = User.objects.get(id=item['owner_id'])
+        item['owner'] = user.get_full_name()
+        item['owner_id'] = user.id
 
     return JsonResponse(data, safe=False)
 

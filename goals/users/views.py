@@ -76,7 +76,8 @@ def upload_image(request):
 
 @login_required(login_url='/user/login/')
 def get_user_name(request):
-    return JsonResponse({'name': request.user.get_full_name()})
+    return JsonResponse({'name': request.user.get_full_name(),
+                         'id': request.user.id})
 
 
 @login_required(login_url='/user/login/')
