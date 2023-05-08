@@ -106,7 +106,7 @@
                     </p>
                 </div>
             </div>
-            <img class="user-logo" src="/static/img/user-logo.jpg">
+            <img class="user-logo" src="/static/img/white.png">
         </div>
     </header>
     <main>
@@ -305,12 +305,13 @@
             </div>
             <div class="update-image-body">
                 <div id="load-image">
-                    <p>Вы можете загрузить изображении в форматах: PNG, JPEG</p>
+                    <p>Вы можете загрузить изображении в форматах: PNG, JPEG, WEBP, SVG</p>
+                    <p>Максимальный размер файла 2 МБ</p>
                     <input type="file" accept="image/*" >
                     <button class="choose-image" type="button">Выбрать файл</button>
                 </div>
                 <div id="cropper" class="hidden">
-                    <img id="image" src="/static/img/RinRin_with_cat_ears.png" alt="Picture">
+                    <img id="image" src="" alt="Picture">
                     <button class="save-image" type="button">Сохранить</button>
                 </div>
             </div>
@@ -321,12 +322,12 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js" 
     integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
       crossorigin="anonymous"></script>
+    <script type="module" src="/static/browse/js/profile.js"></script>
     <script src="/static/browse/js/cropper.js"></script>
     <script type="module" src="/static/browse/js/menu.js"></script>
     <script type="module" src="/static/browse/js/openCard.js"></script>
     <script type="module" src="/static/browse/js/notification.js"></script>
     <script type="module" src="/static/browse/js/filter.js"></script>
-    <script type="module" src="/static/browse/js/profile.js"></script>
     <script type="module" src="/static/browse/js/update-image.js"></script>
 </body>
 </html>

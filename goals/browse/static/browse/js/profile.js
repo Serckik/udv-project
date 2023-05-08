@@ -24,6 +24,10 @@ function request(type, url, data){
 
 let data = request('GET', '/user/get_user_name')
 export let userName = data.name
+const userId = data.id
+$('.header-user .user-logo').attr('src', '/static/users/img/' + userId + '.png')
+$('.header-user .user-logo').attr('onerror', "this.src='/static/img/user-logo.jpg'")
+$('.card-data .user-logo').attr('src', '/static/users/img/' + userId + '.png')
 $('.personal-area-block .name').text(data.name)
 
 const profile = document.querySelector('.user-logo');

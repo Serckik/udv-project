@@ -9,6 +9,9 @@ function request(type, url, data){
                 returnData = data
             }
         },
+        error: function(){
+            alert('Файл весит больше 2 МБ')
+        },
         async: false
     })
     return returnData
@@ -55,33 +58,50 @@ $('.update-image-body input').on('change', function (e) {
     reader.readAsDataURL(file);
 });
 
-function DoCrope() { 
+let cropper = null
+var croppable = false;
+
+function DoCrope() {
     var image = document.getElementById('image');
-    var croppable = false;
-    var cropper = new Cropper(image, {
-    aspectRatio: 1,
-    viewMode: 1,
-    ready: function () {
-    croppable = true;
-    },
+    cropper = new Cropper(image, {
+        aspectRatio: 1,
+        viewMode: 1,
+        ready: function () {
+            croppable = true;
+        },
     });
-
-    $('#cropper .save-image').on('click', function(e){
-        var croppedCanvas;
-        var roundedCanvas;
-        var roundedImage;
-
-        if (!croppable) {
-        return;
-        }
-
-        // Crop
-        croppedCanvas = cropper.getCroppedCanvas();
-
-        // Round
-        roundedCanvas = getRoundedCanvas(croppedCanvas);
-
-        // Show
-        request('POST', '/user/upload_image', {file: roundedCanvas.toDataURL(), csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
-    })
 }
+
+$(document).on('click', '.blur', function(e){
+    ClearCrop()
+})
+
+function ClearCrop(){
+    cropper.destroy()
+    $('.blur').addClass('hidden')
+    $('.update-image').addClass('hidden')
+    $('.update-image #load-image').removeClass('hidden')
+    $('.update-image #cropper').addClass('hidden')
+    $('.update-image input').val('')
+    $('.update-image img').attr('src', '')
+}
+
+$('#cropper .save-image').on('click', function(e){
+    var croppedCanvas;
+    var roundedCanvas;
+
+    if (!croppable) {
+    return;
+    }
+
+    // Crop
+    croppedCanvas = cropper.getCroppedCanvas();
+
+    // Round
+    roundedCanvas = getRoundedCanvas(croppedCanvas);
+
+    // Show
+    request('POST', '/user/upload_image', {file: roundedCanvas.toDataURL(), csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
+    ClearCrop()
+    location.reload()
+})

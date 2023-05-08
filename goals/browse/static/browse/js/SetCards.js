@@ -63,9 +63,9 @@ export function SetCards(cards){
         cardBottom.append($("<p></p>").text(element.weight + '%'))
     
         let cardUser = $("<div class='card-user'></div>")
-        let userName = element.owner_id.split(' ')
+        let userName = element.owner.split(' ')
         cardUser.append($("<p></p>").text(userName[0] + ' ' + userName[1].slice(0, 1) + '.'))
-        cardUser.append('<img class="user-logo" src="/static/img/user-logo.jpg">')
+        cardUser.append(`<img class="user-logo" src="/static/users/img/${element.owner_id}.png" onerror="this.src='/static/img/user-logo.jpg'">`)
     
         cardBottom.append(cardUser)
         cardBlock.append(cardBottom)
