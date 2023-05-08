@@ -2,14 +2,12 @@ from django.core.exceptions import ValidationError
 
 
 def validate_image_extension(value):
-    import os
-    ext = os.path.splitext(value.name)[1] 
-    valid_extensions = ['.png', '.jpg', '.jpeg']
-    if not ext.lower() in valid_extensions:
-        raise ValidationError('Формат файла не поддерживается')
+    if value not in ['png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG']:
+        raise ValidationError('Расширение файла не поддерживается. \
+                               Поддерживаемые форматы: PNG, JPG')
 
 
 def file_size(value):
-    limit = 10 * 1024 * 1024
-    if value.size > limit:
-        raise ValidationError('Файл слишком большой. Максимальный вес: 10 МБ')
+    limit = 2 * 1024 * 1024
+    if len(value) * 3/4 / 1024 / 1024 > limit:
+        raise ValidationError('Файл слишком большой. Максимальный вес: 2 МБ')
