@@ -63,6 +63,7 @@ def upload_image(request):
             image = Image(user=request.user, image=request.FILES['file'])
             image.save()
     else:
+        print(form.errors)
         return HttpResponse(form.errors)
 
 
