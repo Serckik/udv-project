@@ -16,7 +16,6 @@ from django.core.files.base import ContentFile
 from .validators import validate_image_extension, file_size
 from django.core.exceptions import ValidationError
 
-
 @login_required(login_url='/user/login/')
 @cache_control(no_cache=True, must_revalidate=True)
 def logout_user(request):
