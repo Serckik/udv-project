@@ -8,7 +8,29 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,300&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/cropper.css">
     <script type="module" src="/static/browse/js/SetCards.js"></script>
+    <style>
+        .container {
+          margin: 20px auto;
+          max-width: 640px;
+        }
+    
+        img {
+          max-width: 100%;
+        }
+    
+        .cropper-view-box,
+        .cropper-face {
+          border-radius: 50%;
+        }
+    
+        /* The css styles for `outline` do not follow `border-radius` on iOS/Safari (#979). */
+        .cropper-view-box {
+            outline: 0;
+            box-shadow: 0 0 0 1px #39f;
+        }
+      </style>
 </head>
 <body>
     <header>
@@ -282,23 +304,29 @@
                 <p>Загрузка новой фотографии</p>
             </div>
             <div class="update-image-body">
-                <p>Вы можете загрузить изображении в форматах: PNG, JPEG</p>
-                <button type="button">Выбрать файл</button>
-            </div>
-            <div class="update-image-footer">
-                <p>Если возникают проблемы с загрузкой попробуйте выбрать фотографию меньшего размера</p>
+                <div id="load-image">
+                    <p>Вы можете загрузить изображении в форматах: PNG, JPEG</p>
+                    <input type="file" accept="image/*" >
+                    <button class="choose-image" type="button">Выбрать файл</button>
+                </div>
+                <div id="cropper" class="hidden">
+                    <img id="image" src="/static/img/RinRin_with_cat_ears.png" alt="Picture">
+                    <button class="save-image" type="button">Сохранить</button>
+                </div>
             </div>
         </div>
     </main>
     
     {% csrf_token %}
     <script src="https://code.jquery.com/jquery-3.5.1.js" 
-          integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
-            crossorigin="anonymous"></script>
+    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+      crossorigin="anonymous"></script>
+    <script src="/static/browse/js/cropper.js"></script>
     <script type="module" src="/static/browse/js/menu.js"></script>
     <script type="module" src="/static/browse/js/openCard.js"></script>
     <script type="module" src="/static/browse/js/notification.js"></script>
     <script type="module" src="/static/browse/js/filter.js"></script>
     <script type="module" src="/static/browse/js/profile.js"></script>
+    <script type="module" src="/static/browse/js/update-image.js"></script>
 </body>
 </html>

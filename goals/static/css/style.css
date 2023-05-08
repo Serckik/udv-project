@@ -826,13 +826,16 @@ option:checked {
 
 .update-image-body{
     box-sizing: border-box;
-    padding-top: 97px;
-    height: 324px;
+    padding: 30px;
     text-align: center;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.13);
+}
+
+.update-image-body input{
+    display: none;
 }
 
 .update-image-body button{
+    cursor: pointer;
     box-sizing: border-box;
     margin-top: 70px;
     width: 211px;
@@ -1127,7 +1130,7 @@ textarea{
 }
 
 .hidden{
-    display: none;
+    display: none !important;
 }
 
 .send, .error{
@@ -1252,4 +1255,11 @@ textarea{
 
 .disabled{
     color: gray;
+}
+
+#cropper{
+    width: 100%;
+    height: 600px;
+    display: inline-block;
+    margin: 0 auto;
 }
