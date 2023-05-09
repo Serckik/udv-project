@@ -74,16 +74,6 @@ def upload_image(request):
 
 
 @login_required(login_url='/user/login/')
-def delete_image(request):
-    try:
-        image = Image.objects.get(user=request.user)
-        image.image.delete()
-    except:
-        pass
-    return JsonResponse({'status': 'ok'})
-
-
-@login_required(login_url='/user/login/')
 def get_user_name(request):
     return JsonResponse({'name': request.user.get_full_name(),
                          'id': request.user.id})

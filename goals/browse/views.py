@@ -183,7 +183,8 @@ def get_goals_by_filter(request):
                              'isdone',
                              'owner_id',
                              'block',
-                             'id'))
+                             'id',
+                             'quarter'))
     for item in data:
         user = User.objects.get(id=item['owner_id'])
         item['owner'] = user.get_full_name()
