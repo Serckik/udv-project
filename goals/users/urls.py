@@ -8,5 +8,6 @@ urlpatterns = [
     path('read_notification', views.read_notification),
     path('get_user_name', views.get_user_name),
     path('download_excel', views.download_excel),
-    path('upload_image', views.upload_image)
+    path('upload_image', views.upload_image),
+    path('delete_image', views.delete_image)
 ]
