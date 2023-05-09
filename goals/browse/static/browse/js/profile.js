@@ -27,7 +27,6 @@ export let userName = data.name
 const userId = data.id
 $('.header-user .user-logo').attr('src', '/static/users/img/' + userId + '.png')
 $('.header-user .user-logo').attr('onerror', "this.src='/static/img/user-logo.jpg'")
-$('.card-data .user-logo').attr('src', '/static/users/img/' + userId + '.png')
 $('.personal-area-block .name').text(data.name)
 
 const profile = document.querySelector('.user-logo');
@@ -48,6 +47,7 @@ document.addEventListener('click', (e) => {
     if (e.target.closest('.personal-area-block') || e.target.closest('.user-logo') || e.target.closest('.blur') || e.target.closest('.update-image')) {
       return;
     }
+    $('.are-you-sure').addClass('hidden')
     $('.personal-area-block').addClass('hidden')
     select.addClass('hidden')
 });
@@ -74,4 +74,18 @@ $('.personal-area-block option').on('click', function(e){
     a.click();
     document.body.removeChild(a);
     select.addClass('hidden')
+})
+
+$('.delete-image').on('click', function(){
+    $('.are-you-sure').removeClass('hidden')
+    
+    $('question').on('click', function(e){
+        if(e.currentTarget.innerText === 'Да'){
+            request('POST', '/user/delete_image', {csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
+            location.reload()
+        }
+        else{
+            $('.are-you-sure').addClass('hidden')
+        }
+    })
 })
