@@ -219,6 +219,8 @@ export function OpenCard(id) {
         goal_id: id,
     } 
     let card = request('GET', '/goal/get_goal', data)
+    $('.card-data .user-logo').attr('src', '/static/users/img/' + card.owner_id + '.png')
+    $('.card-data .user-logo').attr('onerror', "this.src='/static/img/user-logo.jpg'")
     FillCard(card)
     FillChat(card.chat)
     FillHistory(card.history)
