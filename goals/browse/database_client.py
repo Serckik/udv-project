@@ -146,7 +146,8 @@ def edit_goal(request, goal):
                              'current',
                              'current_result',
                              'mark',
-                             'fact_mark'])
+                             'fact_mark',
+                             'isdone'])
 
 
 def send_message(request, goal):
