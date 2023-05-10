@@ -56,6 +56,10 @@ export function SetCards(cards){
             done.append(path)
             calendar.append(done)
         }
+        const quarter = element.quarter.split(' ')
+        console.log(quarter)
+        const year = quarter[2]
+        calendar.append($("<span></span>").text(quarter[0] + '/' + year[year.length - 2] + year[year.length - 1]))
         cardTop.append(calendar)
         cardBlock.append(cardTop)
     
