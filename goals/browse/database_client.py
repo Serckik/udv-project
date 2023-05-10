@@ -33,7 +33,8 @@ def update_history(goal, request):
                 'current': true_converter[request.POST.get('current')],
                 'current_result': request.POST.get('current_result'),
                 'mark': int(request.POST.get('mark')),
-                'fact_mark': int(request.POST.get('fact_mark'))}
+                'fact_mark': int(request.POST.get('fact_mark')),
+                'isdone': true_converter[request.POST.get('is_done')]}
 
     old_data = {'name': goal.name,
                 'description': goal.description,
@@ -44,7 +45,8 @@ def update_history(goal, request):
                 'current': goal.current,
                 'current_result': goal.current_result,
                 'mark': goal.mark,
-                'fact_mark': goal.fact_mark}
+                'fact_mark': goal.fact_mark,
+                'isdone': goal.isdone}
 
     translator = {'name': 'Название',
                   'description': 'Образ результата',
@@ -55,7 +57,8 @@ def update_history(goal, request):
                   'current': 'Утверждённая',
                   'current_result': 'Текущий результат',
                   'mark': 'Оценка сотрудника',
-                  'fact_mark': 'Оценка руководителя'}
+                  'fact_mark': 'Оценка руководителя',
+                  'isdone': 'Выполнено'}
 
     if request.user == goal.owner_id and not request.user.is_superuser:
         new_data['fact_mark'] = old_data['fact_mark']
@@ -80,7 +83,7 @@ def update_history(goal, request):
                     if old_data[i] else 'Незапланированная'
                 new_data[i] = 'Запланированная' \
                     if new_data[i] else 'Незапланированная'
-            if i == 'current':
+            if i in ['current', 'isdone']:
                 old_data[i] = 'Да' if old_data[i] else 'Нет'
                 new_data[i] = 'Да' if new_data[i] else 'Нет'
             if i in ['mark', 'weight', 'fact_mark']:
@@ -130,6 +133,7 @@ def edit_goal(request, goal):
     goal.planned = true_converter[request.POST.get('planned')]
     goal.current_result = request.POST.get('current_result')
     goal.mark = int(request.POST.get('mark'))
+    goal.isdone = true_converter[request.POST.get('is_done')]
     if not request.user == goal.owner_id or request.user.is_superuser:
         goal.current = true_converter[request.POST.get('current')]
         goal.fact_mark = int(request.POST.get('fact_mark'))

@@ -3,7 +3,7 @@ from .models import Goal, Quarter
 from .forms import AddGoalForm
 from django.contrib.auth.models import User
 import datetime
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from .validators import goal_validator
 from django.contrib.auth.decorators import login_required
@@ -29,8 +29,6 @@ def browse_add(request):
 def approve_goal(request):
     if request.user.has_perm('browse.change_goal'):
         return render(request, 'browse/approve.html')
-    else:
-        return HttpResponse('Нет прав')
 
 
 @login_required(login_url='/user/login/')
@@ -43,19 +41,19 @@ def editing(request):
                     goal.owner_id.groups.all()) > 0 and
                 request.user.has_perm('browse.change_goal')):
             if not goal_validator(request):
-                return HttpResponse('Ошибка')
+                return JsonResponse({'status': 'validation error'})
             edit_goal(request, goal)
-            return HttpResponse('Успешно')
+            return JsonResponse({'status': 'ok'})
         else:
-            return HttpResponse('У вас недостаточно прав')
+            return JsonResponse({'status': '403 forbidden'})
 
 
 @login_required(login_url='/user/login/')
 def chatting(request):
-    goal = Goal.objects.get(id=request.POST.get('goal_id'))
     if request.method == "POST":
+        goal = Goal.objects.get(id=request.POST.get('goal_id'))
         send_message(request, goal)
-    return HttpResponse('Успешно')
+        return JsonResponse({'status': 'ok'})
 
 
 @login_required(login_url='/user/login/')
@@ -73,39 +71,36 @@ def get_chat(request):
 
 @login_required(login_url='/user/login/')
 def get_goal(request):
-    if request.user.is_authenticated:
-        goal = Goal.objects.get(id=request.GET.get('goal_id'))
-        goal_dict = model_to_dict(goal)
-        chats = goal.chat_set.all()
-        histories = goal.history_set.all()
-        goal_dict['chat'] = []
-        goal_dict['history'] = []
-        for chat in chats:
-            goal_dict['chat'].append({'text': chat.message,
-                                      'time': localtime(chat.created_at),
-                                      'name': chat.owner_id.get_full_name()})
-        for hist in histories:
-            hist_fc = []
-            for fc in hist.fieldchange_set.all():
-                hist_fc.append(model_to_dict(fc))
-            goal_dict['history'].append({'name': hist.owner_id.get_full_name(),
-                                         'time': localtime(hist.created_at),
-                                         'field_changes': hist_fc})
-        goal_dict['user_name'] = User.objects.get(
-            id=goal_dict['owner_id']).get_full_name()
-        goal_dict['admin_rights'] = \
-            len(request.user.groups.all() &
-                goal.owner_id.groups.all()) > 0 and \
-            request.user != goal.owner_id and \
-            request.user.has_perm('browse.change_goal')
-        if request.user.is_superuser:
-            goal_dict['admin_rights'] = True
-        goal_dict['rights'] = goal.owner_id == request.user
-        if goal_dict['admin_rights']:
-            goal_dict['rights'] = True
-        return JsonResponse(goal_dict)
-    else:
-        return HttpResponse("Please login.")
+    goal = Goal.objects.get(id=request.GET.get('goal_id'))
+    goal_dict = model_to_dict(goal)
+    chats = goal.chat_set.all()
+    histories = goal.history_set.all()
+    goal_dict['chat'] = []
+    goal_dict['history'] = []
+    for chat in chats:
+        goal_dict['chat'].append({'text': chat.message,
+                                    'time': localtime(chat.created_at),
+                                    'name': chat.owner_id.get_full_name()})
+    for hist in histories:
+        hist_fc = []
+        for fc in hist.fieldchange_set.all():
+            hist_fc.append(model_to_dict(fc))
+        goal_dict['history'].append({'name': hist.owner_id.get_full_name(),
+                                        'time': localtime(hist.created_at),
+                                        'field_changes': hist_fc})
+    goal_dict['user_name'] = User.objects.get(
+        id=goal_dict['owner_id']).get_full_name()
+    goal_dict['admin_rights'] = \
+        len(request.user.groups.all() &
+            goal.owner_id.groups.all()) > 0 and \
+        request.user != goal.owner_id and \
+        request.user.has_perm('browse.change_goal')
+    if request.user.is_superuser:
+        goal_dict['admin_rights'] = True
+    goal_dict['rights'] = goal.owner_id == request.user
+    if goal_dict['admin_rights']:
+        goal_dict['rights'] = True
+    return JsonResponse(goal_dict)
 
 
 @login_required(login_url='/user/login/')
@@ -195,7 +190,7 @@ def get_goals_by_filter(request):
 
 @login_required(login_url='/user/login/')
 def add_goal(request):
-    if request.method == 'POST' and request.user.is_authenticated:
+    if request.method == 'POST':
         form = AddGoalForm(request.POST)
         if form.is_valid():
             goal = Goal(owner_id=request.user,
@@ -211,10 +206,21 @@ def add_goal(request):
                         fact_mark=0,
                         isdone=False)
             goal.save()
-            return HttpResponse('Успешно')
+            return JsonResponse({'status': 'ok'})
         else:
-            print(form.errors.as_data())
-            return HttpResponse('Ошибка')
+            return JsonResponse({'status': 'validation error'})
+
+
+@login_required(login_url='/user/login/')
+def delete_goal(request):
+    if request.method == 'POST':
+        goal = Goal.objects.get(id=request.POST.get('goal_id'))
+        if not goal.current:
+            goal.delete()
+            return JsonResponse({'status': 'ok'})
+        else:
+            return JsonResponse({'status':
+                                 'Утверждённые задачи нельзя удалить'})
 
 
 @login_required(login_url='/user/login/')

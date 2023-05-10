@@ -3,10 +3,9 @@ from . import views
 
 
 urlpatterns = [
-    path('logout', views.logout_user),
-    path('get_notifications', views.get_notifications),
-    path('read_notification', views.read_notification),
-    path('get_user_name', views.get_user_name),
-    path('download_excel', views.download_excel),
-    path('upload_image', views.upload_image),
+    path('get_notifications', views.get_notifications),  # get
+    path('read_notification', views.read_notification),  # post
+    path('get_user_name', views.get_user_name),  # get
+    path('download_excel', views.download_excel),  # get
+    path('upload_image', views.upload_image),  # post
 ]

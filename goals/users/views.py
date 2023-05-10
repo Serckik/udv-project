@@ -1,7 +1,5 @@
-from django.views.decorators.cache import cache_control
-from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse
 from .models import Notification, Image
 from browse.models import Goal
 from django.utils.timezone import localtime
@@ -15,12 +13,6 @@ import base64
 from django.core.files.base import ContentFile
 from .validators import validate_image_extension, file_size
 from django.core.exceptions import ValidationError
-
-@login_required(login_url='/user/login/')
-@cache_control(no_cache=True, must_revalidate=True)
-def logout_user(request):
-    logout(request)
-    return HttpResponseRedirect('/user/login')
 
 
 @login_required(login_url='/user/login/')
@@ -44,33 +36,35 @@ def get_notifications(request):
 
 @login_required(login_url='/user/login/')
 def read_notification(request):
-    notifi = Notification.objects.get(id=request.POST.get('id'))
-    notifi.is_read = True
-    notifi.save()
-    return HttpResponse('Успешно')
+    if request.method == 'POST':
+        notifi = Notification.objects.get(id=request.POST.get('id'))
+        notifi.is_read = True
+        notifi.save()
+        return JsonResponse({'status': 'ok'})
 
 
 @login_required(login_url='/user/login/')
 def upload_image(request):
-    file = request.POST.get('file')
-    format, imgstr = request.POST.get('file').split(';base64,')
-    ext = format.split('/')[-1]
-    data = ContentFile(base64.b64decode(imgstr),
-                       name=str(request.user.id) + '.' + ext)
-    try:
-        validate_image_extension(ext)
-        file_size(file)
-    except (ValidationError):
-        return JsonResponse({'status': 'error'})
-    if Image.objects.filter(user=request.user).exists():
-        image = Image.objects.get(user=request.user)
-        image.image.delete()
-        image.image = data
-        image.save()
-    else:
-        image = Image(user=request.user, image=data)
-        image.save()
-    return JsonResponse({'status': 'ok'})
+    if request.method == 'POST':
+        file = request.POST.get('file')
+        format, imgstr = request.POST.get('file').split(';base64,')
+        ext = format.split('/')[-1]
+        data = ContentFile(base64.b64decode(imgstr),
+                           name=str(request.user.id) + '.' + ext)
+        try:
+            validate_image_extension(ext)
+            file_size(file)
+        except (ValidationError):
+            return JsonResponse({'status': 'validation error'})
+        if Image.objects.filter(user=request.user).exists():
+            image = Image.objects.get(user=request.user)
+            image.image.delete()
+            image.image = data
+            image.save()
+        else:
+            image = Image(user=request.user, image=data)
+            image.save()
+        return JsonResponse({'status': 'ok'})
 
 
 @login_required(login_url='/user/login/')
