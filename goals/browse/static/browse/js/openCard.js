@@ -113,6 +113,18 @@ function FillCard(cardData) {
     SetVal("#more-form #card-weight", cardData.weight)
     SetVal("#more-form #card-leader-grade", cardData.fact_mark)
     SetVal("#more-form #card-approve", convertBool(cardData.current) ? 'Да' : 'Нет')
+    $('.error').removeClass('error')
+    if(cardData.isdone){
+        $('.complete-block').addClass('complete')
+        $('.complete-block .done').removeClass('hidden')
+    }
+    else{
+        $('.complete-block').removeClass('complete')
+        $('.complete-block .done').addClass('hidden')
+    }
+    if(!cardData.current){
+        $('.delete-icon').removeClass('hidden')
+    }
     $('.disabled').removeClass('disabled')
     $('#more-form select').removeAttr('disabled', 'disabled')
     $('#more-form select').attr('style', 'cursor:pointer')
@@ -120,6 +132,8 @@ function FillCard(cardData) {
     $('#more-form textarea').attr('style', 'cursor:text')
     $('#more-form input[type=submit]').removeAttr('disabled', 'disabled')
     $('#more-form input[type=submit]').attr('style', 'cursor:pointer; color:#333333')
+    $('.edit-header .delete-icon').removeClass('disabled')
+    $('.edit-header .complete-block').removeClass('disabled')
     if(cardData.rights == true && cardData.admin_rights == false){
         console.log("uwu")
         $('.ruk-edit').addClass('disabled')
@@ -128,6 +142,8 @@ function FillCard(cardData) {
     }
     else if(cardData.rights == false && cardData.admin_rights == false){
         $('#more-form').addClass('disabled')
+        $('.edit-header .delete-icon').addClass('disabled')
+        $('.edit-header .complete-block').addClass('disabled')
         $('#more-form select').attr('disabled', 'disabled')
         $('#more-form select').attr('style', 'cursor:default')
         $('#more-form textarea').attr('disabled', 'disabled')
@@ -294,11 +310,12 @@ $(document).on('submit','#more-form',async function(e){
             weight: $('#more-form #card-weight').val(),
             mark: $('#more-form #card-own-grade').val(),
             fact_mark: $('#more-form #card-leader-grade').val(),
+            is_done: $('.edit-header .complete-block').hasClass('complete') ? 'True' : 'False',
             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
         }
 
         let message = request("POST", "/goal/edit", data)
-        if(message != 'Успешно'){
+        if(message.status != 'ok'){
             alert(message)
         }
         await sleep(sleepTime);
@@ -347,6 +364,26 @@ export function FormChange(classForm) {
         $('.' + classForm + ' input').val('cохранить')
     }
  }
+
+$('.complete-block').on('click', function(e){
+    const completeIcon = $('.complete-block')
+    const doneIcon = $('.edit-header .done')
+    if(completeIcon.hasClass('complete')){
+        completeIcon.removeClass('complete')
+        doneIcon.addClass('hidden')
+    }
+    else{
+        completeIcon.addClass('complete')
+        doneIcon.removeClass('hidden')
+    }
+    FormChange('edit')
+})
+
+$('.delete-icon').on('click', function(e){
+    request('POST', '/goal/delete_goal', {goal_id: currentIdCard, csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
+    currentIdCard = null
+    location.reload()
+})
 
 function executeQuery() {
     $.ajax({
