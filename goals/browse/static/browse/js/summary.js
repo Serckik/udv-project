@@ -41,7 +41,7 @@ $('#add-summary-form button').on('click', function(){
         return
     }
     selectedGoals.each(function (indexInArray, valueOfElement) { 
-         goals.push(Number($(this).attr('id')))
+         goals.push($(this).attr('id'))
     });
     let data = {
         name: $("#add-summary-form #summary-name").val(),
@@ -49,7 +49,7 @@ $('#add-summary-form button').on('click', function(){
         fact: $("#add-summary-form #summary-fact").val(),
         block: $("#add-summary-form #card-block").val(),
         quarter: $(".left-submenu #card-cvartal").val(),
-        goals: JSON.stringify(goals),
+        goals: goals,
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
     }
     request('POST', '/goal/add_summary', data)
