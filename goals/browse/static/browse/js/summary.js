@@ -37,9 +37,6 @@ $('.card').on('click', function(e) {
 $('#add-summary-form button').on('click', function(){
     let selectedGoals = $('.selected')
     let goals = []
-    if(selectedGoals.length == 0){
-        return
-    }
     selectedGoals.each(function (indexInArray, valueOfElement) { 
          goals.push($(this).attr('id'))
     });
