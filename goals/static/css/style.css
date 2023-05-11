@@ -1368,3 +1368,7 @@ textarea{
 .summary textarea{
     width: 100%;
 }
+
+.selected{
+    background-color: rgba(21, 255, 0, 0.23);
+}

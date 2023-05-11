@@ -111,6 +111,7 @@ $(document).on('click', '.taked-list-element', function(e){
 
 export function Filter() { 
     block = block.replaceAll('\\', '')
+    picked = picked.replaceAll('\\', '')
     let data = {
         block: block,
         sort: sort,
@@ -136,6 +137,9 @@ export function Filter() {
     }
     if(window.location.href.split('/')[4] != 'summary'){
         data.picked = 'Все'
+    }
+    else{
+        data.self = false
     }
     let cards = request('GET', '/goal/get_goals', data)
     SetCards(cards)
@@ -176,6 +180,9 @@ function CheckCoockies(cookieString){
     $('.done-list-element.active-sort').removeClass('active-sort')
     $('.done-list-element#' + cookieData.done).addClass('active-sort')
     self = cookieData.self
+    picked = cookieData.picked.replace(/[ ./]/g, "\\$&")
+    $('.taked-list-element.active-sort').removeClass('active-sort')
+    $('.taked-list-element#' + picked).addClass('active-sort')
     if(self == 'true') { $('.search-checkbox').prop('checked', true); }
     search = cookieData.search
     $('.search-input').text(cookieData.search)

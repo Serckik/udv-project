@@ -252,7 +252,9 @@ export function OpenCard(id) {
 }
 
 $(document).on('click', '.card', function(e){
-    OpenCard(e.currentTarget.id)
+    if(!e.ctrlKey){
+        OpenCard(e.currentTarget.id)
+    }
 })
 
 $('.message-sender').on('keypress', function(event) {
