@@ -187,11 +187,11 @@ def get_goals_by_filter(request):
         all_summaries = Summary.objects.all()
         intersection = Goal.objects.all()
         for summary in all_summaries:
-            intersection &= summary.goals
+            intersection &= summary.goals.all()
         picked_filtered_goals = intersection if picked == 'Включено' \
-            else Goal.objects.all().difference(intersection)
-        print(picked_filtered_goals)
+            else Goal.objects.all().exclude(pk__in=intersection)
         goals &= picked_filtered_goals
+
 
     data = list(goals.values('name',
                              'weight',
