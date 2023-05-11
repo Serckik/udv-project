@@ -123,6 +123,8 @@ def get_goals_by_filter(request):
         if request.GET.get('planned') != 'Все' else None
     done = request.GET.get('done') \
         if request.GET.get('done') != 'Все' else None
+    picked = request.GET.get('picked') \
+        if request.GET.get('picked') != 'Все' else None
     my = true_converter[request.GET.get('self')]
     search = request.GET.get('search')
     quarters = request.GET.getlist('quarter[]')
@@ -181,6 +183,15 @@ def get_goals_by_filter(request):
     goals = goals.filter(current=current)
     if done:
         goals = goals.filter(isdone=True if done == 'Выполненные' else False)
+    if picked:
+        all_summaries = Summary.objects.all()
+        intersection = Goal.objects.all()
+        for summary in all_summaries:
+            intersection &= summary.goals
+        picked_filtered_goals = intersection if picked == 'Включено' \
+            else Goal.objects.all().difference(intersection)
+
+        goals &= picked_filtered_goals
 
     data = list(goals.values('name',
                              'weight',
