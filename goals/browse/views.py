@@ -32,6 +32,11 @@ def approve_goal(request):
 
 
 @login_required(login_url='/user/login/')
+def summary(request):
+    return render(request, 'browse/summary.html')
+
+
+@login_required(login_url='/user/login/')
 def editing(request):
     if request.method == "POST":
         goal = Goal.objects.get(id=request.POST.get('goal_id'))
