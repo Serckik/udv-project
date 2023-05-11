@@ -186,6 +186,8 @@ def get_goals_by_filter(request):
     if picked:
         all_summaries = Summary.objects.all()
         intersection = Goal.objects.all()
+        if len(all_summaries) == 0:
+            intersection = Goal.objects.none()
         for summary in all_summaries:
             intersection &= summary.goals.all()
         picked_filtered_goals = intersection if picked == 'Включено' \
