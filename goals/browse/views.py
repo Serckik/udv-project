@@ -190,7 +190,7 @@ def get_goals_by_filter(request):
             intersection &= summary.goals
         picked_filtered_goals = intersection if picked == 'Включено' \
             else Goal.objects.all().difference(intersection)
-
+        print(picked_filtered_goals)
         goals &= picked_filtered_goals
 
     data = list(goals.values('name',
