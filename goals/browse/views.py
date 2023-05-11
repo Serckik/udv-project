@@ -256,12 +256,14 @@ def add_summary(request):
     if request.method == 'POST':
         form = SummaryForm(request.POST)
         if form.is_valid():
-            summary = Summary(goals=request.POST.get('goals'),
-                              plan=request.POST.get('plan'),
+            summary = Summary(plan=request.POST.get('plan'),
                               fact=request.POST.get('fact'),
                               block=request.POST.get('block'),
                               quarter=request.POST.get('quarter'),
                               name=request.POST.get('name'))
+            summary.save()
+            summary.goals.set(Goal.objects.filter(
+                pk__in=request.POST.getlist('goals[]')))
             summary.save()
             return JsonResponse({'status': 'ok'})
         else:

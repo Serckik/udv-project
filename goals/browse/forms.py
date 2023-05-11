@@ -51,10 +51,6 @@ class AddGoalForm(forms.Form):
 
 class SummaryForm(forms.Form):
     name = forms.CharField(label='name', required=True)
-    goals = forms.ModelMultipleChoiceField(
-        queryset=Goal.objects.all(),
-        widget=forms.CheckboxSelectMultiple(attrs={'name': 'goals[]'})
-    )
     plan = forms.CharField(label='План', required=True)
     fact = forms.CharField(label='Факт', required=True)
     block = forms.ChoiceField(label='Блок',
