@@ -260,7 +260,8 @@ def add_summary(request):
                               plan=request.POST.get('plan'),
                               fact=request.POST.get('fact'),
                               block=request.POST.get('block'),
-                              quarter=request.POST.get('quarter'))
+                              quarter=request.POST.get('quarter'),
+                              name=request.POST.get('name'))
             summary.save()
             return JsonResponse({'status': 'ok'})
         else:
