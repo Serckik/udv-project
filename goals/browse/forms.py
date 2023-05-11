@@ -1,6 +1,6 @@
 from django import forms
 from .models import CHOICES_WEIGHT, CHOICES_MARK, CHOICES_QUARTER, \
-    CHOICES_BLOCK, CHOICES_BOOL
+    CHOICES_BLOCK, CHOICES_BOOL, Goal
 
 
 class GoalForm(forms.Form):
@@ -28,7 +28,7 @@ class GoalForm(forms.Form):
 
 class ChatForm(forms.Form):
     message = forms.CharField(label='Написать сообщение',
-                              widget=forms.Textarea()) 
+                              widget=forms.Textarea())
 
 
 class AddGoalForm(forms.Form):
@@ -47,3 +47,15 @@ class AddGoalForm(forms.Form):
                                 required=True)
     weight = forms.ChoiceField(label='Вес', required=True,
                                choices=CHOICES_WEIGHT)
+
+
+class SummaryForm(forms.Form):
+    goals = forms.ModelMultipleChoiceField(
+        queryset=Goal.objects.all(),
+    )
+    plan = forms.CharField(label='План', required=True)
+    fact = forms.CharField(label='Факт', required=True)
+    block = forms.ChoiceField(label='Блок',
+                              choices=CHOICES_BLOCK, required=True)
+    quarter = forms.ChoiceField(label='Квартал', choices=CHOICES_QUARTER,
+                                required=True)

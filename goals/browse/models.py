@@ -87,3 +87,17 @@ class FieldChange(models.Model):
     class Meta:
         verbose_name = 'Поле (история)'
         verbose_name_plural = 'Поля (история)'
+
+
+class Summary(models.Model):
+    goals = models.ManyToManyField(Goal)
+    plan = models.TextField('План')
+    fact = models.TextField('Факт')
+    block = models.CharField('Блок', choices=CHOICES_BLOCK, null=False,
+                             max_length=30)
+    quarter = models.CharField('Квартал', choices=CHOICES_QUARTER, null=False,
+                               max_length=25)
+
+    class Meta:
+        verbose_name = 'Сводка'
+        verbose_name_plural = 'Сводки'

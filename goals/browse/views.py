@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import Goal, Quarter
-from .forms import AddGoalForm
+from .models import Goal, Quarter, Summary
+from .forms import AddGoalForm, SummaryForm
 from django.contrib.auth.models import User
 import datetime
 from django.http import JsonResponse
@@ -12,7 +12,7 @@ from django.utils.timezone import localtime
 from django.db.models import Q
 from django.contrib.auth.models import Permission
 from .database_client import true_converter, edit_goal, \
-    send_message
+    send_message, edit_summary
 
 
 @login_required(login_url='/user/login/')
@@ -32,9 +32,13 @@ def approve_goal(request):
 
 
 @login_required(login_url='/user/login/')
-def summary(request):
+def add_summary(request):
     return render(request, 'browse/summary.html')
 
+
+@login_required(login_url='/user/login/')
+def browse_summary(request):
+    return render(request, 'browse/browse_summary.html')
 
 @login_required(login_url='/user/login/')
 def editing(request):
@@ -226,6 +230,44 @@ def delete_goal(request):
         else:
             return JsonResponse({'status':
                                  'Утверждённые задачи нельзя удалить'})
+
+
+@login_required(login_url='/user/login/')
+def get_summaries(request):
+    summaries = Summary.objects.all()
+    return JsonResponse(list(summaries.values()), safe=False)
+
+
+@login_required(login_url='/user/login/')
+def add_summary(request):
+    if request.method == 'POST':
+        form = SummaryForm(request.POST)
+        if form.is_valid():
+            summary = Summary(goals=request.POST.get('goals'),
+                              plan=request.POST.get('plan'),
+                              fact=request.POST.get('fact'),
+                              block=request.POST.get('block'),
+                              quarter=request.POST.get('quarter'))
+            summary.save()
+            return JsonResponse({'status': 'ok'})
+        else:
+            return JsonResponse({'status': 'validation error',
+                                'error': form.errors})
+
+
+@login_required(login_url='/user/login/')
+def editing_summary(request):
+    if request.method == "POST":
+        summary = Goal.objects.get(id=request.POST.get('summary_id'))
+        if request.user.is_superuser:
+            form = SummaryForm(request.POST)
+            if form.is_valid():
+                edit_summary(request, summary)
+                return JsonResponse({'status': 'ok'})
+            else:
+                return JsonResponse({'status': 'validation error'})
+        else:
+            return JsonResponse({'status': '403 forbidden'})
 
 
 @login_required(login_url='/user/login/')

@@ -150,6 +150,19 @@ def edit_goal(request, goal):
                              'isdone'])
 
 
+def edit_summary(request, summary):
+    summary.goals = request.POST.get('goals')
+    summary.block = request.POST.get('block')
+    summary.quarter = request.POST.get('quarter')
+    summary.plan = request.POST.get('plan')
+    summary.fact = request.POST.get('fact')
+    summary.save(update_fields=['goals',
+                                'block',
+                                'quarter',
+                                'plan',
+                                'fact'])
+
+
 def send_message(request, goal):
     text = request.POST.get('message')
     for chunk in split_text(text, 2000):
