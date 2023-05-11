@@ -50,6 +50,7 @@ class AddGoalForm(forms.Form):
 
 
 class SummaryForm(forms.Form):
+    name = forms.CharField(label='name', required=True)
     goals = forms.ModelMultipleChoiceField(
         queryset=Goal.objects.all(),
     )

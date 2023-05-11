@@ -90,6 +90,7 @@ class FieldChange(models.Model):
 
 
 class Summary(models.Model):
+    name = models.TextField('Название')
     goals = models.ManyToManyField(Goal)
     plan = models.TextField('План')
     fact = models.TextField('Факт')
