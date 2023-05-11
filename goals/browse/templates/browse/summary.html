@@ -3,8 +3,26 @@
 {% block title %}Добавить сводку{% endblock %}
 
 {% block content %}
+<div class="summary-pages">
+    <a class="current-page">ДОБАВИТЬ БЛОК</span>
+    <a>РЕДАКТИРОВАТЬ</a>
+</div>
+<div class="summary">
     <div class="cards">
     </div>
-
-    <script type="module" src="/static/browse/js/load.js"></script>
+    <form id="add-summary-form">
+        <p>Название</p>
+        <textarea class="summary-name" id="summary-name"></textarea>
+        <p>План</p>
+        <textarea id="summary-plan"></textarea>
+        <p>Факт</p>
+        <textarea id="summary-fact"></textarea>
+        <div class="edit-flex">
+            <p>Блок:</p>
+            <select id="card-block"></select>
+        </div>
+        <button type="button">Добавить</button>
+    </form>
+</div>
+<script type="module" src="/static/browse/js/summary.js"></script>
 {% endblock %}

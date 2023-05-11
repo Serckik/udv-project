@@ -37,7 +37,7 @@ export function SetCards(cards){
             cardTop.append($("<p></p>").text(element.name))
         }
         let calendar = $("<div class='calendar'></div>")
-        let svgCalendar = $('<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">')
+        let svgCalendar = $('<svg class="calendar-icon" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">')
         for (let index = 0; index < 4; index++) {
             let path = document.createElementNS("http://www.w3.org/2000/svg", 'path');
             path.setAttribute("d",vectors[index]);

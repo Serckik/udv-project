@@ -635,6 +635,18 @@ option:checked {
     margin-left: auto;
 }
 
+.summary-pages{
+    margin-bottom: 16px;
+    font-size: 25px;
+    color: #333333;
+    font-weight: 700;
+}
+
+.summary-pages a{
+    cursor: pointer;
+    margin-right: 2%;
+}
+
 .search-input{
     font-family: 'Montserrat';
     font-size: 17px;
@@ -683,6 +695,7 @@ option:checked {
 
 .cards{
     display: flex;
+    height: fit-content;
     max-height: 771px;
     padding-bottom: 10px;
     overflow: auto;
@@ -756,6 +769,7 @@ option:checked {
 }
 
 .calendar span{
+    display: block;
     font-size: 20px;
     color: rgba(51, 51, 51, 0.55);
 }
@@ -980,7 +994,7 @@ textarea{
     padding: 6px 0 0 6px;
 }
 
-.card-name{
+.card-name, .summary-name{
     height: 62px;
 }
 
@@ -1010,7 +1024,7 @@ textarea{
     width: 102px;
 }
 
-.edit input, .add input{
+.edit input, .tasks .add input{
     display: block;
     width: 170px;
     height: 35px;
@@ -1185,7 +1199,7 @@ textarea{
     background-color: #F26065 !important;
 }
 
-.add{
+.tasks .add{
     box-sizing: border-box;
     background: rgba(196, 188, 178, 0.15);
     border-radius: 6px;
@@ -1247,15 +1261,15 @@ textarea{
     width: 45%;
 }
 
-.add p{
+.tasks .add p{
     margin: 0;
 }
 
-.add textarea{
+.tasks .add textarea{
     width: 100%;
 }
 
-.add select{
+.tasks .add select{
     width: 213px;
     background: rgba(217, 217, 217, 0.55);
     border-radius: 4px;
@@ -1277,7 +1291,7 @@ textarea{
     border-color: red;
 }
 
-.add #card-cvartal{
+.tasks .add #card-cvartal{
     width: auto;
 }
 
@@ -1304,4 +1318,53 @@ textarea{
     height: 600px;
     display: inline-block;
     margin: 0 auto;
+}
+
+.summary{
+    display: flex;
+    gap: 2%;
+}
+
+.summary .cards{
+    width: 70%;
+}
+
+.summary .card{
+    width: 47%;
+}
+
+#add-summary-form{
+    font-family: 'OfficinaSansWinCTT';
+    width: 30%;
+    font-size: 23px;
+    color: #333333;
+}
+
+#add-summary-form p{
+    margin: 10px 0;
+}
+
+#add-summary-form select{
+    margin-top: 10px;
+    margin-left: 5px;
+    width: 100%;
+}
+
+#add-summary-form button{
+    cursor: pointer;
+    text-align: center;
+    display: table;
+    margin: 0 auto;
+    margin-top: 10px;
+    width: 137px;
+    height: 28px;
+    color: white;
+    font-size: 22px;
+    border: none;
+    background: #F89C1D;
+    border-radius: 4px;
+}
+
+.summary textarea{
+    width: 100%;
 }

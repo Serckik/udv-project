@@ -38,13 +38,13 @@
             <a class="Задачи" href="/"><img src="/static/img/logo.svg"></a>
         </div>
         <div class="header-nav">
-            <a class="Задачи" href="/">ЗАДАЧИ</a>
-            <a class="Добавить" href="/goal/add">ДОБАВИТЬ</a>
+            <a class="browse" href="/">ЗАДАЧИ</a>
+            <a class="add" href="/goal/add">ДОБАВИТЬ</a>
             {% if perms.browse.change_goal %}
-                <a class="Утвердить" href="/goal/approve">УТВЕРДИТЬ</a>
+                <a class="approve" href="/goal/approve">УТВЕРДИТЬ</a>
             {% endif %}
             {% if request.user.is_superuser %}
-                <a class="Сводка" href="/goal/summary">СВОДКА</a>
+                <a class="summary" href="/goal/summary">СВОДКА</a>
             {% endif %}
         </div>
         <div class="header-user">
@@ -183,19 +183,36 @@
                 </li>
             </ul>
             <div class="line"></div>
-            <p>Готовность</p>
-            <ul class="done-list">
-                <li class="done-list-element active-sort" id="Все">
-                    <span>ВСЕ</span>
-                </li>
-                <li class="done-list-element" id="Выполненные">
-                    <span>ВЫПОЛНЕННЫЕ</span>
-                </li>
-                <li class="done-list-element" id="Невыполненные">
-                    <span>НЕВЫПОЛНЕННЫЕ</span>
-                </li>
-            </ul>
-            <div class="line"></div>
+            <div class="done-block">
+                <p>Готовность</p>
+                <ul class="done-list">
+                    <li class="done-list-element active-sort" id="Все">
+                        <span>ВСЕ</span>
+                    </li>
+                    <li class="done-list-element" id="Выполненные">
+                        <span>ВЫПОЛНЕННЫЕ</span>
+                    </li>
+                    <li class="done-list-element" id="Невыполненные">
+                        <span>НЕВЫПОЛНЕННЫЕ</span>
+                    </li>
+                </ul>
+                <div class="line"></div>
+            </div>
+            <div class="taked-block hidden">
+                <p>Включенность</p>
+                <ul class="taked-list">
+                    <li class="taked-list-element active-sort" id="Все">
+                        <span>ВСЕ</span>
+                    </li>
+                    <li class="taked-list-element" id="Включено">
+                        <span>ВКЛЮЧЕНО</span>
+                    </li>
+                    <li class="taked-list-element" id="Не включено">
+                        <span>НЕ ВКЛЮЧЕНО</span>
+                    </li>
+                </ul>
+                <div class="line"></div>
+            </div>
             <p>Квартал</p>
             <select multiple class="cvartal-select" id="card-cvartal">
             </select>

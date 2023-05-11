@@ -3,7 +3,7 @@ import { quarterRequestData } from "./filter.js"
 
 CreateOptionBlocks(quarterRequestData.quarters, '.left-submenu #card-cvartal')
 
-let title = $('title')[0].text
+let title = window.location.href.split('/')[4]
 $('.' + title).addClass('current-page')
 
 $('option').mousedown(function(e) {

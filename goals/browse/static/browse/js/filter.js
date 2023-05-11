@@ -24,6 +24,7 @@ let planned = 'Все'
 let done = 'Все'
 let self = false
 let search = ''
+let picked = 'Все'
 export let quarter = [quarterRequestData.current_quarter]
 console.log(document.cookie)
 CheckCoockies(document.cookie)
@@ -79,6 +80,11 @@ $(document).on('click', '.left-submenu .cvartal-select option',function () {
     Filter()
 })
 
+$(document).on('change', '.left-submenu .cvartal-select',function () { 
+    quarter = [$(this).val()]
+    Filter()
+})
+
 $(document).on('click', '.search-checkbox', function(e){
     self = $('.search-checkbox').is(':checked')
     Filter()
@@ -96,6 +102,13 @@ $(document).on('input', '.search-input', function(e){
     Filter()
 })
 
+$(document).on('click', '.taked-list-element', function(e){
+    $('.taked-list-element.active-sort').removeClass('active-sort')
+    e.currentTarget.classList.add('active-sort')
+    picked = e.currentTarget.id
+    Filter()
+})
+
 export function Filter() { 
     block = block.replaceAll('\\', '')
     let data = {
@@ -107,7 +120,8 @@ export function Filter() {
         search: search,
         quarter: quarter,
         current: true,
-        approve: false
+        approve: false,
+        picked: picked
     }
     for (let key in data) {
         AddCoockie(data[key], key)
@@ -119,6 +133,9 @@ export function Filter() {
     if(window.location.href.split('/')[4] == 'approve'){
         data.approve = true
         data.current = false
+    }
+    if(window.location.href.split('/')[4] != 'summary'){
+        data.picked = 'Все'
     }
     let cards = request('GET', '/goal/get_goals', data)
     SetCards(cards)
