@@ -760,10 +760,27 @@ option:checked {
     color: rgba(51, 51, 51, 0.55);
 }
 
+.complete-block{
+    position: relative;
+    cursor: pointer;
+}
+
+.edit-header .done{
+    position: absolute;
+    margin-left: 28px;
+    margin-top: 17px;
+    left: 0;
+    top: 0;
+}
+
+.edit-header .complete path{
+    stroke: #F89C1D;
+}
+
 .card-top .done{
     position: absolute;
     top: 17px;
-    left: 9px;
+    right: 8px;
 }
 
 .card-bottom p{
@@ -908,6 +925,20 @@ option:checked {
     padding-right: 14px;
     padding: 12px 14px 5px 29px;
 }
+
+.edit-header svg{
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.edit-header .complete-block:hover path{
+    stroke: #F89C1D;
+}
+
+.edit-header .delete-icon:hover path{
+    stroke: #F09191;
+}
+
 
 .chat-header, .history-header{
     box-sizing: border-box;
@@ -1261,6 +1292,11 @@ textarea{
 
 .disabled{
     color: gray;
+    cursor: default !important;
+}
+
+.disabled{
+    pointer-events: none;
 }
 
 #cropper{
