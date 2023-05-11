@@ -32,7 +32,7 @@ def approve_goal(request):
 
 
 @login_required(login_url='/user/login/')
-def add_summary(request):
+def summary(request):
     return render(request, 'browse/summary.html')
 
 

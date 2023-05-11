@@ -5,7 +5,7 @@ urlpatterns = [
     path('browse', views.browse),  # render
     path('add', views.browse_add),  # render
     path('approve', views.approve_goal),  # render
-    path('summary', views.add_summary),  # render
+    path('summary', views.summary),  # render
     path('browse_summary', views.browse_summary),  # render
     path('edit', views.editing),  # post
     path('get_goal', views.get_goal),  # get
