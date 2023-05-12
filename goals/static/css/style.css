@@ -1024,7 +1024,8 @@ textarea{
     width: 102px;
 }
 
-.edit input, .tasks .add input{
+.edit input, .tasks .add input, #add-summary-form input{
+    cursor: pointer;
     display: block;
     width: 170px;
     height: 35px;
@@ -1348,21 +1349,6 @@ textarea{
     margin-top: 10px;
     margin-left: 5px;
     width: 100%;
-}
-
-#add-summary-form button{
-    cursor: pointer;
-    text-align: center;
-    display: table;
-    margin: 0 auto;
-    margin-top: 10px;
-    width: 137px;
-    height: 28px;
-    color: white;
-    font-size: 22px;
-    border: none;
-    background: #F89C1D;
-    border-radius: 4px;
 }
 
 .summary textarea{

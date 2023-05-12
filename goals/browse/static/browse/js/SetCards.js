@@ -1,4 +1,4 @@
-import { Filter, colors, vectors } from "./filter.js"
+import { Filter, colors, vectors, selectedGoals } from "./filter.js"
 
 export function request(type, url, data){
     let dataCards = ''
@@ -57,7 +57,6 @@ export function SetCards(cards){
             calendar.append(done)
         }
         const quarter = element.quarter.split(' ')
-        console.log(quarter)
         const year = quarter[2]
         calendar.append($("<span></span>").text(quarter[0] + '/' + year[year.length - 2] + year[year.length - 1]))
         cardTop.append(calendar)
@@ -76,4 +75,19 @@ export function SetCards(cards){
     
         $(".cards").append(cardBlock)
     });
+    if(window.location.href.split('/')[4] == 'summary'){
+        UpdateTaked()
+    }
+}
+
+export function UpdateTaked() { 
+    const card = $('.card')
+    card.each(function(){
+        if(selectedGoals.includes(this.id)){
+            this.classList.add('selected')
+        }
+        else{
+            this.classList.remove('selected')
+        }
+    })
 }

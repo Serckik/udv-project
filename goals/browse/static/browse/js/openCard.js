@@ -325,6 +325,7 @@ $(document).on('submit','#more-form',async function(e){
         clearTimeout(timeutID)
         OpenCard(currentIdCard)
         CardSend('edit')
+        
     }
     else{
         CardNameError('edit', 'card-name')
@@ -344,6 +345,7 @@ $(document).on('change', "#more-form select", function(e){
 })
 
 export function CardSend(classForm) { 
+    console.log(classForm)
     $('.' + classForm + ' input').addClass('send')
     $('.' + classForm + ' input').val('✓')
  }
@@ -354,16 +356,16 @@ export function CardNameError(classForm, nameId) {
     $('.' + classForm + ' input').val('!')
 }
 
-export function CardNameChange(classForm, nameId){
+export function CardNameChange(classForm, nameId, defaultValue='сохранить'){
     $('.' + classForm + ' #' + nameId).attr('style', 'border: none')
     $('.' + classForm + ' input').removeClass('error')
-    $('.' + classForm + ' input').val('cохранить')
+    $('.' + classForm + ' input').val(defaultValue)
 }
 
-export function FormChange(classForm) { 
+export function FormChange(classForm, defaultValue='сохранить') { 
     $('.' + classForm + ' input').removeClass('send')
     if($('.' + classForm + ' .error').length == 0){
-        $('.' + classForm + ' input').val('cохранить')
+        $('.' + classForm + ' input').val(defaultValue)
     }
  }
 
