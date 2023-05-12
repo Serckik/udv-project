@@ -180,7 +180,9 @@ function CheckCoockies(cookieString){
     $('.done-list-element.active-sort').removeClass('active-sort')
     $('.done-list-element#' + cookieData.done).addClass('active-sort')
     self = cookieData.self
-    picked = cookieData.picked.replace(/[ ./]/g, "\\$&")
+    if(picked != undefined){
+        picked = cookieData.picked.replace(/[ ./]/g, "\\$&")
+    }
     $('.taked-list-element.active-sort').removeClass('active-sort')
     $('.taked-list-element#' + picked).addClass('active-sort')
     if(self == 'true') { $('.search-checkbox').prop('checked', true); }
