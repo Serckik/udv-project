@@ -98,6 +98,9 @@ class Summary(models.Model):
                              max_length=30)
     quarter = models.CharField('Квартал', choices=CHOICES_QUARTER, null=False,
                                max_length=25)
+    average_mark = models.IntegerField('Степень завершенности',
+                                       choices=CHOICES_MARK, null=True,
+                                       default=0)
 
     class Meta:
         verbose_name = 'Сводка'

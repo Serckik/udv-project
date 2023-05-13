@@ -2,6 +2,7 @@ from users.models import Notification
 from .models import History
 from django.contrib.auth.models import User
 import re
+from .models import Goal
 
 true_converter = {'true': True, 'True': True, 'False': False, 'false': False}
 
@@ -151,16 +152,19 @@ def edit_goal(request, goal):
 
 
 def edit_summary(request, summary):
-    summary.goals = request.POST.get('goals')
     summary.block = request.POST.get('block')
     summary.quarter = request.POST.get('quarter')
     summary.plan = request.POST.get('plan')
     summary.fact = request.POST.get('fact')
+    summary.average_mark = request.POST.get('average_mark')
+    summary.goals.set(Goal.objects.filter(
+                pk__in=request.POST.getlist('goals[]')))
     summary.save(update_fields=['goals',
                                 'block',
                                 'quarter',
                                 'plan',
-                                'fact'])
+                                'fact',
+                                'average_mark'])
 
 
 def send_message(request, goal):

@@ -57,3 +57,6 @@ class SummaryForm(forms.Form):
                               choices=CHOICES_BLOCK, required=True)
     quarter = forms.ChoiceField(label='Квартал', choices=CHOICES_QUARTER,
                                 required=True)
+    average_mark = forms.ChoiceField(label='Степень завершенности',
+                                     required=False,
+                                     choices=CHOICES_MARK)

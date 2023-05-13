@@ -252,6 +252,17 @@ def get_summaries(request):
 
 
 @login_required(login_url='/user/login/')
+def get_summary(request):
+    summary = Summary.objects.get(id=request.GET.get('summary_id'))
+    summary_dict = model_to_dict(summary)
+    goal_ids = []
+    for goal in summary_dict['goals']:
+        goal_ids.append(goal.id)
+    summary_dict['goals'] = goal_ids
+    return JsonResponse(summary_dict)
+
+
+@login_required(login_url='/user/login/')
 def add_summary(request):
     if request.method == 'POST':
         form = SummaryForm(request.POST)
@@ -260,7 +271,8 @@ def add_summary(request):
                               fact=request.POST.get('fact'),
                               block=request.POST.get('block'),
                               quarter=request.POST.get('quarter'),
-                              name=request.POST.get('name'))
+                              name=request.POST.get('name'),
+                              average_mark=0)
             summary.save()
             summary.goals.set(Goal.objects.filter(
                 pk__in=request.POST.getlist('goals[]')))
@@ -274,7 +286,7 @@ def add_summary(request):
 @login_required(login_url='/user/login/')
 def editing_summary(request):
     if request.method == "POST":
-        summary = Goal.objects.get(id=request.POST.get('summary_id'))
+        summary = Summary.objects.get(id=request.POST.get('summary_id'))
         if request.user.is_superuser:
             form = SummaryForm(request.POST)
             if form.is_valid():
@@ -284,6 +296,14 @@ def editing_summary(request):
                 return JsonResponse({'status': 'validation error'})
         else:
             return JsonResponse({'status': '403 forbidden'})
+
+
+@login_required(login_url='/user/login/')
+def delete_summary(request):
+    if request.method == 'POST':
+        summary = Goal.objects.get(id=request.POST.get('summary_id'))
+        summary.delete()
+        return JsonResponse({'status': 'ok'})
 
 
 @login_required(login_url='/user/login/')
