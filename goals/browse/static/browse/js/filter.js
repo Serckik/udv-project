@@ -1,4 +1,4 @@
-import {SetCards } from "./SetCards.js"
+import { SetCards } from "./SetCards.js"
 
 export let colors = {"Оценка": "rgba(255, 81, 81, 0.44)",
               "Подбор": "rgba(255, 153, 0, 0.44)",
@@ -25,6 +25,7 @@ let done = 'Все'
 let self = false
 let search = ''
 let picked = 'Все'
+export let selectedGoals = []
 export let quarter = [quarterRequestData.current_quarter]
 console.log(document.cookie)
 CheckCoockies(document.cookie)
@@ -125,7 +126,9 @@ export function Filter() {
         picked: picked
     }
     for (let key in data) {
-        AddCoockie(data[key], key)
+        if(key !== 'search'){
+            AddCoockie(data[key], key)
+        }
     }
     if(window.location.href.split('/')[4] == 'add'){
         data.current = false
@@ -143,9 +146,26 @@ export function Filter() {
     }
     let cards = request('GET', '/goal/get_goals', data)
     SetCards(cards)
+    if(window.location.href.split('/')[4] == 'summary'){
+        const card = $('.card')
+        console.log(self)
+        if(self){
+            console.log(self)
+            card.each(function(){
+                if(!this.classList.contains('selected')){
+                    this.classList.add('hidden')
+                }
+            })
+        }
+        else{
+            card.each(function(){
+                this.classList.remove('hidden')
+            })
+        }
+    }
 }
 
-function AddCoockie(username, nameCookie) { 
+export function AddCoockie(username, nameCookie) { 
     let encodedUsername = encodeURIComponent(username)
     document.cookie = `${nameCookie}=${encodedUsername}`
 }
@@ -179,17 +199,21 @@ function CheckCoockies(cookieString){
     done = cookieData.done
     $('.done-list-element.active-sort').removeClass('active-sort')
     $('.done-list-element#' + cookieData.done).addClass('active-sort')
-    self = cookieData.self
-    picked = cookieData.picked.replace(/[ ./]/g, "\\$&")
+    self = JSON.parse(cookieData.self)
+    console.log(self)
+    if(cookieData.picked != undefined){
+        picked = cookieData.picked.replace(/[ ./]/g, "\\$&")
+    }
     $('.taked-list-element.active-sort').removeClass('active-sort')
     $('.taked-list-element#' + picked).addClass('active-sort')
-    if(self == 'true') { $('.search-checkbox').prop('checked', true); }
-    search = cookieData.search
-    $('.search-input').text(cookieData.search)
+    if(self) { $('.search-checkbox').prop('checked', true); }
     quarter = cookieData.quarter.split(',')
     quarter = quarter.filter((item) => {
         return Boolean(item);
     })
+    if(cookieData.selectedGoals != undefined){
+        selectedGoals = cookieData.selectedGoals.split(',')
+    }
     Filter()
 }
 

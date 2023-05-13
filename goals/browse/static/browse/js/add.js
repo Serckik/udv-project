@@ -47,15 +47,15 @@ $(document).on('submit', '#add-form', async function(e){
 })
 
 $(document).on('input', "#add-form #card-name", function(e){
-    CardNameChange('add', 'card-name')
+    CardNameChange('add', 'card-name', 'добавить')
 })
 
 $(document).on('input', "#add-form textarea", function(e){
-    FormChange('add')
+    FormChange('add', 'Добавить')
 })
 
 $(document).on('change', "#add-form select", function(e){
-    FormChange('add')
+    FormChange('add', 'добавить')
 })
 
 Filter()

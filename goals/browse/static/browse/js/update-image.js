@@ -42,7 +42,13 @@ function getRoundedCanvas(sourceCanvas) {
   }
   
 $('.update-image-body input').on('change', function (e) {
+    var imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'];
     const file = e.target.files[0];
+    const fileExtension = file.name.split('.').pop()
+    if(!imageExtensions.includes(fileExtension)){
+        alert('Неверный формат изображения')
+        return
+    }
     const reader = new FileReader();
 
     reader.onload = function(e) {
