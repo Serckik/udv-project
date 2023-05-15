@@ -247,7 +247,14 @@ def delete_goal(request):
 
 @login_required(login_url='/user/login/')
 def get_summaries(request):
+    block = request.GET.get('block') \
+        if request.GET.get('block') != 'Все' else None
+    quarter = request.GET.get('quarter')
     summaries = Summary.objects.all()
+    if block:
+        summaries.filter(block=block)
+    if quarter:
+        summaries.filter(quarter=quarter)
     return JsonResponse(list(summaries.values()), safe=False)
 
 
