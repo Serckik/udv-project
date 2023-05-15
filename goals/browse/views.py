@@ -40,6 +40,7 @@ def summary(request):
 def browse_summary(request):
     return render(request, 'browse/browse_summary.html')
 
+
 @login_required(login_url='/user/login/')
 def editing(request):
     if request.method == "POST":
@@ -250,11 +251,18 @@ def get_summaries(request):
     block = request.GET.get('block') \
         if request.GET.get('block') != 'Все' else None
     quarter = request.GET.get('quarter')
+    search = request.GET.get('search')
     summaries = Summary.objects.all()
     if block:
         summaries = summaries.filter(block=block)
     if quarter:
         summaries = summaries.filter(quarter=quarter)
+    if search:
+        search = search.strip()
+        q1 = summaries.filter(name__icontains=search)
+        q2 = summaries.filter(plan__icontains=search)
+        q3 = summaries.filter(fact__icontains=search)
+        summaries = q1 | q2 | q3 
     return JsonResponse(list(summaries.values()), safe=False)
 
 
