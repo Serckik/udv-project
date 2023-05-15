@@ -13,6 +13,7 @@ import base64
 from django.core.files.base import ContentFile
 from .validators import validate_image_extension, file_size
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 
 @login_required(login_url='/user/login/')
@@ -75,79 +76,137 @@ def get_user_name(request):
 
 @login_required(login_url='/user/login/')
 def download_excel(request):
-    wb = openpyxl.Workbook()
-    quarter = request.GET.get('quarter')
-    goals = list(Goal.objects.filter(owner_id=request.user, quarter=quarter,
-                                     current=True).values())
-    goals_count = len(goals)
-    ws = wb.active
-    thin_border = Border(left=Side(style='thin'),
-                         right=Side(style='thin'),
-                         top=Side(style='thin'),
-                         bottom=Side(style='thin'))
+    if not request.user.is_superuser:
+        wb = openpyxl.Workbook()
+        quarter = request.GET.get('quarter')
+        goals = list(Goal.objects.filter(owner_id=request.user,
+                                         quarter=quarter,
+                                         current=True).values())
+        goals_count = len(goals)
+        ws = wb.active
+        ws.title = quarter
+        thin_border = Border(left=Side(style='thin'),
+                             right=Side(style='thin'),
+                             top=Side(style='thin'),
+                             bottom=Side(style='thin'))
 
-    ws['A2'] = f'Сводка за {quarter} {request.user.get_full_name()}'
-    ws['A2'].font = Font(bold=True, size=14)
-    ws['A2'].alignment = Alignment(horizontal="center")
-    ws['A2'].border = thin_border
-    ws.merge_cells('A2:H2')
+        ws['A2'] = f'Сводка за {quarter} {request.user.get_full_name()}'
+        ws['A2'].font = Font(bold=True, size=14)
+        ws['A2'].alignment = Alignment(horizontal="center")
+        ws['A2'].border = thin_border
+        ws.merge_cells('A2:H2')
 
-    ws['A3'] = 'Название задачи'
-    ws['A3'].alignment = Alignment(horizontal="center")
-    ws['A3'].border = thin_border
-    ws.merge_cells('A3:E3')
+        ws['A3'] = 'Название задачи'
+        ws['A3'].alignment = Alignment(horizontal="center")
+        ws['A3'].border = thin_border
+        ws.merge_cells('A3:E3')
 
-    ws['F3'] = 'Вес, %'
-    ws['F3'].alignment = Alignment(horizontal="center")
-    ws['F3'].border = thin_border
+        ws['F3'] = 'Вес, %'
+        ws['F3'].alignment = Alignment(horizontal="center")
+        ws['F3'].border = thin_border
 
-    ws['G3'] = 'Оценка, %'
-    ws['G3'].alignment = Alignment(horizontal="center")
-    ws.column_dimensions['G'].width = 13
-    ws['G3'].border = thin_border
+        ws['G3'] = 'Оценка, %'
+        ws['G3'].alignment = Alignment(horizontal="center")
+        ws.column_dimensions['G'].width = 13
+        ws['G3'].border = thin_border
 
-    ws['H3'] = 'Итог'
-    ws['H3'].alignment = Alignment(horizontal="center")
-    ws['H3'].border = thin_border
+        ws['H3'] = 'Итог'
+        ws['H3'].alignment = Alignment(horizontal="center")
+        ws['H3'].border = thin_border
 
-    ws['J3'] = 'Итоговый коэффициент:'
-    ws['J3'].fill = PatternFill(start_color='FFC000',
-                                end_color='FFC000',
-                                fill_type='solid')
-    ws['J3'].alignment = Alignment(horizontal="center")
-    ws['J3'].border = Border(left=Side(style='medium'),
-                             top=Side(style='medium'),
-                             bottom=Side(style='medium'))
-    ws.merge_cells('J3:L3')
+        ws['J3'] = 'Итоговый коэффициент:'
+        ws['J3'].fill = PatternFill(start_color='FFC000',
+                                    end_color='FFC000',
+                                    fill_type='solid')
+        ws['J3'].alignment = Alignment(horizontal="center")
+        ws['J3'].border = Border(left=Side(style='medium'),
+                                 top=Side(style='medium'),
+                                 bottom=Side(style='medium'))
+        ws.merge_cells('J3:L3')
 
-    ws['M3'] = f'=SUM(H4:H{4+goals_count})'
-    ws['M3'].alignment = Alignment(horizontal="right")
-    ws['M3'].fill = PatternFill(start_color='D9D9D9',
-                                end_color='D9D9D9',
-                                fill_type='solid')
-    ws['M3'].border = Border(right=Side(style='medium'),
-                             top=Side(style='medium'),
-                             bottom=Side(style='medium'))
+        ws['M3'] = f'=SUM(H4:H{4+goals_count})'
+        ws['M3'].alignment = Alignment(horizontal="right")
+        ws['M3'].fill = PatternFill(start_color='D9D9D9',
+                                    end_color='D9D9D9',
+                                    fill_type='solid')
+        ws['M3'].border = Border(right=Side(style='medium'),
+                                 top=Side(style='medium'),
+                                 bottom=Side(style='medium'))
 
-    for row, goal in zip(ws[f'A4:A{goals_count+4}'], goals):
-        for cell in row:
+        for row, goal in zip(ws[f'A4:A{goals_count+4}'], goals):
+            for cell in row:
+                cell.border = thin_border
+                cell.value = goal['name']
+                cell.alignment = Alignment(horizontal="center")
+                number = int(''.join(filter(str.isdigit, cell.coordinate)))
+                ws.merge_cells(f'{cell.coordinate}:E{number}')
+
+        for row_idx, goal in enumerate(goals, start=4):
+            cell = ws.cell(row=row_idx, column=6, value=goal['weight'])
             cell.border = thin_border
-            cell.value = goal['name']
-            cell.alignment = Alignment(horizontal="center")
-            number = int(''.join(filter(str.isdigit, cell.coordinate)))
-            ws.merge_cells(f'{cell.coordinate}:E{number}')
+            cell.alignment = Alignment(horizontal="right")
+            cell = ws.cell(row=row_idx, column=7, value=goal['fact_mark'])
+            cell.border = thin_border
+            cell.alignment = Alignment(horizontal="right")
+            cell = ws.cell(row=row_idx, column=8,
+                           value=f"=F{row_idx}/100 * G{row_idx}/100")
+            cell.border = thin_border
+            cell.alignment = Alignment(horizontal="right")
+    else:
+        wb = openpyxl.Workbook()
+        quarter = request.GET.get('quarter')
+        goals = list(Goal.objects.filter(owner_id=request.user,
+                                         quarter=quarter,
+                                         current=True).values())
+        goals_count = len(goals)
+        ws = wb.active
+        ws.title = quarter
+        thin_border = Border(left=Side(style='thin'),
+                             right=Side(style='thin'),
+                             top=Side(style='thin'),
+                             bottom=Side(style='thin'))
 
-    for row_idx, goal in enumerate(goals, start=4):
-        cell = ws.cell(row=row_idx, column=6, value=goal['weight'])
-        cell.border = thin_border
-        cell.alignment = Alignment(horizontal="right")
-        cell = ws.cell(row=row_idx, column=7, value=goal['fact_mark'])
-        cell.border = thin_border
-        cell.alignment = Alignment(horizontal="right")
-        cell = ws.cell(row=row_idx, column=8,
-                       value=f"=F{row_idx}/100 * G{row_idx}/100")
-        cell.border = thin_border
-        cell.alignment = Alignment(horizontal="right")
+        ws['A2'] = f'Сводка за {quarter}'
+        ws['A2'].font = Font(bold=True, size=14)
+        ws['A2'].alignment = Alignment(horizontal='center', vertical='center')
+        ws['A2'].border = thin_border
+        ws.merge_cells('A2:H3')
+
+        ws['A4'] = 'ФИО'
+        ws['A4'].font = Font(bold=True, size=14)
+        ws['A4'].alignment = Alignment(horizontal='center', vertical='center')
+        ws['A4'].border = thin_border
+        ws.merge_cells('A4:F5')
+
+        ws['G4'] = 'Коэффициент'
+        ws['G4'].font = Font(bold=True, size=14)
+        ws['G4'].alignment = Alignment(horizontal='center', vertical='center')
+        ws['G4'].border = thin_border
+        ws.merge_cells('G4:H5')
+
+        users = User.objects.all()
+        i = 6
+        for user in users:
+            ws[f'A{i}'] = user.get_full_name()
+            ws[f'A{i}'].font = Font(bold=False, size=11)
+            ws[f'A{i}'].alignment = Alignment(horizontal='center',
+                                              vertical='center')
+            ws[f'A{i}'].border = thin_border
+            ws.merge_cells(f'A{i}:F{i+1}')
+            
+            goals = Goal.objects.filter(owner_id=user)
+            koef = 0
+            for goal in goals:
+                koef += (goal.weight / 100) * (goal.fact_mark / 100)
+
+            ws[f'G{i}'] = koef
+            ws[f'G{i}'].font = Font(bold=True, size=11)
+            ws[f'G{i}'].alignment = Alignment(horizontal='center',
+                                              vertical='center')
+            ws[f'G{i}'].border = thin_border
+            ws.merge_cells(f'G{i}:H{i+1}')
+
+            i += 2
 
     with NamedTemporaryFile(delete=True) as tmp_file:
         wb.save(tmp_file.name)
