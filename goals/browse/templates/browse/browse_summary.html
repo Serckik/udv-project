@@ -3,8 +3,49 @@
 {% block title %}Все сводки{% endblock %}
 
 {% block content %}
-    <div class="cards">
+    <div class="summary-pages">
+        <a href="/goal/summary">ДОБАВИТЬ БЛОК</span>
+        <a href="/goal/browse_summary" class="current-page">РЕДАКТИРОВАТЬ</a>
+        <a href="" class="load-excel">ВЫГРУЗИТЬ СВОДКУ</a>
+    </div>
+    <div class="summary-cards-block">
+        <div id="Оценка">
+            <p class="block-name">Оценка</p>
+            <div class="summary-cards"></div>
+        </div>
+        <div id="Подбор">
+            <p class="block-name">Подбор</p>
+            <div class="summary-cards"></div>
+        </div>
+        <div id="Адаптация">
+            <p class="block-name">Адаптация</p>
+            <div class="summary-cards"></div>
+        </div>
+        <div id="Корп.культураибенефиты">
+            <p class="block-name">Корп. культура и бенефиты</p>
+            <div class="summary-cards"></div>
+        </div>
+        <div id="HR-брендвнешний">
+            <p class="block-name">HR-бренд внешний</p>
+            <div class="summary-cards"></div>
+        </div>
+        <div id="HR-сопровождение">
+            <p class="block-name">HR-сопровождение</p>
+            <div class="summary-cards"></div>
+        </div>
+        <div id="Внутренняяработаотдела">
+            <p class="block-name">Внутренняя работа отдела</p>
+            <div class="summary-cards"></div>
+        </div>
+        <div id="Кадровыйучетиз/п">
+            <p class="block-name">Кадровый учет и з/п</p>
+            <div class="summary-cards"></div>
+        </div>
+        <div id="Развитиеперсонала">
+            <p class="block-name">Развитие персонала</p>
+            <div class="summary-cards"></div>
+        </div>
     </div>
 
-    <script type="module" src="/static/browse/js/load.js"></script>
+    <script type="module" src="/static/browse/js/summaryLoad.js"></script>
 {% endblock %}

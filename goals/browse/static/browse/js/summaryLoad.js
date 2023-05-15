@@ -1,0 +1,6 @@
+$('.cvartal-select').removeAttr('multiple')
+$('.left-submenu .planned-block').addClass('hidden')
+$('.left-submenu .sort-block').addClass('hidden')
+$('.left-submenu .done-block').addClass('hidden')
+$('.search .search-checkbox-block').addClass('hidden')
+$('.header-nav .summary').addClass('current-page')

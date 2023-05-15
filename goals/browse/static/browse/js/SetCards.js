@@ -80,6 +80,49 @@ export function SetCards(cards){
     }
 }
 
+export function SetSummaryCards(cards){
+    $('.summary-cards').empty()
+    cards.forEach(element => {
+        let cardBlock = $("<div class='summary-card'></div>")
+        cardBlock.attr('id', element.id)
+        cardBlock.css("border-left-color", colors[element.block] )
+        let cardTop = $("<div class='card-top'></div>")
+        
+        if(element.name.length > 60){
+            cardTop.append($("<p></p>").text(element.name.slice(0, 75) + '...'))
+        }
+        else{
+            cardTop.append($("<p></p>").text(element.name))
+        }
+        cardBlock.append(cardTop)
+    
+        let cardBottom = $("<div class='card-description'></div>")
+
+        let block = $("<div></div>")
+        block.append($("<p class='plan'></p>").text('План'))
+        if(element.plan.length > 60){
+            block.append($("<p></p>").text(element.plan.slice(0, 35) + '...'))
+        }
+        else{
+            block.append($("<p></p>").text(element.plan))
+        }
+        cardBottom.append(block)
+
+        block = $("<div></div>")
+        block.append($("<p class='fact'></p>").text('Факт'))
+        if(element.fact.length > 60){
+            block.append($("<p></p>").text(element.fact.slice(0, 35) + '...'))
+        }
+        else{
+            block.append($("<p></p>").text(element.fact))
+        }
+        cardBottom.append(block)
+        cardBlock.append(cardBottom)
+        block = element.block.replaceAll(' ', '')
+        $(".summary-cards-block #" + block + ' .summary-cards').append(cardBlock)
+    });
+}
+
 export function UpdateTaked() { 
     const card = $('.card')
     card.each(function(){
