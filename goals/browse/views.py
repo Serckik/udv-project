@@ -252,9 +252,9 @@ def get_summaries(request):
     quarter = request.GET.get('quarter')
     summaries = Summary.objects.all()
     if block:
-        summaries.filter(block=block)
+        summaries = summaries.filter(block=block)
     if quarter:
-        summaries.filter(quarter=quarter)
+        summaries = summaries.filter(quarter=quarter)
     return JsonResponse(list(summaries.values()), safe=False)
 
 
