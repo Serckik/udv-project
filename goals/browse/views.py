@@ -170,7 +170,6 @@ def get_goals_by_filter(request):
 
     if my:
         goals = goals.filter(owner_id=request.user)
-
     if search:
         search = search.strip()
         q2 = goals.filter(name__icontains=search)
@@ -194,7 +193,8 @@ def get_goals_by_filter(request):
         goals = q2 | q3 | q4 | q5 | q6
     if quarters:
         goals = goals.filter(quarter__in=quarters)
-    goals = goals.filter(current=current)
+    if current in [True, False]:
+        goals = goals.filter(current=current)
     if done:
         goals = goals.filter(isdone=True if done == 'Выполненные' else False)
     if picked:
@@ -205,7 +205,6 @@ def get_goals_by_filter(request):
         picked_filtered_goals = picked_goals if picked == 'Включено' \
             else Goal.objects.all().exclude(pk__in=picked_goals)
         goals &= picked_filtered_goals
-
     data = list(goals.values('name',
                              'weight',
                              'isdone',
