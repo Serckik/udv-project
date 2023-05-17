@@ -272,7 +272,7 @@ def get_summary(request):
     summary_dict = model_to_dict(summary)
     goal_ids = []
     for goal in summary_dict['goals']:
-        goal_ids.append(goal.id)
+        goal_ids.append(model_to_dict(goal))
     summary_dict['goals'] = goal_ids
     return JsonResponse(summary_dict)
 
