@@ -59,6 +59,7 @@ $(document).on('click', '.blur', function(e){
     $('.blur').addClass('hidden')
     $('.update-image').addClass('hidden')
     $('.card-data').addClass('hidden')
+    $('.summary-data').addClass('hidden')
     $('.message-sender').val('')
     $('.edit input').removeClass('send')
     $('.edit input').removeClass('remove')
@@ -72,7 +73,7 @@ function convertBool(bool){
     return false
 }
 
-function SetVal(id, value){
+export function SetVal(id, value){
     $(id).val(value)
 }
 
@@ -297,7 +298,7 @@ $(document).on('input', '.message-sender', function(e){
     }
 })
 
-$(document).on('submit','#more-form',async function(e){
+$(document).on('submit','#more-form', async function(e){
     e.preventDefault();
     if($("#more-form #card-name").val() != ''){
         let data = {

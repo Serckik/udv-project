@@ -826,8 +826,8 @@ option:checked {
     background: rgba(217, 217, 217, 0.75);
 }
 
-.card-data, .update-image{
-    z-index: 200;
+.card-data, .update-image, .summary-data{
+    z-index: 300;
     box-sizing: border-box;
     justify-content: space-between;
     width: 100%;
@@ -916,7 +916,7 @@ option:checked {
     margin: 0;
 }
 
-.edit{
+.edit, .summary-edit{
     box-sizing: border-box;
     width: 708px;
     padding: 8px 16px 7px 29px;
@@ -999,7 +999,7 @@ textarea{
 }
 
 .card-name, .summary-name{
-    height: 62px;
+    height: 62px !important;
 }
 
 .select-form-container{
@@ -1028,7 +1028,7 @@ textarea{
     width: 102px;
 }
 
-.edit input, .tasks .add input, #add-summary-form input{
+.edit input, .tasks .add input, #add-summary-form input, .summary-edit input{
     cursor: pointer;
     display: block;
     width: 170px;
@@ -1137,7 +1137,8 @@ textarea{
     height: 28px;
 }
 
-.history{
+.history, .summary-tasks{
+    box-sizing: border-box;
     width: 393px;
     height: 775px;
     font-family: 'Montserrat';
@@ -1241,7 +1242,7 @@ textarea{
     margin-bottom: 11px;
 }
 
-#more-form select{
+#more-form select, #summary-more-form select{
     margin-bottom: 11px;
 }
 
@@ -1421,4 +1422,44 @@ textarea{
 .load-excel{
     display: table;
     margin-left: auto;
+}
+
+.summary-data .edit-header, .summary-data .summary-edit{
+    width: 50%;
+}
+
+.summary-data .chat-header, .summary-data .summary-tasks{
+    width: 50%;
+}
+
+.summary-data textarea{
+    width: 100%;
+    height: 203px;
+}
+
+.summary-tasks{
+    overflow: auto;
+}
+
+.summary-tasks .submenu{
+    margin-bottom: 10px;
+}
+
+.summary-tasks .submenu span{
+    font-family: 'OfficinaSansWinCTT';
+    font-size: 27px;
+    margin-right: 10px;
+}
+
+.summary-tasks .cards{
+    max-height: 720px;
+    gap: 15px;
+}
+
+.summary-tasks .cards .card{
+    width: 47%;
+}
+
+.edit-summary .cards{
+    max-height: 300px;
 }

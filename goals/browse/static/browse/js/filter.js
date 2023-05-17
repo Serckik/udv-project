@@ -221,6 +221,9 @@ function CheckCoockies(cookieString){
     })
     if(cookieData.selectedGoals != undefined){
         selectedGoals = cookieData.selectedGoals.split(',')
+        if(selectedGoals[0] === ''){
+            selectedGoals = []
+        }
     }
     Filter()
 }
