@@ -193,19 +193,17 @@ def get_goals_by_filter(request):
         goals = goals.filter(isdone=True if done == 'Выполненные' else False)
     if picked:
         all_summaries = Summary.objects.all()
-        intersection = Goal.objects.all()
-        if len(all_summaries) == 0:
-            intersection = Goal.objects.none()
+        picked_goals = Goal.objects.none()
         for summary in all_summaries:
-            intersection &= summary.goals.all()
-        picked_filtered_goals = intersection if picked == 'Включено' \
-            else Goal.objects.all().exclude(pk__in=intersection)
+            picked_goals |= summary.goals.all()
+        picked_filtered_goals = picked_goals if picked == 'Включено' \
+            else Goal.objects.all().exclude(pk__in=picked_goals)
         goals &= picked_filtered_goals
     if summary_id:
         summary = Summary.objects.get(id=summary_id)
         intersection = summary.goals.all()
         picked_filtered_goals = Goal.objects.all().exclude(pk__in=intersection)
-        goals &= picked_filtered_goals
+        goals = picked_filtered_goals
 
     data = list(goals.values('name',
                              'weight',
