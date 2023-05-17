@@ -1364,6 +1364,10 @@ textarea{
     background-color: rgba(21, 255, 0, 0.23);
 }
 
+.removed{
+    background-color: rgba(238, 94, 94, 0.31);
+}
+
 .summary-cards-block{
     height: fit-content;
     max-height: 771px;
@@ -1451,15 +1455,22 @@ textarea{
     margin-right: 10px;
 }
 
-.summary-tasks .current-cards{
+.summary-tasks .current-cards, .summary-tasks .cards{
     max-height: 720px;
     gap: 15px;
 }
 
-.summary-tasks .current-cards .card{
+.summary-tasks .card{
     width: 48%;
 }
 
-.edit-summary .current-cards{
-    max-height: 300px;
+.edit-summary .current-cards, .edit-summary .cards{
+    height: 300px;
+}
+
+.edit-summary .text{
+    margin: 0;
+    margin-bottom: 10px;
+    font-family: 'OfficinaSansWinCTT';
+    font-size: 27px;
 }

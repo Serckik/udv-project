@@ -36,7 +36,6 @@ $(document).on('click', '.card', function(e) {
         else{
             $(this).addClass('selected')
             selectedGoals.push($(this).attr('id'))
-
         }
         AddCoockie(selectedGoals, 'selectedGoals')
     }
