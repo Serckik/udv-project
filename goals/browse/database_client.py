@@ -159,8 +159,7 @@ def edit_summary(request, summary):
     summary.average_mark = request.POST.get('average_mark')
     summary.goals.set(Goal.objects.filter(
                 pk__in=request.POST.getlist('goals[]')))
-    summary.save(update_fields=['goals',
-                                'block',
+    summary.save(update_fields=['block',
                                 'quarter',
                                 'plan',
                                 'fact',
