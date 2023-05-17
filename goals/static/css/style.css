@@ -760,7 +760,7 @@ option:checked {
 
 .card-top p{
     word-wrap: break-word;
-    width: 348px;
+    width: 80%;
     font-size: 23px;
     margin: 0;
 }
@@ -1477,4 +1477,8 @@ textarea{
     margin-bottom: 10px;
     font-family: 'OfficinaSansWinCTT';
     font-size: 27px;
+}
+
+.edit-summary .card-top p{
+    font-size: 21px;
 }
