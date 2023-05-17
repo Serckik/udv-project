@@ -129,11 +129,11 @@ def get_goals_by_filter(request):
     my = request.GET.get('self')
     current = request.GET.get('current')
     approve = request.GET.get('approve')
-    if not my:
+    if my:
         my = true_converter[request.GET.get('self')]
-    if not current:
+    if current:
         current = true_converter[request.GET.get('current')]
-    if not approve:
+    if approve:
         approve = true_converter[request.GET.get('approve')]
     search = request.GET.get('search')
     quarters = request.GET.getlist('quarter[]')
