@@ -309,7 +309,8 @@ def editing_summary(request):
                 edit_summary(request, summary)
                 return JsonResponse({'status': 'ok'})
             else:
-                return JsonResponse({'status': 'validation error'})
+                return JsonResponse({'status': 'validation error',
+                                     'error': form.errors})
         else:
             return JsonResponse({'status': '403 forbidden'})
 

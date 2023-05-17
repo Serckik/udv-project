@@ -51,8 +51,8 @@ class AddGoalForm(forms.Form):
 
 class SummaryForm(forms.Form):
     name = forms.CharField(label='name', required=True)
-    plan = forms.CharField(label='План', required=True)
-    fact = forms.CharField(label='Факт', required=True)
+    plan = forms.CharField(label='План', required=False)
+    fact = forms.CharField(label='Факт', required=False)
     block = forms.ChoiceField(label='Блок',
                               choices=CHOICES_BLOCK, required=True)
     quarter = forms.ChoiceField(label='Квартал', choices=CHOICES_QUARTER,
@@ -64,8 +64,8 @@ class SummaryForm(forms.Form):
 
 class EditSummaryForm(forms.Form):
     name = forms.CharField(label='name', required=True)
-    plan = forms.CharField(label='План')
-    fact = forms.CharField(label='Факт')
+    plan = forms.CharField(label='План', required=False)
+    fact = forms.CharField(label='Факт', required=False)
     average_mark = forms.ChoiceField(label='Степень завершенности',
                                      required=False,
                                      choices=CHOICES_MARK)

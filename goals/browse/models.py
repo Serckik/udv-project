@@ -92,8 +92,8 @@ class FieldChange(models.Model):
 class Summary(models.Model):
     name = models.TextField('Название')
     goals = models.ManyToManyField(Goal)
-    plan = models.TextField('План')
-    fact = models.TextField('Факт')
+    plan = models.TextField('План', null=True, default='')
+    fact = models.TextField('Факт', null=True, default='')
     block = models.CharField('Блок', choices=CHOICES_BLOCK, null=False,
                              max_length=30)
     quarter = models.CharField('Квартал', choices=CHOICES_QUARTER, null=False,
