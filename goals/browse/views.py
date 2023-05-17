@@ -131,6 +131,7 @@ def get_goals_by_filter(request):
     quarters = request.GET.getlist('quarter[]')
     current = true_converter[request.GET.get('current')]
     approve = true_converter[request.GET.get('approve')]
+    summary_id = request.GET.get('summary_id')
 
     if approve:
         if request.user.is_superuser:
@@ -193,6 +194,11 @@ def get_goals_by_filter(request):
             intersection &= summary.goals.all()
         picked_filtered_goals = intersection if picked == 'Включено' \
             else Goal.objects.all().exclude(pk__in=intersection)
+        goals &= picked_filtered_goals
+    if summary_id:
+        summary = Summary.objects.get(id=summary_id)
+        intersection = summary.goals.all()
+        picked_filtered_goals = Goal.objects.all().exclude(pk__in=intersection)
         goals &= picked_filtered_goals
 
     data = list(goals.values('name',
