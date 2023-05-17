@@ -1,6 +1,6 @@
 from django import forms
 from .models import CHOICES_WEIGHT, CHOICES_MARK, CHOICES_QUARTER, \
-    CHOICES_BLOCK, CHOICES_BOOL, Goal
+    CHOICES_BLOCK, CHOICES_BOOL
 
 
 class GoalForm(forms.Form):
@@ -57,6 +57,15 @@ class SummaryForm(forms.Form):
                               choices=CHOICES_BLOCK, required=True)
     quarter = forms.ChoiceField(label='Квартал', choices=CHOICES_QUARTER,
                                 required=True)
+    average_mark = forms.ChoiceField(label='Степень завершенности',
+                                     required=False,
+                                     choices=CHOICES_MARK)
+
+
+class EditSummaryForm(forms.Form):
+    name = forms.CharField(label='name', required=True)
+    plan = forms.CharField(label='План', required=True)
+    fact = forms.CharField(label='Факт', required=True)
     average_mark = forms.ChoiceField(label='Степень завершенности',
                                      required=False,
                                      choices=CHOICES_MARK)

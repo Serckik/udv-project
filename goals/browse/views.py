@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Goal, Quarter, Summary
-from .forms import AddGoalForm, SummaryForm
+from .forms import AddGoalForm, SummaryForm, EditSummaryForm
 from django.contrib.auth.models import User
 import datetime
 from django.http import JsonResponse
@@ -89,15 +89,15 @@ def get_goal(request):
     goal_dict['history'] = []
     for chat in chats:
         goal_dict['chat'].append({'text': chat.message,
-                                    'time': localtime(chat.created_at),
-                                    'name': chat.owner_id.get_full_name()})
+                                  'time': localtime(chat.created_at),
+                                  'name': chat.owner_id.get_full_name()})
     for hist in histories:
         hist_fc = []
         for fc in hist.fieldchange_set.all():
             hist_fc.append(model_to_dict(fc))
         goal_dict['history'].append({'name': hist.owner_id.get_full_name(),
-                                        'time': localtime(hist.created_at),
-                                        'field_changes': hist_fc})
+                                     'time': localtime(hist.created_at),
+                                     'field_changes': hist_fc})
     goal_dict['user_name'] = User.objects.get(
         id=goal_dict['owner_id']).get_full_name()
     goal_dict['admin_rights'] = \
@@ -195,7 +195,6 @@ def get_goals_by_filter(request):
             else Goal.objects.all().exclude(pk__in=intersection)
         goals &= picked_filtered_goals
 
-
     data = list(goals.values('name',
                              'weight',
                              'isdone',
@@ -262,7 +261,7 @@ def get_summaries(request):
         q1 = summaries.filter(name__icontains=search)
         q2 = summaries.filter(plan__icontains=search)
         q3 = summaries.filter(fact__icontains=search)
-        summaries = q1 | q2 | q3 
+        summaries = q1 | q2 | q3
     return JsonResponse(list(summaries.values()), safe=False)
 
 
@@ -305,7 +304,7 @@ def editing_summary(request):
     if request.method == "POST":
         summary = Summary.objects.get(id=request.POST.get('summary_id'))
         if request.user.is_superuser:
-            form = SummaryForm(request.POST)
+            form = EditSummaryForm(request.POST)
             if form.is_valid():
                 edit_summary(request, summary)
                 return JsonResponse({'status': 'ok'})
