@@ -138,7 +138,13 @@ def get_goals_by_filter(request):
     search = request.GET.get('search')
     quarters = request.GET.getlist('quarter[]')
     summary_id = request.GET.get('summary_id')
-
+    if summary_id:
+        summary = Summary.objects.get(id=summary_id)
+        all = Goal.objects.filter(quarter=summary.quarter,
+                                  block=summary.block)
+        intersection = summary.goals.all()
+        picked_filtered_goals = all.exclude(pk__in=intersection)
+        goals = picked_filtered_goals
     if approve:
         if request.user.is_superuser:
             perm = Permission.objects.get(codename='change_goal')
@@ -199,13 +205,6 @@ def get_goals_by_filter(request):
         picked_filtered_goals = picked_goals if picked == 'Включено' \
             else Goal.objects.all().exclude(pk__in=picked_goals)
         goals &= picked_filtered_goals
-    if summary_id:
-        summary = Summary.objects.get(id=summary_id)
-        all = Goal.objects.filter(quarter=summary.quarter,
-                                  block=summary.block)
-        intersection = summary.goals.all()
-        picked_filtered_goals = all.exclude(pk__in=intersection)
-        goals = picked_filtered_goals
 
     data = list(goals.values('name',
                              'weight',
