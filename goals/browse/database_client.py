@@ -152,14 +152,14 @@ def edit_goal(request, goal):
 
 
 def edit_summary(request, summary):
+    summary.name = request.POST.get('name')
     summary.plan = request.POST.get('plan')
     summary.fact = request.POST.get('fact')
     summary.average_mark = request.POST.get('average_mark')
-    summary.save(update_fields=['plan',
-                                'fact',
-                                'average_mark'])
+    summary.save()
     summary.goals.set(Goal.objects.filter(
                 pk__in=request.POST.getlist('goals[]')))
+    summary.save()
 
 
 def send_message(request, goal):
