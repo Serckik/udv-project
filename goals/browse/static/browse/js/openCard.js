@@ -67,6 +67,10 @@ $(document).on('click', '.blur', function(e){
     $('.summary-edit input').removeClass('send')
     $('.summary-edit input').removeClass('error')
     $('.summary-edit input').val('cохранить')
+    $('.submenu .current-page').removeClass('current-page')
+    $('.submenu p:nth-child(1)').addClass('current-page')
+    $('.edit-summary').addClass('hidden')
+    $('.summary-current-cards').removeClass('hidden')
 })
 
 function convertBool(bool){

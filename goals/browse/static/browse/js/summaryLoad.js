@@ -30,7 +30,14 @@ let currentIdCard = ''
 FillForm('summary-more-form')
 $(document).on('click', '.summary-card', function(e) {
     $('#summary-more-form textarea').attr('style', 'cursor:text')
-    currentIdCard = e.currentTarget.id
+    OpenSummary(e.currentTarget.id)
+});
+
+function OpenSummary(id){
+    currentIdCard = id
+    summaryGoals = []
+    currentCards = []
+    $('#summary-more-form textarea').attr('style', 'cursor:text')
     let summaryData = request('GET', '/goal/get_summary', {summary_id: currentIdCard})
     $('.blur').removeClass('hidden');
     $('.summary-data').removeClass('hidden');
@@ -45,9 +52,9 @@ $(document).on('click', '.summary-card', function(e) {
     });
     currentCards = [...summaryGoals]
     console.log(summaryGoals)
-});
+}
 
-$(document).on('click','.submenu span', async function(e){
+$(document).on('click','.submenu p', async function(e){
     $('.submenu .current-page').removeClass('current-page')
     $(this).addClass('current-page')
     if($('.edit-summary').hasClass('hidden')){
@@ -106,12 +113,17 @@ $(document).on('submit','#summary-more-form', async function(e){
         request('POST', '/goal/edit_summary', data)
         await sleep(sleepTime);
         CardSend('summary-edit')
-        summaryGoals = []
-        currentCards = []
+        OpenSummary(currentIdCard)
     }
     else{
         CardNameError('summary-edit', 'summary-name')
     }
+})
+
+$(document).on('input', '.edit-summary .search-input', function(e){
+    console.log('uwu')
+    let search = $(this).val()
+    SetCards(request('GET', '/goal/get_goals', {summary_id: currentIdCard, search: search}))
 })
 
 $(document).on('input', "#summary-more-form #summary-name", function(e){
@@ -123,5 +135,9 @@ $(document).on('input', "#summary-more-form textarea", function(e){
 })
 
 $(document).on('change', "#summary-more-form select", function(e){
+    FormChange('summary-edit')
+})
+
+$(document).on('click', ".card", function(e){
     FormChange('summary-edit')
 })

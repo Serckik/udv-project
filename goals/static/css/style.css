@@ -1443,16 +1443,20 @@ textarea{
 
 .summary-tasks{
     overflow: auto;
+    padding-top: 8px;
 }
 
 .summary-tasks .submenu{
-    margin-bottom: 10px;
+    display: flex;
+    margin-bottom: 20px;
 }
 
-.summary-tasks .submenu span{
+.summary-tasks .submenu p{
+    margin: 0;
+    cursor: pointer;
     font-family: 'OfficinaSansWinCTT';
     font-size: 27px;
-    margin-right: 10px;
+    margin-right: 2%;
 }
 
 .summary-tasks .current-cards, .summary-tasks .cards{

@@ -150,7 +150,7 @@ export function Filter() {
         let cards = request('GET', '/goal/get_goals', data)
         SetCards(cards)
     }
-    else{
+    else if($('.edit-summary').hasClass('hidden')){
         let summaryCards = request('GET', '/goal/get_summaries', {quarter: quarter[quarter.length - 1], block: block, search: search})
         SetSummaryCards(summaryCards)
     }
