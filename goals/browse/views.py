@@ -126,11 +126,17 @@ def get_goals_by_filter(request):
         if request.GET.get('done') != 'Все' else None
     picked = request.GET.get('picked') \
         if request.GET.get('picked') != 'Все' else None
-    my = true_converter[request.GET.get('self')]
+    my = request.GET.get('self')
+    current = request.GET.get('current')
+    approve = request.GET.get('approve')
+    if not my:
+        my = true_converter[request.GET.get('self')]
+    if not current:
+        current = true_converter[request.GET.get('current')]
+    if not approve:
+        approve = true_converter[request.GET.get('approve')]
     search = request.GET.get('search')
     quarters = request.GET.getlist('quarter[]')
-    current = true_converter[request.GET.get('current')]
-    approve = true_converter[request.GET.get('approve')]
     summary_id = request.GET.get('summary_id')
 
     if approve:
