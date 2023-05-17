@@ -62,8 +62,11 @@ $(document).on('click', '.blur', function(e){
     $('.summary-data').addClass('hidden')
     $('.message-sender').val('')
     $('.edit input').removeClass('send')
-    $('.edit input').removeClass('remove')
+    $('.edit input').removeClass('error')
     $('.edit input').val('cохранить')
+    $('.summary-edit input').removeClass('send')
+    $('.summary-edit input').removeClass('error')
+    $('.summary-edit input').val('cохранить')
 })
 
 function convertBool(bool){

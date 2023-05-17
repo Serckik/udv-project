@@ -22,8 +22,8 @@ export function GetCards() {
     Filter()
 }
 
-export function SetCards(cards){
-    $(".cards").empty()
+export function SetCards(cards, classBlock='cards'){
+    $("." + classBlock).empty()
     cards.forEach(element => {
         let cardBlock = $("<div class='card'></div>")
         cardBlock.attr('id', element.id)
@@ -73,7 +73,7 @@ export function SetCards(cards){
         cardBottom.append(cardUser)
         cardBlock.append(cardBottom)
     
-        $(".cards").append(cardBlock)
+        $("." + classBlock).append(cardBlock)
     });
     if(window.location.href.split('/')[4] == 'summary'){
         UpdateTaked()

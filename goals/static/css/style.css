@@ -695,7 +695,7 @@ option:checked {
     margin-top: 6px;
 }
 
-.cards{
+.cards, .current-cards{
     display: flex;
     height: fit-content;
     max-height: 771px;
@@ -924,7 +924,7 @@ option:checked {
     font-size: 24px;
 }
 
-.edit p{
+.edit p, .summary-edit p{
     margin: 0;
     margin-bottom: 5px;
 }
@@ -1451,15 +1451,15 @@ textarea{
     margin-right: 10px;
 }
 
-.summary-tasks .cards{
+.summary-tasks .current-cards{
     max-height: 720px;
     gap: 15px;
 }
 
-.summary-tasks .cards .card{
-    width: 47%;
+.summary-tasks .current-cards .card{
+    width: 48%;
 }
 
-.edit-summary .cards{
+.edit-summary .current-cards{
     max-height: 300px;
 }
