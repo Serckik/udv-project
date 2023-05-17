@@ -201,8 +201,10 @@ def get_goals_by_filter(request):
         goals &= picked_filtered_goals
     if summary_id:
         summary = Summary.objects.get(id=summary_id)
+        all = Goal.objects.filter(quarter=summary.quarter,
+                                  block=summary.block)
         intersection = summary.goals.all()
-        picked_filtered_goals = Goal.objects.all().exclude(pk__in=intersection)
+        picked_filtered_goals = all.exclude(pk__in=intersection)
         goals = picked_filtered_goals
 
     data = list(goals.values('name',
