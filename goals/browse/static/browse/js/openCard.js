@@ -55,22 +55,31 @@ function request(type, url, data){
 
 $(document).on('click', '.blur', function(e){
     clearTimeout(timeutID)
-    $('body').css("overflow", "auto");
-    $('.blur').addClass('hidden')
+    if(!$('.summary-data').hasClass('hidden') && !$('.card-data').hasClass('hidden') && $('.summary-data').length != 0){
+        $('.card-data').addClass('hidden')
+        $('.message-sender').val('')
+        $('.edit input').removeClass('send')
+        $('.edit input').removeClass('error')
+        $('.edit input').val('cохранить')
+    }
+    else{
+        $('.card-data').addClass('hidden')
+        $('.message-sender').val('')
+        $('.edit input').removeClass('send')
+        $('.edit input').removeClass('error')
+        $('.edit input').val('cохранить')
+        $('body').css("overflow", "auto");
+        $('.blur').addClass('hidden')
+        $('.summary-data').addClass('hidden')
+        $('.summary-edit input').removeClass('send')
+        $('.summary-edit input').removeClass('error')
+        $('.summary-edit input').val('cохранить')
+        $('.submenu .current-page').removeClass('current-page')
+        $('.submenu p:nth-child(1)').addClass('current-page')
+        $('.edit-summary').addClass('hidden')
+        $('.summary-current-cards').removeClass('hidden')
+    }
     $('.update-image').addClass('hidden')
-    $('.card-data').addClass('hidden')
-    $('.summary-data').addClass('hidden')
-    $('.message-sender').val('')
-    $('.edit input').removeClass('send')
-    $('.edit input').removeClass('error')
-    $('.edit input').val('cохранить')
-    $('.summary-edit input').removeClass('send')
-    $('.summary-edit input').removeClass('error')
-    $('.summary-edit input').val('cохранить')
-    $('.submenu .current-page').removeClass('current-page')
-    $('.submenu p:nth-child(1)').addClass('current-page')
-    $('.edit-summary').addClass('hidden')
-    $('.summary-current-cards').removeClass('hidden')
 })
 
 function convertBool(bool){
@@ -333,7 +342,6 @@ $(document).on('submit','#more-form', async function(e){
         clearTimeout(timeutID)
         OpenCard(currentIdCard)
         CardSend('edit')
-        
     }
     else{
         CardNameError('edit', 'card-name')

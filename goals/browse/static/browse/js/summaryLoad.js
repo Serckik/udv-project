@@ -141,3 +141,14 @@ $(document).on('change', "#summary-more-form select", function(e){
 $(document).on('click', ".card", function(e){
     FormChange('summary-edit')
 })
+
+$('.delete-summary-icon').on('click', function(e){
+    request('POST', '/goal/delete_summary', {summary_id: currentIdCard, csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
+    currentIdCard = null
+    location.reload()
+})
+
+$(document).on('submit','#more-form', async function(e){
+    e.preventDefault();
+    OpenSummary(currentIdCard)
+});

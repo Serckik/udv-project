@@ -144,7 +144,11 @@ export function Filter() {
     else{
         data.self = false
         console.log(data.quarter)
-        data.quarter = data.quarter[data.quarter.length - 1]
+        data.quarter = [data.quarter[data.quarter.length - 1]]
+        if(data.block === 'Все'){
+            data.block = 'Оценка'
+            $('.block-list #Оценка').addClass('active-sort')
+        }
     }
     if(window.location.href.split('/')[4] != 'browse_summary'){
         let cards = request('GET', '/goal/get_goals', data)

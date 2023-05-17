@@ -23,6 +23,7 @@ $('.search-checkbox-block p').text('Только выбранные')
 $('.done-block').addClass('hidden');
 $('.taked-block').removeClass('hidden')
 $('.cvartal-select').removeAttr('multiple')
+$('.block-list #Все').addClass('hidden')
 
 $(document).on('click', '.card', function(e) {
     if (e.ctrlKey) {

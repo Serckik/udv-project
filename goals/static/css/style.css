@@ -953,7 +953,7 @@ option:checked {
     stroke: #F89C1D;
 }
 
-.edit-header .delete-icon:hover path{
+.edit-header .delete-icon:hover path, .edit-header .delete-summary-icon:hover path{
     stroke: #F09191;
 }
 
