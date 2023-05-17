@@ -328,7 +328,7 @@ def editing_summary(request):
 @login_required(login_url='/user/login/')
 def delete_summary(request):
     if request.method == 'POST':
-        summary = Goal.objects.get(id=request.POST.get('summary_id'))
+        summary = Summary.objects.get(id=request.POST.get('summary_id'))
         summary.delete()
         return JsonResponse({'status': 'ok'})
 
