@@ -30,7 +30,7 @@ export function SetCards(cards, classBlock='cards'){
         cardBlock.css("border-left-color", colors[element.block] )
         let cardTop = $("<div class='card-top'></div>")
         
-        if(element.name.length > 60){
+        if(element.name.length > 45){
             cardTop.append($("<p></p>").text(element.name.slice(0, 45) + '...'))
         }
         else{
@@ -91,7 +91,7 @@ export function SetSummaryCards(cards){
         cardBlock.css("border-left-color", colors[element.block] )
         let cardTop = $("<div class='card-top'></div>")
         
-        if(element.name.length > 60){
+        if(element.name.length > 91){
             cardTop.append($("<p></p>").text(element.name.slice(0, 91) + '...'))
         }
         else{
@@ -103,7 +103,8 @@ export function SetSummaryCards(cards){
 
         let block = $("<div></div>")
         block.append($("<p class='plan'></p>").text('План'))
-        if(element.plan.length > 60){
+        console.log(element)
+        if(element.plan.length > 43){
             block.append($("<p></p>").text(element.plan.slice(0, 43) + '...'))
         }
         else{
@@ -113,7 +114,7 @@ export function SetSummaryCards(cards){
 
         block = $("<div></div>")
         block.append($("<p class='fact'></p>").text('Факт'))
-        if(element.fact.length > 60){
+        if(element.fact.length > 43){
             block.append($("<p></p>").text(element.fact.slice(0, 43) + '...'))
         }
         else{
