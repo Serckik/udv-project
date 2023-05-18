@@ -220,7 +220,13 @@ function CheckCoockies(cookieString){
     if(self) { $('.search-checkbox').prop('checked', true); }
     quarter = cookieData.quarter.split(',')
     if(window.location.href.split('/')[4] == 'summary'){
-        quarter = [quarter[quarter.length - 1]]
+        console.log(quarter)
+        if(quarter[0] === ''){
+            quarter = [quarterRequestData.current_quarter]
+        }
+        else{
+            quarter = [quarter[quarter.length - 1]]
+        }
     }
     else{
         quarter = quarter.filter((item) => {
