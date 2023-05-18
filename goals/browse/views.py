@@ -3,7 +3,7 @@ from .models import Goal, Quarter, Summary
 from .forms import AddGoalForm, SummaryForm, EditSummaryForm
 from django.contrib.auth.models import User
 import datetime
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.forms.models import model_to_dict
 from .validators import goal_validator
 from django.contrib.auth.decorators import login_required
@@ -13,6 +13,15 @@ from django.db.models import Q
 from django.contrib.auth.models import Permission
 from .database_client import true_converter, edit_goal, \
     send_message, edit_summary
+from django.contrib.auth.decorators import user_passes_test
+import openpyxl
+from openpyxl.styles import Font, Alignment
+from openpyxl.styles.borders import Border, Side
+from openpyxl.styles import PatternFill
+from tempfile import NamedTemporaryFile
+from urllib.parse import quote
+from .models import CHOICES_BLOCK
+import openpyxl.utils.cell
 
 
 @login_required(login_url='/user/login/')
@@ -31,11 +40,13 @@ def approve_goal(request):
         return render(request, 'browse/approve.html')
 
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
 @login_required(login_url='/user/login/')
 def summary(request):
     return render(request, 'browse/summary.html')
 
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
 @login_required(login_url='/user/login/')
 def browse_summary(request):
     return render(request, 'browse/browse_summary.html')
@@ -247,14 +258,22 @@ def add_goal(request):
 def delete_goal(request):
     if request.method == 'POST':
         goal = Goal.objects.get(id=request.POST.get('goal_id'))
-        if not goal.current:
-            goal.delete()
-            return JsonResponse({'status': 'ok'})
+        if (request.user == goal.owner_id or
+                request.user.is_superuser or
+                len(request.user.groups.all() &
+                    goal.owner_id.groups.all()) > 0 and
+                request.user.has_perm('browse.change_goal')):
+            if not goal.current:
+                goal.delete()
+                return JsonResponse({'status': 'ok'})
+            else:
+                return JsonResponse({'status':
+                                    'Утверждённые задачи нельзя удалить'})
         else:
-            return JsonResponse({'status':
-                                 'Утверждённые задачи нельзя удалить'})
+            return JsonResponse({'status': '403 forbidden'})
 
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
 @login_required(login_url='/user/login/')
 def get_summaries(request):
     block = request.GET.get('block') \
@@ -275,6 +294,7 @@ def get_summaries(request):
     return JsonResponse(list(summaries.values()), safe=False)
 
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
 @login_required(login_url='/user/login/')
 def get_summary(request):
     summary = Summary.objects.get(id=request.GET.get('summary_id'))
@@ -288,6 +308,7 @@ def get_summary(request):
     return JsonResponse(summary_dict)
 
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
 @login_required(login_url='/user/login/')
 def add_summary(request):
     if request.method == 'POST':
@@ -309,6 +330,7 @@ def add_summary(request):
                                 'error': form.errors})
 
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
 @login_required(login_url='/user/login/')
 def editing_summary(request):
     if request.method == "POST":
@@ -325,12 +347,100 @@ def editing_summary(request):
             return JsonResponse({'status': '403 forbidden'})
 
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
 @login_required(login_url='/user/login/')
 def delete_summary(request):
     if request.method == 'POST':
         summary = Summary.objects.get(id=request.POST.get('summary_id'))
         summary.delete()
         return JsonResponse({'status': 'ok'})
+
+
+@user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
+@login_required(login_url='/user/login/')
+def download_summaries(request):
+    wb = openpyxl.Workbook()
+    quarter = request.GET.get('quarter')
+    ws = wb.active
+    ws.title = quarter
+    thin_border = Border(left=Side(style='thin'),
+                         right=Side(style='thin'),
+                         top=Side(style='thin'),
+                         bottom=Side(style='thin'))
+    green_fill = PatternFill(start_color="C6EFCE",
+                             end_color="C6EFCE",
+                             fill_type="solid")
+    yellow_fill = PatternFill(start_color="FFEB9C",
+                              end_color="FFEB9C",
+                              fill_type="solid")
+    red_fill = PatternFill(start_color="FFC7CE",
+                           end_color="FFC7CE",
+                           fill_type="solid")
+    top_left_alignment = Alignment(wrapText=True,
+                                   vertical='top',
+                                   horizontal='left')
+    ws['A1'] = 'Легенда'
+    ws['A1'].alignment = top_left_alignment
+
+    ws['A2'] = 'Задача выполнена с ожидаемым (и выше) результатом'
+    ws['A2'].fill = green_fill
+    ws['A2'].alignment = top_left_alignment
+    ws.row_dimensions[2].height = 60
+
+    ws['A3'] = 'Задача выполнена, но не полностью'
+    ws['A3'].fill = yellow_fill
+    ws['A3'].alignment = top_left_alignment
+    ws.row_dimensions[3].height = 60
+
+    ws['A4'] = 'Задача не выполнена'
+    ws['A4'].fill = red_fill
+    ws['A4'].alignment = top_left_alignment
+    ws.row_dimensions[4].height = 60
+
+    ws['C5'] = f'Сводка за {quarter}'.upper()
+    ws['C5'].font = Font(bold=True, size=26)
+    ws['C5'].alignment = Alignment(horizontal='center')
+    ws.merge_cells('C5:G5')
+    ws.row_dimensions[5].height = 60
+    max_block_len = 0
+    for i, block in enumerate(CHOICES_BLOCK[1:]):
+        letter = openpyxl.utils.cell.get_column_letter(i+1)
+        cell_title = f'{letter}6'
+        ws[cell_title] = block[0]
+        ws[cell_title].border = thin_border
+        ws[cell_title].font = Font(bold=True)
+        ws[cell_title].alignment = Alignment(horizontal='center')
+        summaries = Summary.objects.filter(block=block[0], quarter=quarter)
+        for j, summary in enumerate(summaries):
+            cell = f'{letter}{j+7}'
+            ws[cell] = f'{summary.name}\nПЛАН: {summary.plan}\nФАКТ: {summary.fact}'
+            ws[cell].alignment = top_left_alignment
+            ws[cell].border = thin_border
+            if summary.average_mark >= 50:
+                ws[cell].fill = yellow_fill
+            if summary.average_mark >= 70:
+                ws[cell].fill = green_fill
+            if summary.average_mark < 50:
+                ws[cell].fill = red_fill
+        max_block_len = max(max_block_len, len(summaries))
+        ws.column_dimensions[letter].width = 35
+
+    rows = ws[f'A6:I{max_block_len+6}']
+    for row in rows:
+        for cell in row:
+            cell.border = thin_border
+
+    ws.auto_filter.ref = f'A6:I{max_block_len+6}'
+
+    with NamedTemporaryFile(delete=True) as tmp_file:
+        wb.save(tmp_file.name)
+        title = f'Сводка за {quarter}'
+        with open(tmp_file.name, 'rb') as f:
+            response = HttpResponse(f.read(),
+                                    content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = \
+                f'attachment; filename*=UTF-8\'\'{quote(title)}.xlsx'
+            return response
 
 
 @login_required(login_url='/user/login/')

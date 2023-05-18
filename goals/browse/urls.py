@@ -20,4 +20,5 @@ urlpatterns = [
     path('edit_summary', views.editing_summary),  # post
     path('delete_summary', views.delete_summary),  # post
     path('get_summary', views.get_summary),  # get
+    path('download_summaries', views.download_summaries)  # get
 ]
