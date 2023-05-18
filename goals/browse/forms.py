@@ -1,6 +1,6 @@
 from django import forms
-from .models import CHOICES_WEIGHT, CHOICES_MARK, CHOICES_QUARTER, \
-    CHOICES_BLOCK, CHOICES_BOOL
+from .models import CHOICES_WEIGHT, CHOICES_MARK, \
+    CHOICES_BLOCK, CHOICES_BOOL, choices_quarter
 
 
 class GoalForm(forms.Form):
@@ -12,7 +12,7 @@ class GoalForm(forms.Form):
                                      widget=forms.Textarea(), required=False)
     block = forms.ChoiceField(label='Блок', choices=CHOICES_BLOCK,
                               required=True)
-    quarter = forms.ChoiceField(label='Квартал', choices=CHOICES_QUARTER,
+    quarter = forms.ChoiceField(label='Квартал', choices=choices_quarter,
                                 required=True)
     current = forms.ChoiceField(label='Утверждённая', choices=CHOICES_BOOL,
                                 required=True)
@@ -38,7 +38,7 @@ class AddGoalForm(forms.Form):
                                   widget=forms.Textarea(), required=False)
     block = forms.ChoiceField(label='Блок',
                               choices=CHOICES_BLOCK, required=True)
-    quarter = forms.ChoiceField(label='Квартал', choices=CHOICES_QUARTER,
+    quarter = forms.ChoiceField(label='Квартал', choices=choices_quarter,
                                 required=True)
     planned = forms.ChoiceField(label='Запланированная',
                                 choices=[('', ''),
@@ -55,7 +55,7 @@ class SummaryForm(forms.Form):
     fact = forms.CharField(label='Факт', required=False)
     block = forms.ChoiceField(label='Блок',
                               choices=CHOICES_BLOCK, required=True)
-    quarter = forms.ChoiceField(label='Квартал', choices=CHOICES_QUARTER,
+    quarter = forms.ChoiceField(label='Квартал', choices=choices_quarter,
                                 required=True)
     average_mark = forms.ChoiceField(label='Степень завершенности',
                                      required=False,

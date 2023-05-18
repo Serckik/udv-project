@@ -28,8 +28,13 @@ class Quarter(models.Model):
         verbose_name_plural = 'Кварталы'
 
 
-CHOICES_QUARTER = [('', '')] + [(i.quarter, i.quarter)
+def choices_quarter():
+    try:
+        choices = [('', '')] + [(i.quarter, i.quarter)
                                 for i in Quarter.objects.all()]
+    except:
+        choices = [('', '')]
+    return choices
 
 
 class Goal(models.Model):
@@ -38,7 +43,7 @@ class Goal(models.Model):
     description = models.TextField('Образ результата', null=False)
     block = models.CharField('Блок', choices=CHOICES_BLOCK, null=False,
                              max_length=30)
-    quarter = models.CharField('Квартал', choices=CHOICES_QUARTER, null=False,
+    quarter = models.CharField('Квартал', null=False,
                                max_length=25)
     weight = models.IntegerField('Вес', choices=CHOICES_WEIGHT, null=False)
     current = models.BooleanField('Утверждённая', choices=CHOICES_BOOL,
@@ -96,7 +101,7 @@ class Summary(models.Model):
     fact = models.TextField('Факт', null=True, default='')
     block = models.CharField('Блок', choices=CHOICES_BLOCK, null=False,
                              max_length=30)
-    quarter = models.CharField('Квартал', choices=CHOICES_QUARTER, null=False,
+    quarter = models.CharField('Квартал', null=False,
                                max_length=25)
     average_mark = models.IntegerField('Степень завершенности',
                                        choices=CHOICES_MARK, null=True,
