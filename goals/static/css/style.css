@@ -1230,7 +1230,7 @@ textarea{
 }
 
 .add-form-bottom-flex .edit-flex:nth-child(2){
-    gap:55px;
+    gap: 7px;
 }
 
 .add-form-bottom-flex .edit-flex{
@@ -1424,8 +1424,20 @@ textarea{
 }
 
 .load-excel{
-    display: table;
+    width: 300px;
+    display: flex;
+    margin-top: 2px;
+    margin-right: 10px !important;
     margin-left: auto;
+}
+
+.load-excel a{
+    margin-top: 2px;
+}
+
+.load-excel:hover a, .load-excel:hover path{
+    color: #00D29D !important;
+    fill: #00D29D !important;
 }
 
 .summary-data .edit-header, .summary-data .summary-edit{
@@ -1481,4 +1493,12 @@ textarea{
 
 .edit-summary .card-top p, .current-cards .card-top p{
     font-size: 19px;
+}
+
+.load-excel span{
+    margin-bottom: 30px;
+}
+
+.summary-pages svg{
+    margin-right: 5%;
 }
