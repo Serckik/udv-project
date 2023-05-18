@@ -157,5 +157,5 @@ $(document).on('submit','#more-form', async function(e){
 });
 
 $(document).on('click', '.load-excel', function(e){
-    window.location.href = '/goal/download_summaries?quarter:' + $('#more-form #card-cvartal').val();
+    window.location.href = '/goal/download_summaries?quarter=' + $('#more-form #card-cvartal').val();
 })
