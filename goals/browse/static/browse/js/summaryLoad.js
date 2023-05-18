@@ -100,6 +100,9 @@ $(document).on('click', '.edit-summary .card', function(e) {
 
 $(document).on('submit','#summary-more-form', async function(e){
     e.preventDefault();
+    if($('#summary-more-form .send').length != 0){
+        return
+    }
     if($("#summary-more-form #summary-name").val() != ''){
         let data = {
             summary_id: currentIdCard,
@@ -152,3 +155,7 @@ $(document).on('submit','#more-form', async function(e){
     e.preventDefault();
     OpenSummary(currentIdCard)
 });
+
+$(document).on('click', '.load-excel', function(e){
+    window.location.href = '/goal/download_summaries?quarter:' + $('#more-form #card-cvartal').val();
+})

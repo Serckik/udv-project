@@ -316,6 +316,9 @@ $(document).on('input', '.message-sender', function(e){
 
 $(document).on('submit','#more-form', async function(e){
     e.preventDefault();
+    if($('#more-form .send').length != 0){
+        return
+    }
     if($("#more-form #card-name").val() != ''){
         let data = {
             goal_id: currentIdCard,

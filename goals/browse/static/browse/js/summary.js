@@ -24,6 +24,7 @@ $('.done-block').addClass('hidden');
 $('.taked-block').removeClass('hidden')
 $('.cvartal-select').removeAttr('multiple')
 $('.block-list #Все').addClass('hidden')
+$('.block-list #Все').removeClass('active-sort')
 
 $(document).on('click', '.card', function(e) {
     if (e.ctrlKey) {
@@ -44,6 +45,9 @@ $(document).on('click', '.card', function(e) {
 });
 
 $('#add-summary-form input').on('click', async function(){
+    if($('#add-summary-form .send').length != 0){
+        return
+    }
     if($("#add-summary-form #summary-name").val() != ''){
         let data = {
             name: $("#add-summary-form #summary-name").val(),

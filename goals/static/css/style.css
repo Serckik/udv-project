@@ -727,7 +727,7 @@ option:checked {
     6px 6px #BEBEBE,
     7px 7px #BEBEBE;
     border-radius: 2px;
-    font-family: 'OfficinaSansWinCTT';
+    font-family: 'Source Code Pro';
     cursor: pointer;
     transition: 0.5s;
 }
