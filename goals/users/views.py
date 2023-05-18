@@ -194,7 +194,7 @@ def download_excel(request):
             ws[f'A{i}'].border = thin_border
             ws.merge_cells(f'A{i}:F{i+1}')
             
-            goals = Goal.objects.filter(owner_id=user)
+            goals = Goal.objects.filter(owner_id=user, quarter=quarter)
             koef = 0
             for goal in goals:
                 koef += (goal.weight / 100) * (goal.fact_mark / 100)
@@ -205,7 +205,7 @@ def download_excel(request):
                                               vertical='center')
             ws[f'G{i}'].border = thin_border
             ws.merge_cells(f'G{i}:H{i+1}')
-
+    
             i += 2
 
     with NamedTemporaryFile(delete=True) as tmp_file:
