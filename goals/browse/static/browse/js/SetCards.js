@@ -31,7 +31,7 @@ export function SetCards(cards, classBlock='cards'){
         let cardTop = $("<div class='card-top'></div>")
         
         if(element.name.length > 60){
-            cardTop.append($("<p></p>").text(element.name.slice(0, 47) + '...'))
+            cardTop.append($("<p></p>").text(element.name.slice(0, 45) + '...'))
         }
         else{
             cardTop.append($("<p></p>").text(element.name))
