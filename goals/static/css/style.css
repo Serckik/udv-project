@@ -727,7 +727,7 @@ option:checked {
     6px 6px #BEBEBE,
     7px 7px #BEBEBE;
     border-radius: 2px;
-    font-family: 'Source Code Pro';
+    font-family: 'Roboto Mono';
     cursor: pointer;
     transition: 0.5s;
 }
@@ -760,7 +760,8 @@ option:checked {
 
 .card-top p{
     word-wrap: break-word;
-    width: 80%;
+    width: 85%;
+    line-height: 1.2;
     font-size: 23px;
     margin: 0;
 }
@@ -774,7 +775,7 @@ option:checked {
 
 .calendar span{
     display: block;
-    font-size: 20px;
+    font-size: 15px;
     color: rgba(51, 51, 51, 0.55);
 }
 
@@ -1393,7 +1394,6 @@ textarea{
 }
 
 .summary-card{
-    font-family: 'OfficinaSansWinCTT';
     font-weight: 400;
     width: 48%;
     height: 164px;
@@ -1479,6 +1479,6 @@ textarea{
     font-size: 27px;
 }
 
-.edit-summary .card-top p{
-    font-size: 21px;
+.edit-summary .card-top p, .current-cards .card-top p{
+    font-size: 19px;
 }

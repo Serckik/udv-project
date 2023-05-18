@@ -144,7 +144,6 @@ export function Filter() {
     else{
         data.self = false
         console.log(data.quarter)
-        data.quarter = [data.quarter[data.quarter.length - 1]]
         if(data.block === 'Все'){
             data.block = 'Оценка'
             $('.block-list #Оценка').addClass('active-sort')
@@ -155,7 +154,7 @@ export function Filter() {
         SetCards(cards)
     }
     else if($('.edit-summary').hasClass('hidden')){
-        let summaryCards = request('GET', '/goal/get_summaries', {quarter: quarter[quarter.length - 1], block: block, search: search})
+        let summaryCards = request('GET', '/goal/get_summaries', {quarter: quarter[0], block: block, search: search})
         SetSummaryCards(summaryCards)
     }
     if(window.location.href.split('/')[4] == 'summary'){
@@ -220,9 +219,14 @@ function CheckCoockies(cookieString){
     $('.taked-list-element#' + picked).addClass('active-sort')
     if(self) { $('.search-checkbox').prop('checked', true); }
     quarter = cookieData.quarter.split(',')
-    quarter = quarter.filter((item) => {
-        return Boolean(item);
-    })
+    if(window.location.href.split('/')[4] == 'summary'){
+        quarter = [quarter[quarter.length - 1]]
+    }
+    else{
+        quarter = quarter.filter((item) => {
+            return Boolean(item);
+        })
+    }
     if(cookieData.selectedGoals != undefined){
         selectedGoals = cookieData.selectedGoals.split(',')
         if(selectedGoals[0] === ''){
