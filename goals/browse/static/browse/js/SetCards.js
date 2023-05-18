@@ -31,7 +31,7 @@ export function SetCards(cards, classBlock='cards'){
         let cardTop = $("<div class='card-top'></div>")
         
         if(element.name.length > 60){
-            cardTop.append($("<p></p>").text(element.name.slice(0, 33) + '...'))
+            cardTop.append($("<p></p>").text(element.name.slice(0, 47) + '...'))
         }
         else{
             cardTop.append($("<p></p>").text(element.name))
@@ -91,7 +91,7 @@ export function SetSummaryCards(cards){
         let cardTop = $("<div class='card-top'></div>")
         
         if(element.name.length > 60){
-            cardTop.append($("<p></p>").text(element.name.slice(0, 65) + '...'))
+            cardTop.append($("<p></p>").text(element.name.slice(0, 91) + '...'))
         }
         else{
             cardTop.append($("<p></p>").text(element.name))
@@ -103,7 +103,7 @@ export function SetSummaryCards(cards){
         let block = $("<div></div>")
         block.append($("<p class='plan'></p>").text('План'))
         if(element.plan.length > 60){
-            block.append($("<p></p>").text(element.plan.slice(0, 30) + '...'))
+            block.append($("<p></p>").text(element.plan.slice(0, 43) + '...'))
         }
         else{
             block.append($("<p></p>").text(element.plan))
@@ -113,7 +113,7 @@ export function SetSummaryCards(cards){
         block = $("<div></div>")
         block.append($("<p class='fact'></p>").text('Факт'))
         if(element.fact.length > 60){
-            block.append($("<p></p>").text(element.fact.slice(0, 30) + '...'))
+            block.append($("<p></p>").text(element.fact.slice(0, 43) + '...'))
         }
         else{
             block.append($("<p></p>").text(element.fact))
