@@ -84,6 +84,7 @@ export function SetCards(cards, classBlock='cards'){
 
 export function SetSummaryCards(cards){
     $('.summary-cards').empty()
+    console.log(cards)
     cards.forEach(element => {
         let cardBlock = $("<div class='summary-card'></div>")
         cardBlock.attr('id', element.id)
