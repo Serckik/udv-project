@@ -70,7 +70,7 @@ export function SetCards(cards, classBlock='cards'){
             let userName = element.owner.split(' ')
             cardUser.append($("<p></p>").text(userName[0] + ' ' + userName[1].slice(0, 1) + '.'))
         }
-        cardUser.append(`<img class="user-logo" src="/static/users/img/${element.owner_id}.png" onerror="this.src='/static/img/user-logo.jpg'">`)
+        cardUser.append(`<img class="user-logo" src="/static/users/img/${element.owner_id}.png" onerror="this.src='/static/img/user-logo.png'">`)
     
         cardBottom.append(cardUser)
         cardBlock.append(cardBottom)
