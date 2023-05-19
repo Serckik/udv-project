@@ -1,4 +1,5 @@
 import { SetCards } from "./SetCards.js"
+import { Filter } from "./filter.js";
 import { FillForm, CardSend, CardNameError, FormChange, CardNameChange, sleep, SetVal } from "./openCard.js"
 const sleepTime = 100
 function request(type, url, data){
@@ -115,6 +116,7 @@ $(document).on('submit','#summary-more-form', async function(e){
         }
         request('POST', '/goal/edit_summary', data)
         await sleep(sleepTime);
+        Filter()
         CardSend('summary-edit')
         OpenSummary(currentIdCard)
     }

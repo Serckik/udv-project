@@ -1,6 +1,5 @@
 import { CreateOptionBlocks } from "./openCard.js"
 import { quarterRequestData } from "./filter.js"
-
 CreateOptionBlocks(quarterRequestData.quarters, '.left-submenu #card-cvartal')
 
 let title = window.location.href.split('/')[4]

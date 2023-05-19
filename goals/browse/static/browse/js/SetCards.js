@@ -36,30 +36,40 @@ export function SetCards(cards, classBlock='cards'){
         else{
             cardTop.append($("<p></p>").text(element.name))
         }
-        let calendar = $("<div class='calendar'></div>")
-        let svgCalendar = $('<svg class="calendar-icon" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">')
-        for (let index = 0; index < 4; index++) {
-            let path = document.createElementNS("http://www.w3.org/2000/svg", 'path');
-            path.setAttribute("d",vectors[index]);
-            path.style.strokeWidth = "3.3546px";
-            path.style.strokeLinejoin = "round"
-            svgCalendar.append(path)
+        console.log(element)
+        if(window.location.href.split('/')[4] == 'summary'){
+            if(!element.picked){
+                let warning = $("<div class='warning'></div>")
+                warning.append($('<img src="/static/img/warn.svg">'))
+                cardTop.append(warning)
+            }
         }
-        calendar.append(svgCalendar)
-        if(element.isdone){
-            let done = $('<svg class="done" width="19" height="14" viewBox="0 0 19 14" fill="none" xmlns="http://www.w3.org/2000/svg">')
-            let path = document.createElementNS("http://www.w3.org/2000/svg", 'path');
-            path.setAttribute("d", "M2 7.0319L7.0319 12.0638L17.0957 2");
-            path.style.strokeWidth = "3.35px";
-            path.style.strokeLinejoin = "round"
-            path.style.stroke = colors[element.block]
-            done.append(path)
-            calendar.append(done)
+        else{
+            let calendar = $("<div class='calendar'></div>")
+            let svgCalendar = $('<svg class="calendar-icon" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">')
+            for (let index = 0; index < 4; index++) {
+                let path = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+                path.setAttribute("d",vectors[index]);
+                path.style.strokeWidth = "3.3546px";
+                path.style.strokeLinejoin = "round"
+                svgCalendar.append(path)
+            }
+            calendar.append(svgCalendar)
+            if(element.isdone){
+                let done = $('<svg class="done" width="19" height="14" viewBox="0 0 19 14" fill="none" xmlns="http://www.w3.org/2000/svg">')
+                let path = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+                path.setAttribute("d", "M2 7.0319L7.0319 12.0638L17.0957 2");
+                path.style.strokeWidth = "3.35px";
+                path.style.strokeLinejoin = "round"
+                path.style.stroke = colors[element.block]
+                done.append(path)
+                calendar.append(done)
+            }
+            const quarter = element.quarter.split(' ')
+            const year = quarter[2]
+            calendar.append($("<span></span>").text(quarter[0] + '/' + year[year.length - 2] + year[year.length - 1]))
+            cardTop.append(calendar)
         }
-        const quarter = element.quarter.split(' ')
-        const year = quarter[2]
-        calendar.append($("<span></span>").text(quarter[0] + '/' + year[year.length - 2] + year[year.length - 1]))
-        cardTop.append(calendar)
         cardBlock.append(cardTop)
     
         let cardBottom = $("<div class='card-bottom'></div>")
@@ -111,7 +121,6 @@ export function SetSummaryCards(cards){
             block.append($("<p></p>").text(element.plan))
         }
         cardBottom.append(block)
-
         block = $("<div></div>")
         block.append($("<p class='fact'></p>").text('Факт'))
         if(element.fact.length > 43){

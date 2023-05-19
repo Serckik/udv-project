@@ -1,4 +1,4 @@
-import { selectedGoals, AddCoockie } from "./filter.js"
+import { selectedGoals, AddCoockie, Filter } from "./filter.js"
 import { CardSend, CardNameError, FormChange, CardNameChange, sleep } from "./openCard.js"
 import { UpdateTaked } from "./SetCards.js"
 const sleepTime = 100
@@ -61,6 +61,7 @@ $('#add-summary-form input').on('click', async function(){
         request('POST', '/goal/add_summary', data)
         selectedGoals.length = 0
         AddCoockie(selectedGoals, 'selectedGoals')
+        Filter()
         UpdateTaked()
         await sleep(sleepTime);
         CardSend('summary')
@@ -79,5 +80,9 @@ $(document).on('input', "#add-summary-form textarea", function(e){
 })
 
 $(document).on('change', "#add-summary-form select", function(e){
+    FormChange('summary', 'добавить')
+})
+
+$(document).on('click', ".card", function(e){
     FormChange('summary', 'добавить')
 })

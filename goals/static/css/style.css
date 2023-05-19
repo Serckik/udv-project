@@ -766,7 +766,7 @@ option:checked {
     margin: 0;
 }
 
-.card-top .calendar{
+.card-top .calendar, .card-top .warning{
     text-align: end;
     line-height: 0.8;
     position: relative;
