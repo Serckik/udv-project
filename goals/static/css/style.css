@@ -1371,7 +1371,7 @@ textarea{
 
 .summary-cards-block{
     height: fit-content;
-    max-height: 771px;
+    max-height: 740px;
     padding-bottom: 10px;
     overflow: auto;
     overflow-x: hidden;
