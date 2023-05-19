@@ -10,6 +10,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['26.245.229.110', '127.0.0.1', '25.37.105.93']
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'baza',
+        'USER': 'admin',
+        'HOST': 'db',
+        'PORT': '5432',
+        'PASSWORD': 'admin',
+    }
+}
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -52,12 +63,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'goals.wsgi.application'
 
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+"""
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -95,6 +108,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 if DEBUG:
     import mimetypes
     mimetypes.add_type("application/javascript", ".js", True)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -116,3 +136,4 @@ EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'rammav@mail.ru'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = 'ies7fLyQ32YL0rfEGDma'
+

@@ -216,6 +216,7 @@ def get_goals_by_filter(request):
         picked_filtered_goals = picked_goals if picked == 'Включено' \
             else Goal.objects.all().exclude(pk__in=picked_goals)
         goals &= picked_filtered_goals
+    
     data = list(goals.values('name',
                              'weight',
                              'isdone',
@@ -227,7 +228,12 @@ def get_goals_by_filter(request):
         user = User.objects.get(id=item['owner_id'])
         item['owner'] = user.get_full_name()
         item['owner_id'] = user.id
-
+        summaries = Summary.objects.all()
+        item['picked'] = False
+        for summary in summaries:
+            if Goal.objects.get(id=item['id']) in summary.goals.all():
+                item['picked'] = True
+                break
     return JsonResponse(data, safe=False)
 
 
@@ -413,7 +419,8 @@ def download_summaries(request):
         summaries = Summary.objects.filter(block=block[0], quarter=quarter)
         for j, summary in enumerate(summaries):
             cell = f'{letter}{j+7}'
-            ws[cell] = f'{summary.name}\nПЛАН: {summary.plan}\nФАКТ: {summary.fact}'
+            ws[cell] = \
+                f'{summary.name}\nПЛАН: {summary.plan}\nФАКТ: {summary.fact}'
             ws[cell].alignment = top_left_alignment
             ws[cell].border = thin_border
             if summary.average_mark >= 50:

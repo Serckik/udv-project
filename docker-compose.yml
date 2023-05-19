@@ -1,0 +1,32 @@
+services:
+
+  db:
+    image: "postgres"
+    environment:
+      POSTGRES_DB: "baza"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+      POSTGRES_HOST: "localhost"
+
+  nginx:
+    image: "nginx"
+    restart: "always"
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - python
+
+  python:
+    build: .
+    command: sh -c "python /app/goals/manage.py makemigrations &&
+             python /app/goals/manage.py migrate &&
+             cd goals && 
+             gunicorn goals.wsgi:application --bind 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+
