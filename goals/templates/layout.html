@@ -71,7 +71,15 @@
                         </svg>  
                         <a class="excel-load">Выгрузить статистику</a>
                     </p>
-                    <p class="personal-area-content-item">
+                    {% if request.user.is_superuser %}
+                        <p class="personal-area-content-item">
+                            <svg width="23" height="24" viewBox="0 0 23 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 23V20.027C1 16.4147 4.00792 13.4865 7.71839 13.4865H14.4368M5.8861 23V19.4324M16.2691 18.2432V15.8649M16.2691 20.8595V20.6216M15.6583 5.75676C15.6583 8.38384 13.4707 10.5135 10.7722 10.5135C8.07368 10.5135 5.8861 8.38384 5.8861 5.75676C5.8861 3.12967 8.07368 1 10.7722 1C13.4707 1 15.6583 3.12967 15.6583 5.75676ZM11.1497 23H21.3885C21.8425 23 22.1378 22.5348 21.9347 22.1395L16.8153 12.1717C16.5903 11.7335 15.9478 11.7335 15.7228 12.1717L10.6034 22.1395C10.4004 22.5348 10.6956 23 11.1497 23Z" stroke="black" stroke-width="0.81" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>  
+                            <a href="/admin">Админ панель</a>
+                        </p>
+                    {% endif %}
+                    <p class="personal-area-content-item update">
                         <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M21 17.2653V18L0.375 18L0 17.2653H21ZM13.65 0L18.9 5.14286L7.35 16.4571H2.1V11.3143L13.65 0ZM9.3672 5.4878L2.625 11.7551V15.7959H7.125L13.5 9.55102L9.3672 5.4878ZM13.6806 1.46939L10.1556 4.92239L14.1 8.78629L17.625 5.33329L13.6806 1.46939Z" fill="#333333"/>
                         </svg> 

@@ -452,14 +452,16 @@ header{
     transition: 0.1s;
 }
 
-.personal-area-content p:nth-child(2):hover a, .personal-area-content p:nth-child(2):hover path{
-    color:rgba(248, 156, 29, 1);
-    stroke: rgba(248, 156, 29, 1);
+.personal-area-content p:nth-child(2):hover a, .personal-area-content p:nth-child(2):hover path,
+.personal-area-content .update:hover a, .personal-area-content .update:hover path{
+    color:rgba(248, 156, 29, 1) !important;
+    stroke: rgba(248, 156, 29, 1) !important;
     transition: 0.1s;
 }
 
 .personal-area-content p:nth-child(3):hover a, .personal-area-content p:nth-child(3):hover path,
-.personal-area-content p:nth-child(4):hover a, .personal-area-content p:nth-child(4):hover path{
+.personal-area-content p:nth-child(4):hover a, .personal-area-content p:nth-child(4):hover path,
+.personal-area-content p:nth-child(5):hover a, .personal-area-content p:nth-child(5):hover path{
     color:rgba(240, 145, 145, 1);
     stroke: rgba(240, 145, 145, 1);
     transition: 0.1s;
