@@ -775,10 +775,14 @@ option:checked {
     margin-left: auto;
 }
 
-.calendar span{
+.calendar span, .summary-quarter{
     display: block;
     font-size: 15px;
     color: rgba(51, 51, 51, 0.55);
+}
+
+.summary-quarter{
+    font-size: 20px;
 }
 
 .complete-block{
@@ -1408,7 +1412,8 @@ textarea{
 }
 
 .summary-card .card-top p{
-    width: 100%;
+    width: 92%;
+    margin-right: 5px;
 }
 
 .summary-card .card-description{

@@ -98,11 +98,14 @@ export function SetSummaryCards(cards){
         let cardTop = $("<div class='card-top'></div>")
         
         if(element.name.length > 91){
-            cardTop.append($("<p></p>").text(element.name.slice(0, 91) + '...'))
+            cardTop.append($("<p></p>").text(element.name.slice(0, 83) + '...'))
         }
         else{
             cardTop.append($("<p></p>").text(element.name))
         }
+        const quarter = element.quarter.split(' ')
+        const year = quarter[2]
+        cardTop.append($("<span class='summary-quarter'></span>").text(quarter[0] + '/' + year[year.length - 2] + year[year.length - 1]))
         cardBlock.append(cardTop)
     
         let cardBottom = $("<div class='card-description'></div>")
