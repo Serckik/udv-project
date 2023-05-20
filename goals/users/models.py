@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from browse.models import Goal
 from django.utils.timezone import localtime
 from django.utils import timezone
-from .validators import file_size, validate_image_extension
+
 import os
 
 

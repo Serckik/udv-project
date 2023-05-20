@@ -103,6 +103,8 @@ STATICFILES_DIRS = [
 
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 if DEBUG:
@@ -136,4 +138,3 @@ EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'rammav@mail.ru'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = 'ies7fLyQ32YL0rfEGDma'
-

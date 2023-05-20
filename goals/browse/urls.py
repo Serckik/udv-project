@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path('browse', views.browse),  # render
     path('add', views.browse_add),  # render

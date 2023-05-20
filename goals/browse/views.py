@@ -127,103 +127,90 @@ def get_goal(request):
 @login_required(login_url='/user/login/')
 def get_goals_by_filter(request):
     goals = Goal.objects.all()
-    block = request.GET.get('block') \
-        if request.GET.get('block') != 'Все' else None
-    sorting = request.GET.get('sort') \
-        if request.GET.get('sort') != 'Все' else None
-    planned = request.GET.get('planned') \
-        if request.GET.get('planned') != 'Все' else None
-    done = request.GET.get('done') \
-        if request.GET.get('done') != 'Все' else None
-    picked = request.GET.get('picked') \
-        if request.GET.get('picked') != 'Все' else None
-    my = request.GET.get('self')
-    current = request.GET.get('current')
-    approve = request.GET.get('approve')
-    if my:
-        my = true_converter[request.GET.get('self')]
-    if current:
-        current = true_converter[request.GET.get('current')]
-    if approve:
-        approve = true_converter[request.GET.get('approve')]
-    search = request.GET.get('search')
-    quarters = request.GET.getlist('quarter[]')
-    summary_id = request.GET.get('summary_id')
-    if summary_id:
-        summary = Summary.objects.get(id=summary_id)
-        all = Goal.objects.filter(quarter=summary.quarter,
-                                  block=summary.block)
+    filters = {
+        'block': request.GET.get('block', None),
+        'sorting': request.GET.get('sort', None),
+        'planned': request.GET.get('planned', None),
+        'done': request.GET.get('done', None),
+        'picked': request.GET.get('picked', None),
+        'my': true_converter.get(request.GET.get('self'), None),
+        'current': true_converter.get(request.GET.get('current'), None),
+        'approve': true_converter.get(request.GET.get('approve'), None),
+        'search': request.GET.get('search', None),
+        'quarters': request.GET.getlist('quarter[]'),
+        'summary_id': request.GET.get('summary_id', None)
+    }
+
+    if filters['block'] == 'Все':
+        filters['block'] = None
+    if filters['sorting'] == 'Все':
+        filters['sorting'] = None
+    if filters['planned'] == 'Все':
+        filters['planned'] = None
+    if filters['done'] == 'Все':
+        filters['done'] = None
+    if filters['picked'] == 'Все':
+        filters['picked'] = None
+
+    if filters['summary_id']:
+        summary = Summary.objects.get(id=filters['summary_id'])
+        all_goals = Goal.objects.filter(quarter=summary.quarter, block=summary.block)
         intersection = summary.goals.all()
-        picked_filtered_goals = all.exclude(pk__in=intersection)
+        picked_filtered_goals = all_goals.exclude(pk__in=intersection)
         goals = picked_filtered_goals
-    if approve:
+
+    if filters['approve']:
         if request.user.is_superuser:
             perm = Permission.objects.get(codename='change_goal')
-            goals = goals.filter(Q(owner_id__groups__permissions=perm) |
-                                 Q(owner_id__user_permissions=perm)).distinct()
+            goals = goals.filter(Q(owner_id__groups__permissions=perm) | Q(owner_id__user_permissions=perm)).distinct()
         else:
-            goals = goals.filter(
-                owner_id__groups__in=request.user.groups.all())
-            goals = goals.exclude(owner_id=request.user)
+            goals = goals.filter(owner_id__groups__in=request.user.groups.all()).exclude(owner_id=request.user)
 
-    if block:
-        goals = goals.filter(block=block)
+    if filters['block']:
+        goals = goals.filter(block=filters['block'])
 
-    if sorting:
-        if sorting == 'weight':
-            goals = goals.order_by('-'+sorting)
+    if filters['sorting']:
+        if filters['sorting'] == 'weight':
+            goals = goals.order_by('-'+filters['sorting'])
         else:
-            goals = goals.order_by(sorting)
+            goals = goals.order_by(filters['sorting'])
 
-    if planned:
-        goals = goals.filter(planned=True
-                             if planned == 'Запланированная' else False)
+    if filters['planned']:
+        goals = goals.filter(planned=True if filters['planned'] == 'Запланированная' else False)
 
-    if my:
+    if filters['my']:
         goals = goals.filter(owner_id=request.user)
-    if search:
-        search = search.strip()
-        q2 = goals.filter(name__icontains=search)
-        q3 = goals.filter(description__icontains=search)
-        q4 = goals.filter(current_result__icontains=search)
+
+    if filters['search']:
+        search = filters['search'].strip()
+        search_filters = Q(name__icontains=search) | Q(description__icontains=search) | Q(current_result__icontains=search)
         splitted_search = search.split()
-        q5 = Goal.objects.none()
         if len(splitted_search) == 1:
-            q5 = goals.filter(owner_id__first_name__icontains=search)
-            q6 = goals.filter(owner_id__last_name__icontains=search)
+            search_filters |= Q(owner_id__first_name__icontains=search) | Q(owner_id__last_name__icontains=search)
         elif len(splitted_search) == 2:
-            q5 = goals.filter(
-                owner_id__first_name__icontains=splitted_search[0],
-                owner_id__last_name__icontains=splitted_search[1])
-            q6 = goals.filter(
-                owner_id__first_name__icontains=splitted_search[1],
-                owner_id__last_name__icontains=splitted_search[0])
-        else:
-            q5 = Goal.objects.none()
-            q6 = Goal.objects.none()
-        goals = q2 | q3 | q4 | q5 | q6
-    if quarters:
-        goals = goals.filter(quarter__in=quarters)
-    if current in [True, False]:
-        goals = goals.filter(current=current)
-    if done:
-        goals = goals.filter(isdone=True if done == 'Выполненные' else False)
-    if picked:
+            first_name, last_name = splitted_search[0], splitted_search[1]
+            search_filters |= Q(owner_id__first_name__icontains=first_name, owner_id__last_name__icontains=last_name) | Q(owner_id__first_name__icontains=last_name, owner_id__last_name__icontains=first_name)
+        
+        goals = goals.filter(search_filters)
+
+    if filters['quarters']:
+        goals = goals.filter(quarter__in=filters['quarters'])
+
+    if filters['current'] in [True, False]:
+        goals = goals.filter(current=filters['current'])
+
+    if filters['done']:
+        goals = goals.filter(isdone=True if filters['done'] == 'Выполненные' else False)
+
+    if filters['picked']:
         all_summaries = Summary.objects.all()
         picked_goals = Goal.objects.none()
         for summary in all_summaries:
             picked_goals |= summary.goals.all()
-        picked_filtered_goals = picked_goals if picked == 'Включено' \
-            else Goal.objects.all().exclude(pk__in=picked_goals)
+        picked_filtered_goals = picked_goals if filters['picked'] == 'Включено' else Goal.objects.all().exclude(pk__in=picked_goals)
         goals &= picked_filtered_goals
-    
-    data = list(goals.values('name',
-                             'weight',
-                             'isdone',
-                             'owner_id',
-                             'block',
-                             'id',
-                             'quarter'))
+
+    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id', 'quarter'))
     for item in data:
         user = User.objects.get(id=item['owner_id'])
         item['owner'] = user.get_full_name()
@@ -234,7 +221,9 @@ def get_goals_by_filter(request):
             if Goal.objects.get(id=item['id']) in summary.goals.all():
                 item['picked'] = True
                 break
+
     return JsonResponse(data, safe=False)
+
 
 
 @login_required(login_url='/user/login/')

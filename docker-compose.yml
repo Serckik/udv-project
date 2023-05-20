@@ -14,13 +14,15 @@ services:
     ports:
       - "80:80"
     volumes:
+      - ./static:/var/www
       - ./nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - python
 
   python:
     build: .
-    command: sh -c "python /app/goals/manage.py makemigrations &&
+    command: sh -c "python /app/goals/manage.py collectstatic --noinput &
+             python /app/goals/manage.py makemigrations &&
              python /app/goals/manage.py migrate &&
              cd goals && 
              gunicorn goals.wsgi:application --bind 0.0.0.0:8000"

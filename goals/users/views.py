@@ -76,91 +76,84 @@ def get_user_name(request):
 
 @login_required(login_url='/user/login/')
 def download_excel(request):
-    if not request.user.is_superuser:
-        wb = openpyxl.Workbook()
-        quarter = request.GET.get('quarter')
-        goals = list(Goal.objects.filter(owner_id=request.user,
-                                         quarter=quarter,
-                                         current=True).values())
-        goals_count = len(goals)
-        ws = wb.active
-        ws.title = quarter
-        thin_border = Border(left=Side(style='thin'),
-                             right=Side(style='thin'),
-                             top=Side(style='thin'),
-                             bottom=Side(style='thin'))
+    wb = openpyxl.Workbook()
+    quarter = request.GET.get('quarter')
+    goals = list(Goal.objects.filter(owner_id=request.user,
+                                        quarter=quarter,
+                                        current=True).values())
+    goals_count = len(goals)
+    ws = wb.active
+    ws.title = 'Персональная сводка по коэф.'
+    thin_border = Border(left=Side(style='thin'),
+                            right=Side(style='thin'),
+                            top=Side(style='thin'),
+                            bottom=Side(style='thin'))
 
-        ws['A2'] = f'Сводка за {quarter} {request.user.get_full_name()}'
-        ws['A2'].font = Font(bold=True, size=14)
-        ws['A2'].alignment = Alignment(horizontal="center")
-        ws['A2'].border = thin_border
-        ws.merge_cells('A2:H2')
+    ws['A2'] = f'Сводка за {quarter} {request.user.get_full_name()}'
+    ws['A2'].font = Font(bold=True, size=14)
+    ws['A2'].alignment = Alignment(horizontal="center")
+    ws['A2'].border = thin_border
+    ws.merge_cells('A2:H2')
 
-        ws['A3'] = 'Название задачи'
-        ws['A3'].alignment = Alignment(horizontal="center")
-        ws['A3'].border = thin_border
-        ws.merge_cells('A3:E3')
+    ws['A3'] = 'Название задачи'
+    ws['A3'].alignment = Alignment(horizontal="center")
+    ws['A3'].border = thin_border
+    ws.merge_cells('A3:E3')
 
-        ws['F3'] = 'Вес, %'
-        ws['F3'].alignment = Alignment(horizontal="center")
-        ws['F3'].border = thin_border
+    ws['F3'] = 'Вес, %'
+    ws['F3'].alignment = Alignment(horizontal="center")
+    ws['F3'].border = thin_border
 
-        ws['G3'] = 'Оценка, %'
-        ws['G3'].alignment = Alignment(horizontal="center")
-        ws.column_dimensions['G'].width = 13
-        ws['G3'].border = thin_border
+    ws['G3'] = 'Оценка, %'
+    ws['G3'].alignment = Alignment(horizontal="center")
+    ws.column_dimensions['G'].width = 13
+    ws['G3'].border = thin_border
 
-        ws['H3'] = 'Итог'
-        ws['H3'].alignment = Alignment(horizontal="center")
-        ws['H3'].border = thin_border
+    ws['H3'] = 'Итог'
+    ws['H3'].alignment = Alignment(horizontal="center")
+    ws['H3'].border = thin_border
 
-        ws['J3'] = 'Итоговый коэффициент:'
-        ws['J3'].fill = PatternFill(start_color='FFC000',
-                                    end_color='FFC000',
-                                    fill_type='solid')
-        ws['J3'].alignment = Alignment(horizontal="center")
-        ws['J3'].border = Border(left=Side(style='medium'),
-                                 top=Side(style='medium'),
-                                 bottom=Side(style='medium'))
-        ws.merge_cells('J3:L3')
+    ws['J3'] = 'Итоговый коэффициент:'
+    ws['J3'].fill = PatternFill(start_color='FFC000',
+                                end_color='FFC000',
+                                fill_type='solid')
+    ws['J3'].alignment = Alignment(horizontal="center")
+    ws['J3'].border = Border(left=Side(style='medium'),
+                                top=Side(style='medium'),
+                                bottom=Side(style='medium'))
+    ws.merge_cells('J3:L3')
 
-        ws['M3'] = f'=SUM(H4:H{4+goals_count})'
-        ws['M3'].alignment = Alignment(horizontal="right")
-        ws['M3'].fill = PatternFill(start_color='D9D9D9',
-                                    end_color='D9D9D9',
-                                    fill_type='solid')
-        ws['M3'].border = Border(right=Side(style='medium'),
-                                 top=Side(style='medium'),
-                                 bottom=Side(style='medium'))
+    ws['M3'] = f'=SUM(H4:H{4+goals_count})'
+    ws['M3'].alignment = Alignment(horizontal="right")
+    ws['M3'].fill = PatternFill(start_color='D9D9D9',
+                                end_color='D9D9D9',
+                                fill_type='solid')
+    ws['M3'].border = Border(right=Side(style='medium'),
+                                top=Side(style='medium'),
+                                bottom=Side(style='medium'))
 
-        for row, goal in zip(ws[f'A4:A{goals_count+4}'], goals):
-            for cell in row:
-                cell.border = thin_border
-                cell.value = goal['name']
-                cell.alignment = Alignment(horizontal="center")
-                number = int(''.join(filter(str.isdigit, cell.coordinate)))
-                ws.merge_cells(f'{cell.coordinate}:E{number}')
-
-        for row_idx, goal in enumerate(goals, start=4):
-            cell = ws.cell(row=row_idx, column=6, value=goal['weight'])
+    for row, goal in zip(ws[f'A4:A{goals_count+4}'], goals):
+        for cell in row:
             cell.border = thin_border
-            cell.alignment = Alignment(horizontal="right")
-            cell = ws.cell(row=row_idx, column=7, value=goal['fact_mark'])
-            cell.border = thin_border
-            cell.alignment = Alignment(horizontal="right")
-            cell = ws.cell(row=row_idx, column=8,
-                           value=f"=F{row_idx}/100 * G{row_idx}/100")
-            cell.border = thin_border
-            cell.alignment = Alignment(horizontal="right")
-    else:
-        wb = openpyxl.Workbook()
-        quarter = request.GET.get('quarter')
-        goals = list(Goal.objects.filter(owner_id=request.user,
-                                         quarter=quarter,
-                                         current=True).values())
-        goals_count = len(goals)
-        ws = wb.active
-        ws.title = quarter
+            cell.value = goal['name']
+            cell.alignment = Alignment(horizontal="center")
+            number = int(''.join(filter(str.isdigit, cell.coordinate)))
+            ws.merge_cells(f'{cell.coordinate}:E{number}')
+
+    for row_idx, goal in enumerate(goals, start=4):
+        cell = ws.cell(row=row_idx, column=6, value=goal['weight'])
+        cell.border = thin_border
+        cell.alignment = Alignment(horizontal="right")
+        cell = ws.cell(row=row_idx, column=7, value=goal['fact_mark'])
+        cell.border = thin_border
+        cell.alignment = Alignment(horizontal="right")
+        cell = ws.cell(row=row_idx, column=8,
+                        value=f"=F{row_idx}/100 * G{row_idx}/100")
+        cell.border = thin_border
+        cell.alignment = Alignment(horizontal="right")
+    if request.user.is_superuser or request.user.has_perm('browse.change_goal'):
+        ws = wb.create_sheet("Общая сводка по коэф. ")
+        wb.active = ws
         thin_border = Border(left=Side(style='thin'),
                              right=Side(style='thin'),
                              top=Side(style='thin'),
@@ -184,7 +177,8 @@ def download_excel(request):
         ws['G4'].border = thin_border
         ws.merge_cells('G4:H5')
 
-        users = User.objects.all()
+        users = User.objects.all() if request.user.is_superuser else \
+            User.objects.filter(groups__in=request.user.groups.all())
         i = 6
         for user in users:
             ws[f'A{i}'] = user.get_full_name()
@@ -206,6 +200,9 @@ def download_excel(request):
             ws.merge_cells(f'G{i}:H{i+1}')
 
             i += 2
+
+    ws = wb.worksheets[0]
+    wb.active = ws
 
     with NamedTemporaryFile(delete=True) as tmp_file:
         wb.save(tmp_file.name)
