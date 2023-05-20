@@ -111,6 +111,7 @@ $(document).on('click', '.taked-list-element', function(e){
 })
 
 export function Filter() { 
+    console.log('uwu')
     block = block.replaceAll('\\', '')
     picked = picked.replaceAll('\\', '')
     let data = {

@@ -57,5 +57,3 @@ $(document).on('input', "#add-form textarea", function(e){
 $(document).on('change', "#add-form select", function(e){
     FormChange('add', 'добавить')
 })
-
-Filter()

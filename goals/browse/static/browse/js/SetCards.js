@@ -18,10 +18,6 @@ export function request(type, url, data){
 
 export let cards = null
 
-export function GetCards() { 
-    Filter()
-}
-
 export function SetCards(cards, classBlock='cards'){
     $("." + classBlock).empty()
     cards.forEach(element => {
