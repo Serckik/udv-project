@@ -25,7 +25,7 @@ $('.left-submenu .done-block').addClass('hidden')
 $('.search .search-checkbox-block').addClass('hidden')
 $('.header-nav .summary').addClass('current-page')
 
-let summaryGoals = []
+let added = []
 let currentCards = []
 let removed = []
 let currentIdCard = ''
@@ -37,7 +37,7 @@ $(document).on('click', '.summary-card', function(e) {
 
 function OpenSummary(id){
     currentIdCard = id
-    summaryGoals = []
+    added = []
     currentCards = []
     removed = []
     $('#summary-more-form textarea').attr('style', 'cursor:text')
@@ -51,10 +51,9 @@ function OpenSummary(id){
     SetCards(summaryData.goals, 'current-cards')
     SetCards(request('GET', '/goal/get_goals', {summary_id: currentIdCard}))
     summaryData.goals.forEach(element => {
-        summaryGoals.push(element.id)
+        currentCards.push(element.id)
     });
-    currentCards = [...summaryGoals]
-    console.log(summaryGoals)
+    console.log(currentCards)
 }
 
 $(document).on('click','.submenu p', async function(e){
@@ -74,34 +73,30 @@ $(document).on('click','.submenu p', async function(e){
 $(document).on('click', '.edit-summary .card', function(e) {
     const cardId = Number($(this).attr('id'))
     if (e.ctrlKey) {
-        if(currentCards.includes(cardId) && summaryGoals.includes(cardId)){
+        if(currentCards.includes(cardId) && !removed.includes(cardId)){
             $(this).addClass('removed')
             removed.push(cardId)
-            let index = summaryGoals.indexOf(cardId);
-            if (index !== -1) {
-                summaryGoals.splice(index, 1);
-            }
         }
-        else if(currentCards.includes(cardId)){
+        else if(currentCards.includes(cardId) && removed.includes(cardId)){
             $(this).removeClass('removed')
             let index = removed.indexOf(cardId);
             if (index !== -1) {
                 removed.splice(index, 1);
             }
-            summaryGoals.push(cardId)
         }
-        else if(!currentCards.includes(cardId) && summaryGoals.includes(cardId)){
+        else if(!currentCards.includes(cardId) && added.includes(cardId)){
             $(this).removeClass('selected')
-            let index = summaryGoals.indexOf(cardId);
+            let index = added.indexOf(cardId);
             if (index !== -1) {
-                summaryGoals.splice(index, 1);
+                added.splice(index, 1);
             }
         }
         else{
             $(this).addClass('selected')
-            summaryGoals.push(cardId)
+            added.push(cardId)
         }
     }
+    console.log(added)
     console.log(removed)
 });
 
@@ -117,7 +112,7 @@ $(document).on('submit','#summary-more-form', async function(e){
             plan: $("#summary-more-form #summary-plan").val(),
             fact: $("#summary-more-form #summary-fact").val(),
             average_mark: $('#summary-more-form #card-own-grade').val(),
-            goals: summaryGoals,
+            added: added,
             removed: removed,
             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
         }
