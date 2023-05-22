@@ -56,6 +56,8 @@ class Goal(models.Model):
     fact_mark = models.IntegerField('Оценка руководителя',
                                     choices=CHOICES_MARK, null=True)
     isdone = models.BooleanField('Выполнена', choices=CHOICES_BOOL)
+    summaries_count = models.IntegerField('В сколько сводок входит?',
+                                          default=0)
 
     class Meta:
         verbose_name = 'Задача'

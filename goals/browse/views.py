@@ -154,7 +154,8 @@ def get_goals_by_filter(request):
 
     if filters['summary_id']:
         summary = Summary.objects.get(id=filters['summary_id'])
-        all_goals = Goal.objects.filter(quarter=summary.quarter, block=summary.block)
+        all_goals = Goal.objects.filter(quarter=summary.quarter,
+                                        block=summary.block)
         intersection = summary.goals.all()
         picked_filtered_goals = all_goals.exclude(pk__in=intersection)
         goals = picked_filtered_goals
@@ -162,9 +163,11 @@ def get_goals_by_filter(request):
     if filters['approve']:
         if request.user.is_superuser:
             perm = Permission.objects.get(codename='change_goal')
-            goals = goals.filter(Q(owner_id__groups__permissions=perm) | Q(owner_id__user_permissions=perm)).distinct()
+            goals = goals.filter(Q(owner_id__groups__permissions=perm) |
+                                 Q(owner_id__user_permissions=perm)).distinct()
         else:
-            goals = goals.filter(owner_id__groups__in=request.user.groups.all()).exclude(owner_id=request.user)
+            goals = goals.filter(owner_id__groups__in=request.user.groups.all())
+            goals = goals.exclude(owner_id=request.user)
 
     if filters['block']:
         goals = goals.filter(block=filters['block'])
@@ -176,11 +179,11 @@ def get_goals_by_filter(request):
             goals = goals.order_by(filters['sorting'])
 
     if filters['planned']:
-        goals = goals.filter(planned=True if filters['planned'] == 'Запланированная' else False)
-
+        goals = goals.filter(planned=True
+                             if filters['planned'] == 'Запланированная'
+                             else False)
     if filters['my']:
         goals = goals.filter(owner_id=request.user)
-
     if filters['search']:
         search = filters['search'].strip()
         search_filters = Q(name__icontains=search) | Q(description__icontains=search) | Q(current_result__icontains=search)
@@ -190,41 +193,29 @@ def get_goals_by_filter(request):
         elif len(splitted_search) == 2:
             first_name, last_name = splitted_search[0], splitted_search[1]
             search_filters |= Q(owner_id__first_name__icontains=first_name, owner_id__last_name__icontains=last_name) | Q(owner_id__first_name__icontains=last_name, owner_id__last_name__icontains=first_name)
-        
-        goals = goals.filter(search_filters)
 
+        goals = goals.filter(search_filters)
     if filters['quarters']:
         goals = goals.filter(quarter__in=filters['quarters'])
 
     if filters['current'] in [True, False]:
         goals = goals.filter(current=filters['current'])
-
     if filters['done']:
         goals = goals.filter(isdone=True if filters['done'] == 'Выполненные' else False)
-
     if filters['picked']:
-        all_summaries = Summary.objects.all()
-        picked_goals = Goal.objects.none()
-        for summary in all_summaries:
-            picked_goals |= summary.goals.all()
-        picked_filtered_goals = picked_goals if filters['picked'] == 'Включено' else Goal.objects.all().exclude(pk__in=picked_goals)
-        goals &= picked_filtered_goals
+        if filters['picked'] == 'Включено':
+            goals = goals.exclude(summaries_count=0)
+        else:
+            goals = goals.filter(summaries_count=0)
 
-    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id', 'quarter'))
+    data = list(goals.values('name', 'weight', 'isdone', 'owner_id', 'block', 'id', 'quarter', 'summaries_count'))
     for item in data:
         user = User.objects.get(id=item['owner_id'])
         item['owner'] = user.get_full_name()
         item['owner_id'] = user.id
-        summaries = Summary.objects.all()
-        item['picked'] = False
-        for summary in summaries:
-            if Goal.objects.get(id=item['id']) in summary.goals.all():
-                item['picked'] = True
-                break
+        item['picked'] = item['summaries_count'] > 0
 
     return JsonResponse(data, safe=False)
-
-
 
 @login_required(login_url='/user/login/')
 def add_goal(request):
@@ -242,7 +233,8 @@ def add_goal(request):
                         planned=true_converter[request.POST.get('planned')],
                         mark=0,
                         fact_mark=0,
-                        isdone=False)
+                        isdone=False,
+                        )
             goal.save()
             return JsonResponse({'status': 'ok'})
         else:
@@ -319,6 +311,11 @@ def add_summary(request):
             summary.goals.set(Goal.objects.filter(
                 pk__in=request.POST.getlist('goals[]')))
             summary.save()
+            goals = request.POST.getlist('goals[]')
+            for id in goals:
+                goal = Goal.objects.get(id=id)
+                goal.summaries_count += 1
+                goal.save()
             return JsonResponse({'status': 'ok'})
         else:
             return JsonResponse({'status': 'validation error',

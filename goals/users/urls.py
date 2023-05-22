@@ -10,5 +10,7 @@ urlpatterns = [
     path('upload_image', views.upload_image),  # post
 ]
 
-
-create_groups()
+try:
+    create_groups()
+except:
+    pass

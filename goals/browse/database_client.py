@@ -157,8 +157,19 @@ def edit_summary(request, summary):
     summary.fact = request.POST.get('fact')
     summary.average_mark = request.POST.get('average_mark')
     summary.save()
-    summary.goals.set(Goal.objects.filter(
-                pk__in=request.POST.getlist('goals[]')))
+    added = request.POST.getlist('added[]')
+    removed = request.POST.getlist('removed[]')
+    for id in added:
+        goal = Goal.objects.get(id=id)
+        goal.summaries_count += 1
+        summary.goals.add(goal)
+        goal.save()
+
+    for id in removed:
+        goal = Goal.objects.get(id=id)
+        goal.summaries_count -= 1
+        summary.goals.remove(goal)
+        goal.save()
     summary.save()
 
 
