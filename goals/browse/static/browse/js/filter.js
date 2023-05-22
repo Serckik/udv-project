@@ -197,6 +197,7 @@ function CheckCoockies(cookieString){
       }
     });
     if (Object.keys(cookieData).length === 0) {
+        Filter()
         return
     }
     block = cookieData.block.replace(/[ ./]/g, "\\$&")
