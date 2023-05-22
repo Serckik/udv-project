@@ -27,6 +27,7 @@ $('.header-nav .summary').addClass('current-page')
 
 let summaryGoals = []
 let currentCards = []
+let removed = []
 let currentIdCard = ''
 FillForm('summary-more-form')
 $(document).on('click', '.summary-card', function(e) {
@@ -38,6 +39,7 @@ function OpenSummary(id){
     currentIdCard = id
     summaryGoals = []
     currentCards = []
+    removed = []
     $('#summary-more-form textarea').attr('style', 'cursor:text')
     let summaryData = request('GET', '/goal/get_summary', {summary_id: currentIdCard})
     $('.blur').removeClass('hidden');
@@ -74,6 +76,7 @@ $(document).on('click', '.edit-summary .card', function(e) {
     if (e.ctrlKey) {
         if(currentCards.includes(cardId) && summaryGoals.includes(cardId)){
             $(this).addClass('removed')
+            removed.push(cardId)
             let index = summaryGoals.indexOf(cardId);
             if (index !== -1) {
                 summaryGoals.splice(index, 1);
@@ -81,6 +84,10 @@ $(document).on('click', '.edit-summary .card', function(e) {
         }
         else if(currentCards.includes(cardId)){
             $(this).removeClass('removed')
+            let index = removed.indexOf(cardId);
+            if (index !== -1) {
+                removed.splice(index, 1);
+            }
             summaryGoals.push(cardId)
         }
         else if(!currentCards.includes(cardId) && summaryGoals.includes(cardId)){
@@ -95,8 +102,7 @@ $(document).on('click', '.edit-summary .card', function(e) {
             summaryGoals.push(cardId)
         }
     }
-    console.log(summaryGoals)
-    console.log(currentCards)
+    console.log(removed)
 });
 
 $(document).on('submit','#summary-more-form', async function(e){
@@ -112,6 +118,7 @@ $(document).on('submit','#summary-more-form', async function(e){
             fact: $("#summary-more-form #summary-fact").val(),
             average_mark: $('#summary-more-form #card-own-grade').val(),
             goals: summaryGoals,
+            removed: removed,
             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
         }
         request('POST', '/goal/edit_summary', data)
