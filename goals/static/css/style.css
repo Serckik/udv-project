@@ -775,10 +775,11 @@ option:checked {
     margin-left: auto;
 }
 
-.calendar span, .summary-quarter{
+.calendar span, .summary-quarter, .warning span{
     display: block;
     font-size: 15px;
     color: rgba(51, 51, 51, 0.55);
+    margin-bottom: 5px;
 }
 
 .summary-quarter{
@@ -804,7 +805,7 @@ option:checked {
 
 .card-top .done{
     position: absolute;
-    top: 17px;
+    top: 33px;
     right: 8px;
 }
 
@@ -1449,6 +1450,10 @@ textarea{
 
 .summary-data .edit-header, .summary-data .summary-edit{
     width: 50%;
+}
+
+.summary-data .edit-header span{
+    margin-left: auto;
 }
 
 .summary-data .chat-header, .summary-data .summary-tasks{

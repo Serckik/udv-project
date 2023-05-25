@@ -234,9 +234,15 @@
                 <img class="search-icon" src="/static/img/search.svg">
                 <input class="search-input" placeholder="Поиск">
                 <div class="search-checkbox-block">
-                    <input type="checkbox" class="search-checkbox">
+                    <input type="checkbox" class="search-checkbox self" value="свои">
                     <p>Только свои</p>
                 </div>
+                {% if perms.browse.change_goal %}
+                    <div class="search-checkbox-block">
+                        <input type="checkbox" class="search-checkbox staff" value="сотрудников">
+                        <p>Только свои сотрудники</p>
+                    </div>
+                {% endif %}
             </div>
                 {% block content %}
                                                 

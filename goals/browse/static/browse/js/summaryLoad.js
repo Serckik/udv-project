@@ -44,6 +44,7 @@ function OpenSummary(id){
     let summaryData = request('GET', '/goal/get_summary', {summary_id: currentIdCard})
     $('.blur').removeClass('hidden');
     $('.summary-data').removeClass('hidden');
+    $('.summary-data .quarter').text(summaryData.quarter)
     SetVal("#summary-more-form #summary-name", summaryData.name)
     SetVal("#summary-more-form #summary-plan", summaryData.plan)
     SetVal("#summary-more-form #summary-fact", summaryData.fact)

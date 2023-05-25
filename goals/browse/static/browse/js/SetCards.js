@@ -34,15 +34,21 @@ export function SetCards(cards, classBlock='cards'){
         }
         console.log(element)
         if(window.location.href.split('/')[4] == 'summary'){
+            let warning = $("<div class='warning'></div>")
+            const quarter = element.quarter.split(' ')
+            const year = quarter[2]
+            warning.append($("<span></span>").text(quarter[0] + '/' + year[year.length - 2] + year[year.length - 1]))
             if(!element.picked){
-                let warning = $("<div class='warning'></div>")
                 warning.append($('<img src="/static/img/warn.svg">'))
-                cardTop.append(warning)
             }
+            cardTop.append(warning)
         }
         else{
             let calendar = $("<div class='calendar'></div>")
             let svgCalendar = $('<svg class="calendar-icon" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">')
+            const quarter = element.quarter.split(' ')
+            const year = quarter[2]
+            calendar.append($("<span></span>").text(quarter[0] + '/' + year[year.length - 2] + year[year.length - 1]))
             for (let index = 0; index < 4; index++) {
                 let path = document.createElementNS("http://www.w3.org/2000/svg", 'path');
                 path.setAttribute("d",vectors[index]);
@@ -61,9 +67,6 @@ export function SetCards(cards, classBlock='cards'){
                 done.append(path)
                 calendar.append(done)
             }
-            const quarter = element.quarter.split(' ')
-            const year = quarter[2]
-            calendar.append($("<span></span>").text(quarter[0] + '/' + year[year.length - 2] + year[year.length - 1]))
             cardTop.append(calendar)
         }
         cardBlock.append(cardTop)

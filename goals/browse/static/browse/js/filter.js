@@ -23,6 +23,7 @@ let sort = 'Все'
 let planned = 'Все'
 let done = 'Все'
 let self = false
+let staff = false
 let search = ''
 let picked = 'Все'
 export let selectedGoals = []
@@ -87,7 +88,12 @@ $(document).on('change', '.left-submenu .cvartal-select',function () {
 })
 
 $(document).on('click', '.search-checkbox', function(e){
-    self = $('.search-checkbox').is(':checked')
+    if($(this).val() === 'свои'){
+        self = $(this).is(':checked')
+    }
+    if($(this).val() === 'сотрудников'){
+        staff = $(this).is(':checked')
+    }
     Filter()
 })
 
@@ -126,10 +132,14 @@ export function Filter() {
         approve: false,
         picked: picked
     }
+    if(staff === true){
+        data.approve = true
+    }
     for (let key in data) {
         if(key !== 'search'){
             AddCoockie(data[key], key)
         }
+        AddCoockie(staff, 'staff')
     }
     if(window.location.href.split('/')[4] == 'add'){
         data.current = false
@@ -219,7 +229,9 @@ function CheckCoockies(cookieString){
     }
     $('.taked-list-element.active-sort').removeClass('active-sort')
     $('.taked-list-element#' + picked).addClass('active-sort')
-    if(self) { $('.search-checkbox').prop('checked', true); }
+    staff = JSON.parse(cookieData.staff)
+    if(self) { $('.search-checkbox.self').prop('checked', true); }
+    if(staff) { $('.search-checkbox.staff').prop('checked', true); }
     quarter = cookieData.quarter.split(',')
     if(window.location.href.split('/')[4] == 'summary'){
         console.log(quarter)
