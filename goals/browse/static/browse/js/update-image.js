@@ -79,7 +79,9 @@ function DoCrope() {
 }
 
 $(document).on('click', '.blur', function(e){
-    ClearCrop()
+    if(!$('.update-image').hasClass('hidden')){
+        ClearCrop()
+    }
 })
 
 function ClearCrop(){

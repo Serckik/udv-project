@@ -403,7 +403,6 @@ header{
     top: 65px;
     position: absolute;
     width:max-content;
-    min-width: 375px;
     background: #EBEBEB;
     border-radius: 15px;
     padding: 8px 0 8px 10px;
@@ -660,7 +659,7 @@ option:checked {
     color: #333333;
     padding: 5px 0px 5px 30px;
     box-sizing: border-box;
-    width: 458px;
+    width: 31%;
     height: 29px;
 }
 
@@ -709,7 +708,7 @@ option:checked {
 }
 
 .add-page{
-    max-height: 400px;
+    max-height: 380px;
 }
 
 .card, .summary-card{
@@ -838,8 +837,7 @@ option:checked {
     z-index: 300;
     box-sizing: border-box;
     justify-content: space-between;
-    width: 100%;
-    max-width: 1670px;
+    width:90%;
     background-color: #F5F5F5;
     border-radius: 8px;
     position: fixed;
@@ -926,7 +924,7 @@ option:checked {
 
 .edit, .summary-edit{
     box-sizing: border-box;
-    width: 708px;
+    width: 42%;
     padding: 8px 16px 7px 29px;
     border-right: 1px solid rgba(0, 0, 0, 0.33);
     font-size: 24px;
@@ -945,7 +943,7 @@ option:checked {
 .edit-header{
     box-sizing: border-box;
     display: flex;
-    width: 708px;
+    width: 42%;
     border-bottom: 1px solid rgba(0, 0, 0, 0.33);
     border-right: 1px solid rgba(0, 0, 0, 0.33);
     padding-right: 14px;
@@ -975,11 +973,11 @@ option:checked {
 }
 
 .chat-header{
-    width: 558px;
+    width: 34%;
 }
 
 .history-header{
-    width: 404px;
+    width: 24%;
 }
 
 .edit-user{
@@ -999,7 +997,7 @@ textarea{
     height: 116px;
     box-sizing: border-box;
     font-size: 22px;
-    width: 650px;
+    width: 100%;
     border: none;
     background: rgba(217, 217, 217, 0.55);
     border-radius: 6px;
@@ -1055,8 +1053,7 @@ textarea{
 
 .chat{
     box-sizing: border-box;
-    width: 558px;
-    height: 777px;
+    width: 34%;
     padding: 24px 6px 0 0;
     font-family: 'Montserrat';
     font-style: normal;
@@ -1096,7 +1093,7 @@ textarea{
 .message{
     box-sizing: border-box;
     word-wrap: break-word;
-    width: 451px;
+    width: 90%;
     min-height: 62px;
     background: #EAEAEA;
     border-radius: 6px;
@@ -1113,10 +1110,8 @@ textarea{
 .chat form{
     display: flex;
     box-sizing: border-box;
-    position: fixed;
-    bottom: 0px;
     max-height: 200px;
-    width: 558px;
+    width: 101%;
     background: #EAEAEA;
     border: 0.1px solid rgba(0, 0, 0, 0.33);;
     padding: 8px 15px 8px 5px;
@@ -1125,7 +1120,7 @@ textarea{
 .message-sender{
     box-sizing: border-box;
     overflow-x: hidden;
-    width: 499px;
+    width: 95%;
     min-height: 33px;
     background: #F5F5F5;
     border: 1px solid rgba(0, 0, 0, 0.33);;
@@ -1140,15 +1135,14 @@ textarea{
 }
 
 .chat-submit{
-    margin-top: auto;
-    width: 28px;
+    margin-top: 3px;
+    width: 5%;
     height: 28px;
 }
 
 .history, .summary-tasks{
     box-sizing: border-box;
-    width: 393px;
-    height: 775px;
+    width: 24%;
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 400;
@@ -1235,17 +1229,13 @@ textarea{
     display: flex;
     gap: 18px;
 }
+.add-form-bottom-flex .edit-flex:nth-child(1){
+    width: 26.5%;
+}
 
 .add-form-bottom-flex .edit-flex:nth-child(2){
-    gap: 7px;
+    width: 22%;
 }
-
-.add-form-bottom-flex .edit-flex{
-    width: 370px;
-    justify-content:flex-start;
-    gap: 50px;
-}
-
 .add-form-flex #card-name{
     margin-bottom: 11px;
 }
@@ -1484,7 +1474,7 @@ textarea{
 }
 
 .summary-tasks .current-cards, .summary-tasks .cards{
-    max-height: 720px;
+    max-height: 710px;
     gap: 15px;
 }
 
@@ -1513,4 +1503,78 @@ textarea{
 
 .summary-pages svg{
     margin-right: 5%;
+}
+
+@media (max-width: 1750px) {
+    .left-submenu p{
+        font-size: 21px;
+    }
+    .left-submenu li, select{
+        font-size: 13px;
+    }
+    .arrows svg{
+        width: 7px;
+        height: 12px;
+    }
+    .card-top p, .summary-card{
+        font-size: 19px;
+    }
+    .cards, .current-cards{
+        max-height: 650px;
+        gap: 27px;
+    }
+    .add-page{
+        max-height: 370px;
+    }
+    header{
+        font-size: 21px;
+    }
+    .notification-block{
+        width: 370px;
+        height: 460px;
+        font-size: 14px;
+    }
+    .personal-area-block{
+        font-size: 22px;
+    }
+    .chat-container{
+        height: 650px;
+    }
+    textarea{
+        height: 90px;
+    }
+    .card-name, .summary-name {
+        height: 42px !important;
+    }
+    .summary-cards-block{
+        max-height: 640px;
+    }
+    .edit-summary .card-top p, .current-cards .card-top p {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1550px) {
+    li{
+        margin-bottom: 3px;
+    }
+    .left-submenu p{
+        margin-bottom: 3px;
+    }
+    .cards, .current-cards{
+        max-height: 520px;
+        gap: 27px;
+    }
+    .add-page{
+        max-height: 300px;
+    }
+    .summary-cards-block{
+        max-height: 540px;
+    }
+    .summary-tasks .current-cards, .summary-tasks .cards{
+        max-height: 600px;
+    }
+    .edit-summary .current-cards, .edit-summary .cards {
+        height: 240px;
+    }
 }

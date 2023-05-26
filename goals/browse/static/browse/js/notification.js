@@ -85,14 +85,15 @@ function setNotifications() {
             notificationContainer.append($("<div class='notification-circle'></div>"))
         }
         let text = ''
+        let goalName = element.goal_name.length > 83 ? element.goal_name.slice(0, 83) + '...' : element.goal_name
         if(element.is_goal){
             text = $("<p></p>").text('Задача "')
-            text.append($("<b></b>").text(element.goal_name))
+            text.append($("<b></b>").text(goalName))
             text.append( $("<span></span>").text('" была изменена'))
         }
         else{
             text = $("<p></p>").text('Задача "')
-            text.append($("<b></b>").text(element.goal_name))
+            text.append($("<b></b>").text(goalName))
             text.append( $("<span></span>").text('" получила новый комментарий'))
         }
         notificationContainer.append(text)
