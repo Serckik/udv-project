@@ -1143,6 +1143,7 @@ textarea{
 .history, .summary-tasks{
     box-sizing: border-box;
     width: 24%;
+    height: 770px;
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 400;
@@ -1538,7 +1539,7 @@ textarea{
         font-size: 22px;
     }
     .chat-container{
-        height: 650px;
+        height: 630px;
     }
     textarea{
         height: 90px;
@@ -1551,6 +1552,9 @@ textarea{
     }
     .edit-summary .card-top p, .current-cards .card-top p {
         font-size: 16px;
+    }
+    .history, .summary-tasks{
+        height: 700px;
     }
 }
 
@@ -1566,15 +1570,15 @@ textarea{
         gap: 27px;
     }
     .add-page{
-        max-height: 300px;
+        max-height: 290px;
     }
     .summary-cards-block{
-        max-height: 540px;
+        max-height: 520px;
     }
     .summary-tasks .current-cards, .summary-tasks .cards{
-        max-height: 600px;
+        max-height: 620px;
     }
     .edit-summary .current-cards, .edit-summary .cards {
-        height: 240px;
+        height: 250px;
     }
 }

@@ -25,6 +25,7 @@ $('.taked-block').removeClass('hidden')
 $('.cvartal-select').removeAttr('multiple')
 $('.block-list #Все').addClass('hidden')
 $('.block-list #Все').removeClass('active-sort')
+$('.search-checkbox-block')[1].classList.add('hidden')
 
 $(document).on('click', '.card', function(e) {
     if (e.ctrlKey) {
