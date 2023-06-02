@@ -106,10 +106,11 @@ def send_notification(request, goal, is_goal):
         users = User.objects.filter(groups__in=request.user.groups.all())
         for user in users:
             if user.has_perm('browse.change_goal'):
-                user2 = user
+                user_to_send = [user]
                 if user == request.user:
-                    user2 = User.objects.get(is_superuser=True)
-                users_to_send.append(user2)
+                    user_to_send = User.objects.filter(is_superuser=True)
+                print(user_to_send)
+                users_to_send += user_to_send
     if len(users_to_send) == 0:
         users_to_send.append(goal.owner_id)
     for user in users_to_send:

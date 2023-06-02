@@ -138,7 +138,7 @@ def get_goals_by_filter(request):
         'approve': true_converter.get(request.GET.get('approve'), None),
         'search': request.GET.get('search', None),
         'quarters': request.GET.getlist('quarter[]'),
-        'summary_id': request.GET.get('summary_id', None)
+        'summary_id': request.GET.get('summary_id', None),
     }
 
     if filters['block'] == 'Все':
@@ -184,6 +184,7 @@ def get_goals_by_filter(request):
                              else False)
     if filters['my']:
         goals = goals.filter(owner_id=request.user)
+
     if filters['search']:
         search = filters['search'].strip()
         search_filters = Q(name__icontains=search) | Q(description__icontains=search) | Q(current_result__icontains=search)
@@ -216,6 +217,7 @@ def get_goals_by_filter(request):
         item['picked'] = item['summaries_count'] > 0
 
     return JsonResponse(data, safe=False)
+
 
 @login_required(login_url='/user/login/')
 def add_goal(request):
