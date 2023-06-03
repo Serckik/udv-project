@@ -16,6 +16,24 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
 
+def get_notifications_once(request):
+    active_notifi = []
+
+    for notifi in Notification.objects.all():
+        if notifi.is_active():
+            active_notifi.append(notifi.id)
+
+    notifi = Notification.objects.filter(id__in=active_notifi)
+    notifi = notifi.filter(user=request.user).order_by('-created_at')
+
+    notifi_list = list(notifi.values())
+    for notifi in notifi_list:
+        notifi['goal_name'] = Goal.objects.get(id=notifi['goal_id']).name
+        notifi['created_at'] = localtime(notifi['created_at'])
+
+    return {'notify': notifi_list}
+
+
 @login_required(login_url='/user/login/')
 def get_notifications(request):
     active_notifi = []
@@ -68,10 +86,9 @@ def upload_image(request):
         return JsonResponse({'status': 'ok'})
 
 
-@login_required(login_url='/user/login/')
 def get_user_name(request):
-    return JsonResponse({'name': request.user.get_full_name(),
-                         'id': request.user.id})
+    return {'name': request.user.get_full_name(),
+            'id': request.user.id}
 
 
 @login_required(login_url='/user/login/')

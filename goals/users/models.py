@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from browse.models import Goal
 from django.utils.timezone import localtime
 from django.utils import timezone
-
 import os
 
 

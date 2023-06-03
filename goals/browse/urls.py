@@ -14,7 +14,6 @@ urlpatterns = [
     path('chat', views.chatting),  # post
     path('get_goals', views.get_goals_by_filter),  # get
     path('get_chat', views.get_chat),  # get
-    path('get_quarters', views.get_quarters),  # get,
     path('delete_goal', views.delete_goal),  # post
     path('get_summaries', views.get_summaries),  # get
     path('add_summary', views.add_summary),  # post

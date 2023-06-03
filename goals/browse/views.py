@@ -22,6 +22,7 @@ from tempfile import NamedTemporaryFile
 from urllib.parse import quote
 from .models import CHOICES_BLOCK
 import openpyxl.utils.cell
+from users.views import get_notifications_once, get_user_name
 
 
 @login_required(login_url='/user/login/')
@@ -439,6 +440,15 @@ def download_summaries(request):
 
 
 @login_required(login_url='/user/login/')
+def start_init(request):
+    d = get_quarters(request)
+    notify = get_notifications_once(request)
+    username = get_user_name(request)
+    d.update(notify)
+    d.update(username)
+    return JsonResponse(d)
+
+
 def get_quarters(request):
     now = datetime.datetime.now()
     current_year = date.today().year
@@ -467,4 +477,4 @@ def get_quarters(request):
 
     data = {'quarters': choices, 'current_quarter': current_quarter_string}
 
-    return JsonResponse(data)
+    return data
