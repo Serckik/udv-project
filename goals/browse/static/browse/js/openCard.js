@@ -1,5 +1,5 @@
 import { Filter, quarterRequestData, quarter } from "./filter.js";
-import { userName } from "./profile.js";
+import { userName } from "./load.js";
 const sleepTime = 100
 let timeutID = 0
 let currentIdCard = ''
@@ -93,20 +93,6 @@ export function SetVal(id, value){
     $(id).val(value)
 }
 
-export function CreateOptionBlocks(values, id, isCurrentOnly=false){
-    if($(id).length == 0) { return }
-    values.forEach(element => {
-        let option = $("<option></option>").text(element)
-        option.attr('value', element.split('%')[0])
-        if(quarterRequestData.current_quarter.includes(element) && isCurrentOnly){
-            option.attr('selected','selected')
-        }
-        else if(quarter.includes(element) && !isCurrentOnly){
-            option.attr('selected','selected')
-        }
-        $(id).append(option);
-    });
-}
 FillForm('more-form')
 export function FillForm(idForm) { 
     CreateOptionBlocks(block, '#' + idForm +' #card-block')
