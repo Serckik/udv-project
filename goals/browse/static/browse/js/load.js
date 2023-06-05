@@ -53,6 +53,7 @@ export let currentQuarter = data.current_quarter
 export let notifications = data.notify
 export let userName = data.name
 export let userId = data.id
+export let images = data.images
 
 export function CreateOptionBlocks(values, id, isCurrentOnly=false){
     if($(id).length == 0) { return }

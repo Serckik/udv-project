@@ -1,10 +1,8 @@
-import { userName, userId } from "./load.js";
+import { userName, userId, images } from "./load.js";
 
 const select = $('.personal-area-block .cvartal-select');
 select.selectedIndex = 0;
-
-$('.header-user .user-logo').attr('src', '/static/users/img/' + userId + '.png');
-$('.header-user .user-logo').attr('onerror', "this.src='/static/img/user-logo.png'");
+$('.header-user .user-logo').attr('src', '/static/users/img/' + images[userId]);
 $('.personal-area-block .name').text(userName);
 
 const profile = document.querySelector('.user-logo');

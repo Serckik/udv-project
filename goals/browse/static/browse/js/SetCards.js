@@ -1,4 +1,4 @@
-import { colors, vectors } from "./load.js"
+import { colors, vectors, images } from "./load.js"
 import { selectedGoals } from "./filter.js";
 
 export function SetCards(cards, classBlock = 'cards') {
@@ -60,7 +60,7 @@ export function SetCards(cards, classBlock = 'cards') {
             let userName = element.owner.split(' ');
             cardUser.append($("<p></p>").text(userName[0] + ' ' + userName[1].slice(0, 1) + '.'));
         }
-        cardUser.append(`<img class="user-logo" src="/static/users/img/${element.owner_id}.png" onerror="this.src='/static/img/user-logo.png'">`);
+        cardUser.append(`<img class="user-logo" src="/static/users/img/${images[element.owner_id]}">`);
 
         cardBottom.append(cardUser);
         cardBlock.append(cardBottom);

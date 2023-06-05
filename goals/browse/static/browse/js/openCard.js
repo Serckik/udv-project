@@ -1,4 +1,4 @@
-import { userName, GetDate, request, sleep } from "./load.js";
+import { userName, GetDate, request, sleep, images } from "./load.js";
 import { Filter } from "./filter.js";
 let timeoutID = 0
 let currentIdCard = ''
@@ -122,7 +122,7 @@ function FillChat(chatData) {
         let messageContainer;
         let userData = $("<div class='edit-user'></div>");
         let name = $("<p></p>").text(item.name);
-        let userimage = $(`<img class="user-logo" src="/static/users/img/${item.user_id}.png" onerror="this.src='/static/img/user-logo.png'">`);
+        let userimage = $(`<img class="user-logo" src="/static/users/img/${images[item.user_id]}">`);
         userData.append(name);
         userData.append(userimage);
 
@@ -185,8 +185,7 @@ export function OpenCard(id) {
 
     let card = request('GET', '/goal/get_goal', data);
     $('.card-data .user-logo')
-        .attr('src', '/static/users/img/' + card.owner_id + '.png')
-        .attr('onerror', "this.src='/static/img/user-logo.png'");
+        .attr('src', '/static/users/img/' + images[card.owner_id])
 
     FillCard(card);
     FillChat(card.chat);
