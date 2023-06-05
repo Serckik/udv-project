@@ -14,7 +14,7 @@ export function request(type, url, data){
     return returnData
 }
 
-let data = request('GET', '/user/start_init')
+let data = request('GET', '/goal/start_init')
 export let quarters = data.quarters
 export let currentQuarter = data.current_quarter
 export let notifications = data.notify
