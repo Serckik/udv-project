@@ -29,14 +29,7 @@ class Notification(models.Model):
 
 
 class Image(models.Model):
-
-    def wrapper(instance, filename):
-        path = "users/static/users/img/"
-        ext = filename.split('.')[-1]
-        format = str(instance.user.id) + '.' + ext
-        return os.path.join(path, format)
-
-    image = models.ImageField('Аватар', upload_to=wrapper,
+    image = models.ImageField('Аватар', upload_to="users/static/users/img/",
                               null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 

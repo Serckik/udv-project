@@ -446,9 +446,15 @@ def start_init(request):
     notify = get_notifications_once(request)
     username = get_user_name(request)
     images = Image.objects.all()
+    users = User.objects.all()
     d['images'] = {}
+    for user in users:
+        d['images'][user.id] = 'user_logo.png'
     for img in images:
-        d['images'][img.user.id] = img.image.url.split('/')[::-1][0]
+        try:
+            d['images'][img.user.id] = img.image.url.split('/')[::-1][0]
+        except:
+            pass
     d.update(notify)
     d.update(username)
     return JsonResponse(d)

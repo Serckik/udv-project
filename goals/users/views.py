@@ -14,6 +14,8 @@ from django.core.files.base import ContentFile
 from .validators import validate_image_extension, file_size
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+import random
+from string import ascii_lowercase, ascii_uppercase
 
 
 def get_notifications_once(request):
@@ -74,8 +76,9 @@ def upload_image(request):
         file = request.POST.get('file')
         format, imgstr = request.POST.get('file').split(';base64,')
         ext = format.split('/')[-1]
+        random_string = ''.join(random.choice(ascii_uppercase+ascii_lowercase) for _ in range(20))
         data = ContentFile(base64.b64decode(imgstr),
-                           name=str(request.user.id) + '.' + ext)
+                           name=random_string + '.' + ext)
         try:
             validate_image_extension(ext)
             file_size(file)
