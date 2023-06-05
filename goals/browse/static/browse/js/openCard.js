@@ -1,257 +1,209 @@
-import { Filter, quarterRequestData, quarter } from "./filter.js";
-import { userName } from "./load.js";
-const sleepTime = 100
-let timeutID = 0
+import { userName, GetDate, request, sleep } from "./load.js";
+import { Filter } from "./filter.js";
+let timeoutID = 0
 let currentIdCard = ''
 
-export function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-$(".message-sender").each(function () {
-    this.setAttribute("style", "height:" + (this.scrollHeight) + "px;");
-  }).on("input", function () {
-    if($('.message-sender').val() == ''){
+$(".message-sender").each(function() {
+    this.style.height = this.scrollHeight + "px";
+}).on("input", function() {
+    if ($('.message-sender').val() === '') {
         this.style.height = 0;
     }
-    if(this.style.height.split('px')[0] < 170){
+    if (this.style.height.split('px')[0] < 170) {
         this.style.height = 0;
-        if(this.scrollHeight > 170){
-            this.style.height = 170 + "px";
-            $('.chat-container')[0].setAttribute('style', 'border-bottom:' + 170 + 'px solid #F5F5F5')
-        }
-        else{
-            this.style.height = (this.scrollHeight) + "px";
-            $('.chat-container')[0].setAttribute('style', 'border-bottom:' + this.scrollHeight + 'px solid #F5F5F5')
+        if (this.scrollHeight > 170) {
+            this.style.height = "170px";
+            $('.chat-container')[0].setAttribute('style', 'border-bottom: 170px solid #F5F5F5');
+        } else {
+            this.style.height = this.scrollHeight + "px";
+            $('.chat-container')[0].setAttribute('style', 'border-bottom:' + this.scrollHeight + 'px solid #F5F5F5');
         }
     }
-  });
-
-export let block = ["Оценка", "Подбор", "Адаптация", "Корп. культура и бенефиты", "HR-бренд внешний", "HR-сопровождение", "Внутренняя работа отдела", "Кадровый учет и зп", 
-"Развитие персонала"]
-let quarters = quarterRequestData.quarters
-let category = ['Запланированная', 'Незапланированная']
-const monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-                    'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
-let score = []
-for (let index = 0; index < 201; index += 5) {
-    score.push(index + '%')
-}
-let answer = ['Да', 'Нет']
-
-function request(type, url, data){
-    let returnData = ''
-    $.ajax({
-        type: type,
-        url: url,
-        data: data,
-        success: function(data) { 
-                returnData = data
-            },
-        async: false
-    })
-    return returnData
-}
+});
 
 $(document).on('click', '.blur', function(e){
-    clearTimeout(timeutID)
-    if(!$('.summary-data').hasClass('hidden') && !$('.card-data').hasClass('hidden') && $('.summary-data').length != 0){
-        $('.card-data').addClass('hidden')
-        $('.message-sender').val('')
-        $('.edit input').removeClass('send')
-        $('.edit input').removeClass('error')
-        $('.edit input').val('cохранить')
+    clearTimeout(timeoutID);
+    if ($('.summary-data').hasClass('hidden') || $('.card-data').hasClass('hidden') || $('.summary-data').length === 0) {
+        $('.card-data, .blur, .summary-data').addClass('hidden');
+        $('.submenu .current-page').removeClass('current-page');
+        $('.submenu p:nth-child(1)').addClass('current-page');
+        $('.edit-summary').addClass('hidden');
+        $('.summary-current-cards').removeClass('hidden');
+    } else {
+        $('.card-data').addClass('hidden');
     }
-    else{
-        $('.card-data').addClass('hidden')
-        $('.message-sender').val('')
-        $('.edit input').removeClass('send')
-        $('.edit input').removeClass('error')
-        $('.edit input').val('cохранить')
-        $('body').css("overflow", "auto");
-        $('.blur').addClass('hidden')
-        $('.summary-data').addClass('hidden')
-        $('.summary-edit input').removeClass('send')
-        $('.summary-edit input').removeClass('error')
-        $('.summary-edit input').val('cохранить')
-        $('.submenu .current-page').removeClass('current-page')
-        $('.submenu p:nth-child(1)').addClass('current-page')
-        $('.edit-summary').addClass('hidden')
-        $('.summary-current-cards').removeClass('hidden')
-    }
-    $('.update-image').addClass('hidden')
-})
-
-function convertBool(bool){
-    if(bool){
-        return true
-    }
-    return false
-}
+    $('.update-image').addClass('hidden');
+});
 
 export function SetVal(id, value){
     $(id).val(value)
 }
 
-FillForm('more-form')
-export function FillForm(idForm) { 
-    CreateOptionBlocks(block, '#' + idForm +' #card-block')
-    CreateOptionBlocks(category, '#' + idForm +' #card-category')
-    CreateOptionBlocks(quarters, '#' + idForm +' #card-cvartal')
-    CreateOptionBlocks(score, '#' + idForm +' #card-own-grade')
-    CreateOptionBlocks(score, '#' + idForm +' #card-leader-grade')
-    CreateOptionBlocks(score, '#' + idForm +' #card-weight')
-    CreateOptionBlocks(answer, '#' + idForm +' #card-approve')
-}
-
-function FillCard(cardData) { 
-    $('.edit-header .edit-user p').text(cardData.user_name)
-    SetVal("#more-form #card-name", cardData.name)
-    SetVal("#more-form #card-description", cardData.description)
-    SetVal("#more-form #card-current-progress", cardData.current_result)
-    SetVal("#more-form #card-block", cardData.block)
-    SetVal("#more-form #card-category", convertBool(cardData.planned) ? 'Запланированная' : 'Незапланированная')
-    SetVal("#more-form #card-cvartal", cardData.quarter)
-    SetVal("#more-form #card-own-grade", cardData.mark)
-    SetVal("#more-form #card-weight", cardData.weight)
-    SetVal("#more-form #card-leader-grade", cardData.fact_mark)
-    SetVal("#more-form #card-approve", convertBool(cardData.current) ? 'Да' : 'Нет')
-    $('.error').removeClass('error')
-    if(cardData.isdone){
-        $('.complete-block').addClass('complete')
-        $('.complete-block .done').removeClass('hidden')
+function FillCard(cardData) {
+    const $moreForm = $('#more-form');
+    const $editHeader = $('.edit-header');
+    const $editUser = $editHeader.find('.edit-user p');
+    const $deleteIcon = $('.delete-icon');
+    const $completeBlock = $('.complete-block');
+    const $done = $completeBlock.find('.done');
+    const $edit = $('.edit');
+    const $error = $edit.find('.error');
+    const $send = $edit.find('.send');
+    const $button = $edit.find('button')
+    const $inputFields = $moreForm.find('input, textarea, select');
+    
+    $editUser.text(cardData.user_name);
+    SetVal("#more-form #card-name", cardData.name);
+    SetVal("#more-form #card-description", cardData.description);
+    SetVal("#more-form #card-current-progress", cardData.current_result);
+    SetVal("#more-form #card-block", cardData.block);
+    SetVal("#more-form #card-category", cardData.planned ? 'Запланированная' : 'Незапланированная');
+    SetVal("#more-form #card-cvartal", cardData.quarter);
+    SetVal("#more-form #card-own-grade", cardData.mark);
+    SetVal("#more-form #card-weight", cardData.weight);
+    SetVal("#more-form #card-leader-grade", cardData.fact_mark);
+    SetVal("#more-form #card-approve", cardData.current ? 'Да' : 'Нет');
+    
+    $error.removeClass('error');
+    $send.removeClass('send');
+    $button.text('сохранить');
+    $('.message-sender').val('');
+    
+    if (cardData.isdone) {
+        $completeBlock.addClass('complete');
+        $done.removeClass('hidden');
+    } else {
+        $completeBlock.removeClass('complete');
+        $done.addClass('hidden');
     }
-    else{
-        $('.complete-block').removeClass('complete')
-        $('.complete-block .done').addClass('hidden')
+    
+    $deleteIcon.addClass('hidden');
+    
+    if (!cardData.current) {
+        $deleteIcon.removeClass('hidden');
     }
-    if(!cardData.current){
-        $('.delete-icon').removeClass('hidden')
-    }
-    $('.disabled').removeClass('disabled')
-    $('#more-form select').removeAttr('disabled', 'disabled')
-    $('#more-form select').attr('style', 'cursor:pointer')
-    $('#more-form textarea').removeAttr('disabled', 'disabled')
-    $('#more-form textarea').attr('style', 'cursor:text')
-    $('#more-form input[type=submit]').removeAttr('disabled', 'disabled')
-    $('#more-form input[type=submit]').attr('style', 'cursor:pointer; color:#333333')
-    $('.edit-header .delete-icon').removeClass('disabled')
-    $('.edit-header .complete-block').removeClass('disabled')
-    if(cardData.rights == true && cardData.admin_rights == false){
-        console.log("uwu")
-        $('.ruk-edit').addClass('disabled')
-        $('.ruk-edit select').attr('disabled', 'disabled')
-        $('.ruk-edit select').attr('style', 'cursor:default')
-    }
-    else if(cardData.rights == false && cardData.admin_rights == false){
-        $('#more-form').addClass('disabled')
-        $('.edit-header .delete-icon').addClass('disabled')
-        $('.edit-header .complete-block').addClass('disabled')
-        $('#more-form select').attr('disabled', 'disabled')
-        $('#more-form select').attr('style', 'cursor:default')
-        $('#more-form textarea').attr('disabled', 'disabled')
-        $('#more-form textarea').attr('style', 'cursor:default')
-        $('#more-form input[type=submit]').attr('disabled', 'disabled')
-        $('#more-form input[type=submit]').attr('style', 'cursor:default; color:gray')
+    
+    $('.disabled').removeClass('disabled');
+    $inputFields.removeAttr('disabled');
+    $inputFields.removeAttr('style');
+    
+    $editHeader.find('.delete-icon').removeClass('disabled');
+    $editHeader.find('.complete-block').removeClass('disabled');
+    
+    if (cardData.rights && !cardData.admin_rights) {
+        $('.ruk-edit').addClass('disabled');
+        $('.ruk-edit select').attr('disabled', 'disabled').attr('style', 'cursor:default');
+    } else if (!cardData.rights && !cardData.admin_rights) {
+        $moreForm.addClass('disabled');
+        $deleteIcon.addClass('disabled');
+        $completeBlock.addClass('disabled');
+        $inputFields.attr('disabled', 'disabled').attr('style', 'cursor:default');
+        $inputFields.attr('style', 'cursor:default');
+        $inputFields.attr('disabled', 'disabled').attr('style', 'cursor:default; color:gray');
     }
 }
 
 function FillChat(chatData) {
-    let isScrollDown = false
+    let isScrollDown = false;
     let div = $(".chat-container");
-    if(Math.round(div.prop('scrollTop')) === div.prop('scrollHeight') - div.prop('clientHeight')){
-        isScrollDown = true
+
+    if (Math.round(div.prop('scrollTop')) === div.prop('scrollHeight') - div.prop('clientHeight')) {
+        isScrollDown = true;
     }
-    if($('.message-sender').val().length == 0){
-        $('.chat-submit path').attr('fill', '#D9D9D9')
+
+    if ($('.message-sender').val().length === 0) {
+        $('.chat-submit path').attr('fill', '#D9D9D9');
     }
-    let chatContainer = $('.chat-container')
-    chatContainer.empty()
+
+    let chatContainer = $('.chat-container');
+    chatContainer.empty();
+
     chatData.forEach(item => {
-        if(userName == item.name){
-            let messageContainer = $("<div class='self-message'></div>")
-            let userData =  $("<div class='edit-user'></div>")
-            let name = $("<p></p>").text(userName)
-            let userimage = $(`<img class="user-logo" src="/static/users/img/${item.user_id}.png" onerror="this.src='/static/img/user-logo.png'">`)
-            userData.append(name)
-            userData.append(userimage)
-            messageContainer.append(userData)
-            let message = $("<div class='message'></div>").text(item.text)
-            let date = item.time.split('T')
-            let time = date[1].split('.')
-            message.append($("<p class='date'></p>").text(GetDate(date[0]) + ' ' + time[0]))
-            messageContainer.append(message)
-            chatContainer.append(messageContainer)
+        let messageContainer;
+        let userData = $("<div class='edit-user'></div>");
+        let name = $("<p></p>").text(item.name);
+        let userimage = $(`<img class="user-logo" src="/static/users/img/${item.user_id}.png" onerror="this.src='/static/img/user-logo.png'">`);
+        userData.append(name);
+        userData.append(userimage);
+
+        if (userName === item.name) {
+            messageContainer = $("<div class='self-message'></div>");
+        } else {
+            messageContainer = $("<div class='sender-message'></div>");
         }
-        else{
-            let messageContainer = $("<div class='sender-message'></div>")
-            let userData =  $("<div class='edit-user'></div>")
-            let name = $("<p></p>").text(item.name)
-            let userimage = $(`<img class="user-logo" src="/static/users/img/${item.user_id}.png" onerror="this.src='/static/img/user-logo.png'">`)
-            userData.append(name)
-            userData.append(userimage)
-            messageContainer.append(userData)
-            let message = $("<div class='message'></div>").text(item.text)
-            let date = item.time.split('T')
-            let time = date[1].split('.')
-            message.append($("<p class='date'></p>").text(GetDate(date[0]) + ' ' + time[0]))
-            messageContainer.append(message)
-            chatContainer.append(messageContainer)
-        }
+
+        messageContainer.append(userData);
+
+        let message = $("<div class='message'></div>").text(item.text);
+        let date = item.time.split('T');
+        let time = date[1].split('.');
+        message.append($("<p class='date'></p>").text(GetDate(date[0]) + ' ' + time[0]));
+        messageContainer.append(message);
+        chatContainer.append(messageContainer);
     });
-    if(isScrollDown){
+
+    if (isScrollDown) {
         div.scrollTop(div.prop('scrollHeight'));
     }
 }
 
-export function GetDate(str) { 
-    let dateObj = new Date(str);
-    return `${dateObj.getDate()} ${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`
-}
+function FillHistory(historyData) {
+    const $history = $('.history');
+    $history.empty();
 
-function FillHistory(historyData) { 
-    $('.history').empty()
     historyData.forEach(item => {
-        let historyCard = $("<div class='history-card'></div>")
+        const historyCard = $("<div class='history-card'></div>");
+
         item.field_changes.forEach(change => {
-            let historyContainer = $("<div class='history-container'></div>")
-            let whatChange = $("<p></p>").text(`${item.name} изменил(а): `)
-            whatChange.append($('<b></b>').text(change.field))
-            let prevNow = $("<div class='prev-now'></div>")
-            prevNow.append($("<p class='prev'></p>").text('Было: ' + change.old_data))
-            prevNow.append($("<p class='now'></p>").text('Стало: ' + change.new_data))
-            historyContainer.append(whatChange)
-            historyContainer.append(prevNow)
-            historyCard.append(historyContainer)
-        })
-        let date = item.time.split('T')
-        let time = date[1].split('.')
-        historyCard.append($("<p class='date'></p>").text(GetDate(date[0]) + ' ' + time[0]))
-        $('.history').append(historyCard)
-    })
+            const historyContainer = $("<div class='history-container'></div>");
+            const whatChange = $("<p></p>").text(`${item.name} изменил(а): `);
+            whatChange.append($('<b></b>').text(change.field));
+
+            const prevNow = $("<div class='prev-now'></div>");
+            prevNow.append($("<p class='prev'></p>").text('Было: ' + change.old_data));
+            prevNow.append($("<p class='now'></p>").text('Стало: ' + change.new_data));
+
+            historyContainer.append(whatChange);
+            historyContainer.append(prevNow);
+            historyCard.append(historyContainer);
+        });
+
+        const date = item.time.split('T');
+        const time = date[1].split('.');
+        historyCard.append($("<p class='date'></p>").text(GetDate(date[0]) + ' ' + time[0]));
+
+        $history.append(historyCard);
+    });
 }
 
 export function OpenCard(id) {
-    $('body').css("overflow", "hidden");
-    currentIdCard = id
+    currentIdCard = id;
+
     let data = {
         goal_id: id,
-    } 
-    let card = request('GET', '/goal/get_goal', data)
-    $('.card-data .user-logo').attr('src', '/static/users/img/' + card.owner_id + '.png')
-    $('.card-data .user-logo').attr('onerror', "this.src='/static/img/user-logo.png'")
-    FillCard(card)
-    FillChat(card.chat)
-    FillHistory(card.history)
+    };
+
+    let card = request('GET', '/goal/get_goal', data);
+    $('.card-data .user-logo')
+        .attr('src', '/static/users/img/' + card.owner_id + '.png')
+        .attr('onerror', "this.src='/static/img/user-logo.png'");
+
+    FillCard(card);
+    FillChat(card.chat);
+    FillHistory(card.history);
+
     $('.blur').removeClass('hidden');
     $('.card-data').removeClass('hidden');
-    $('.message-sender').height(0)
-    $('.chat-container')[0].setAttribute('style', 'border-bottom:' + 33 + 'px solid #F5F5F5')
-    let div = $(".chat-container");
-    div.scrollTop(div.prop('scrollHeight'));
-    div = $(".history");
-    div.scrollTop(div.prop('scrollHeight'));
-    executeQuery()
+    $('.message-sender').height(0);
+    $('.chat-container').css('border-bottom', '33px solid #F5F5F5');
+
+    let chatContainer = $(".chat-container");
+    chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
+
+    let historyContainer = $(".history");
+    historyContainer.scrollTop(historyContainer.prop('scrollHeight'));
+
+    executeQuery();
 }
 
 $(document).on('click', '.card', function(e){
@@ -264,32 +216,58 @@ $('.message-sender').on('keypress', function(event) {
     if (event.keyCode === 13 && !event.shiftKey && $('.message-sender').val() == '') {
       event.preventDefault();
     }
-  });
+});
 
-$(document).on('click', '.chat-submit', function(e){
-    if($('.message-sender').val() != ''){
-        request('POST', '/goal/chat', {goal_id: currentIdCard, message: $('.message-sender').val(), csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
-        $('.message-sender').val('')
-        $('.message-sender').height(0)
-        $('.chat-container')[0].setAttribute('style', 'border-bottom:' + 33 + 'px solid #F5F5F5')
-        let data = request('GET', '/goal/get_chat', {goal_id: currentIdCard})
-        FillChat(data.chat)
-        let div = $(".chat-container");
-        div.scrollTop(div.prop('scrollHeight'));
+$(document).on('click', '.chat-submit', function(e) {
+    const messageSender = $('.message-sender');
+    const currentMessage = messageSender.val();
+
+    if (currentMessage !== '') {
+        request('POST', '/goal/chat', {
+            goal_id: currentIdCard,
+            message: currentMessage,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        });
+
+        messageSender.val('');
+        messageSender.height(0);
+        $('.chat-container').css('border-bottom', '33px solid #F5F5F5');
+
+        const chatData = request('GET', '/goal/get_chat', {
+            goal_id: currentIdCard
+        });
+
+        FillChat(chatData.chat);
+
+        const chatContainer = $(".chat-container");
+        chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
     }
-})
+});
 
-$(document).on('keypress', '.message-sender', function(e){
-    if(e.which == 13 && !e.shiftKey && $('.message-sender').val() != ''){
-        request('POST', '/goal/chat', {goal_id: currentIdCard, message: $('.message-sender').val(), csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()})
+$(document).on('keypress', '.message-sender', function(e) {
+    const messageSender = $('.message-sender');
+    const currentMessage = messageSender.val();
+
+    if (e.which === 13 && !e.shiftKey && currentMessage !== '') {
+        request('POST', '/goal/chat', {
+            goal_id: currentIdCard,
+            message: currentMessage,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        });
+
         e.preventDefault();
-        $('.message-sender').val('')
-        let data = request('GET', '/goal/get_chat', {goal_id: currentIdCard})
-        FillChat(data.chat)
-        let div = $(".chat-container");
-        div.scrollTop(div.prop('scrollHeight'));
+        messageSender.val('');
+
+        const chatData = request('GET', '/goal/get_chat', {
+            goal_id: currentIdCard
+        });
+
+        FillChat(chatData.chat);
+
+        const chatContainer = $(".chat-container");
+        chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
     }
-})
+});
 
 $(document).on('input', '.message-sender', function(e){
     if($('.message-sender').val() == ''){
@@ -300,79 +278,79 @@ $(document).on('input', '.message-sender', function(e){
     }
 })
 
-$(document).on('submit','#more-form', async function(e){
+$(document).on('submit', '#more-form', async function(e) {
     e.preventDefault();
-    if($('#more-form .send').length != 0){
-        return
+
+    if ($('#more-form .send').length !== 0) {
+        return;
     }
-    if($("#more-form #card-name").val() != ''){
-        let data = {
+
+    const cardName = $("#more-form #card-name").val();
+    
+    if (cardName !== '') {
+        const data = {
             goal_id: currentIdCard,
-            name: $("#more-form #card-name").val(),
+            name: cardName,
             description: $('#more-form #card-description').val(),
             current_result: $('#more-form #card-current-progress').val(),
             block: $('#more-form #card-block').val(),
             quarter: $('#more-form #card-cvartal').val(),
-            current: $('#more-form #card-approve').val() == 'Да' ? 'True' : 'False',
-            planned: $('#more-form #card-category').val() == 'Запланированная' ? 'True' : 'False',
+            current: $('#more-form #card-approve').val() === 'Да' ? 'True' : 'False',
+            planned: $('#more-form #card-category').val() === 'Запланированная' ? 'True' : 'False',
             weight: $('#more-form #card-weight').val(),
             mark: $('#more-form #card-own-grade').val(),
             fact_mark: $('#more-form #card-leader-grade').val(),
             is_done: $('.edit-header .complete-block').hasClass('complete') ? 'True' : 'False',
-            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
-        }
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        };
 
-        let message = request("POST", "/goal/edit", data)
-        if(message.status != 'ok'){
-            alert(message)
-        }
-        await sleep(sleepTime);
+        request('POST', '/goal/edit', data);
+        await sleep();
+        clearTimeout(timeoutID);
+        OpenCard(currentIdCard);
+        CardSend('edit');
         Filter()
-        clearTimeout(timeutID)
-        OpenCard(currentIdCard)
-        CardSend('edit')
-    }
-    else{
-        CardNameError('edit', 'card-name')
+    } else {
+        CardNameError('edit', 'card-name');
     }
 });
 
-$(document).on('input', "#more-form #card-name", function(e){
-    CardNameChange('edit', 'card-name')
-})
+$(document).on('input', "#more-form #card-name", function(e) {
+    CardNameChange('edit', 'card-name');
+});
 
-$(document).on('input', "#more-form textarea", function(e){
-    FormChange('edit')
-})
+$(document).on('input', "#more-form textarea", function(e) {
+    FormChange('edit');
+});
 
-$(document).on('change', "#more-form select", function(e){
-    FormChange('edit')
-})
+$(document).on('change', "#more-form select", function(e) {
+    FormChange('edit');
+});
 
-export function CardSend(classForm) { 
-    console.log(classForm)
-    $('.' + classForm + ' input').addClass('send')
-    $('.' + classForm + ' input').val('✓')
- }
-
-export function CardNameError(classForm, nameId) { 
-    $('.' + classForm + ' #' + nameId).attr('style', 'border: 1px solid red')
-    $('.' + classForm + ' input').addClass('error')
-    $('.' + classForm + ' input').val('!')
+export function CardSend(classForm) {
+    console.log(classForm);
+    $('.' + classForm + ' button').addClass('send');
+    $('.' + classForm + ' button').text('✓');
 }
 
-export function CardNameChange(classForm, nameId, defaultValue='сохранить'){
-    $('.' + classForm + ' #' + nameId).attr('style', 'border: none')
-    $('.' + classForm + ' input').removeClass('error')
-    $('.' + classForm + ' input').val(defaultValue)
+export function CardNameError(classForm, nameId) {
+    $('.' + classForm + ' #' + nameId).css('border', '1px solid red');
+    $('.' + classForm + ' button').addClass('error');
+    $('.' + classForm + ' button').text('!');
 }
 
-export function FormChange(classForm, defaultValue='сохранить') { 
-    $('.' + classForm + ' input').removeClass('send')
-    if($('.' + classForm + ' .error').length == 0){
-        $('.' + classForm + ' input').val(defaultValue)
+export function CardNameChange(classForm, nameId, defaultValue = 'сохранить') {
+    $('.' + classForm + ' #' + nameId).css('border', 'none');
+    $('.' + classForm + ' button').removeClass('error');
+    $('.' + classForm + ' button').text(defaultValue);
+}
+
+export function FormChange(classForm, defaultValue = 'сохранить') {
+    $('.' + classForm + ' button').removeClass('send');
+    if ($('.' + classForm + ' .error').length === 0) {
+        $('.' + classForm + ' button').text(defaultValue);
     }
- }
+}
 
 $('.complete-block').on('click', function(e){
     const completeIcon = $('.complete-block')
@@ -403,5 +381,5 @@ function executeQuery() {
             FillChat(data.chat)
         }
     });
-    timeutID = setTimeout(executeQuery, 5000);
+    timeoutID = setTimeout(executeQuery, 5000);
 }

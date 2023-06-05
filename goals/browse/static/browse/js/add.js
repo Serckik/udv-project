@@ -1,4 +1,5 @@
-import { CardSend, CardNameError, FormChange, CardNameChange, sleep, FillForm  } from "./openCard.js"
+import { FillForm, sleep } from "./load.js"
+import { CardSend, CardNameError, FormChange, CardNameChange  } from "./openCard.js"
 import { Filter } from "./filter.js"
 
 const sleepTime = 100

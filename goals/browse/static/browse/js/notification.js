@@ -1,23 +1,7 @@
-import { GetDate, OpenCard } from "./openCard.js"
-function request(type, url, data){
-    let returnData = ''
-    $.ajax({
-        type: type,
-        url: url,
-        data: data,
-        success: function(data) { 
-            if(type == 'GET'){
-                returnData = data
-            }
-        },
-        async: false
-    })
-    return returnData
-}
+import { OpenCard } from "./openCard.js"
+import { notifications, GetDate } from "./load.js";
 
-let data = request('GET', '/user/get_notifications')
-
-countNotRead(data)
+countNotRead(notifications)
 
 function countNotRead(data){
     let notRead = 0
@@ -78,7 +62,7 @@ document.addEventListener('click', (e) => {
 function setNotifications() {
     let notificationBlock = $('.notification-block')
     notificationBlock.empty()
-    data.forEach(element => {
+    notifications.forEach(element => {
         let notificationContainer = $("<div class='notification-container'></div>")
         notificationContainer.attr('id', element.goal_id + ' ' + element.id)
         if(!element.is_read){

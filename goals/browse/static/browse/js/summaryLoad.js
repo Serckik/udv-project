@@ -1,6 +1,7 @@
 import { SetCards } from "./SetCards.js"
 import { Filter } from "./filter.js";
-import { FillForm, CardSend, CardNameError, FormChange, CardNameChange, sleep, SetVal } from "./openCard.js"
+import { CardSend, CardNameError, FormChange, CardNameChange, SetVal } from "./openCard.js"
+import { FillForm, sleep } from "./load.js";
 const sleepTime = 100
 function request(type, url, data){
     let returnData = ''
@@ -36,6 +37,9 @@ $(document).on('click', '.summary-card', function(e) {
 });
 
 function OpenSummary(id){
+    $('.summary-edit input').removeClass('send')
+    $('.summary-edit input').removeClass('error')
+    $('.summary-edit input').val('cохранить')
     currentIdCard = id
     added = []
     currentCards = []
@@ -120,8 +124,8 @@ $(document).on('submit','#summary-more-form', async function(e){
         request('POST', '/goal/edit_summary', data)
         await sleep(sleepTime);
         Filter()
-        CardSend('summary-edit')
         OpenSummary(currentIdCard)
+        CardSend('summary-edit')
     }
     else{
         CardNameError('summary-edit', 'summary-name')

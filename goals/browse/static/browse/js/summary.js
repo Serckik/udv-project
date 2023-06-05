@@ -1,6 +1,7 @@
-import { selectedGoals, AddCoockie, Filter } from "./filter.js"
-import { CardSend, CardNameError, FormChange, CardNameChange, sleep } from "./openCard.js"
+import { sleep } from "./load.js"
+import { CardSend, CardNameError, FormChange, CardNameChange } from "./openCard.js"
 import { UpdateTaked } from "./SetCards.js"
+import { selectedGoals, AddCoockie, Filter } from "./filter.js"
 const sleepTime = 100
 
 function request(type, url, data){
@@ -45,7 +46,7 @@ $(document).on('click', '.card', function(e) {
     console.log(selectedGoals)
 });
 
-$('#add-summary-form input').on('click', async function(){
+$('#add-summary-form button').on('click', async function(){
     if($('#add-summary-form .send').length != 0){
         return
     }
@@ -87,3 +88,4 @@ $(document).on('change', "#add-summary-form select", function(e){
 $(document).on('click', ".card", function(e){
     FormChange('summary', 'добавить')
 })
+

@@ -1034,7 +1034,7 @@ textarea{
     width: 102px;
 }
 
-.edit input, .tasks .add input, #add-summary-form input, .summary-edit input{
+.edit button, .tasks .add button, #add-summary-form button, .summary-edit button{
     cursor: pointer;
     display: block;
     width: 170px;
