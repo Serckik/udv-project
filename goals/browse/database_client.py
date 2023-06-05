@@ -117,7 +117,8 @@ def send_notification(request, goal, is_goal):
         notifi = Notification(is_goal=is_goal,
                               user=user,
                               goal=goal,
-                              is_read=False)
+                              is_read=False,
+                              sended_by=request.user)
         if not Notification.objects.filter(goal=goal,
                                            is_read=False,
                                            is_goal=is_goal,

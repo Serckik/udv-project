@@ -23,6 +23,7 @@ from urllib.parse import quote
 from .models import CHOICES_BLOCK
 import openpyxl.utils.cell
 from users.views import get_notifications_once, get_user_name
+from users.models import Image
 
 
 @login_required(login_url='/user/login/')
@@ -444,6 +445,10 @@ def start_init(request):
     d = get_quarters(request)
     notify = get_notifications_once(request)
     username = get_user_name(request)
+    images = Image.objects.all()
+    d['images'] = {}
+    for img in images:
+        d['images'][img.user.id] = img.image.url.split('/')[::-1][0]
     d.update(notify)
     d.update(username)
     return JsonResponse(d)

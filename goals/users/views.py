@@ -56,8 +56,14 @@ def get_notifications(request):
 @login_required(login_url='/user/login/')
 def read_notification(request):
     if request.method == 'POST':
-        notifi = Notification.objects.get(id=request.POST.get('id'))
-        notifi.is_read = True
+        id = request.POST.get('id')
+        if id == 'all':
+            notifi = Notification.objects.filter(user=request.user)
+            for n in notifi:
+                n.is_read = True
+        else:
+            notifi = Notification.objects.get(id=id)
+            notifi.is_read = True
         notifi.save()
         return JsonResponse({'status': 'ok'})
 
