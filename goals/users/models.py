@@ -12,6 +12,8 @@ class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_goal = models.BooleanField('Задача', default=False)
     goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+    sended_by = models.ForeignKey(User, on_delete=models.CASCADE,
+                                  related_name='sended_by')
 
     def is_active(self):
         """
