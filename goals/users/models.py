@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from browse.models import Goal
 from django.utils.timezone import localtime
 from django.utils import timezone
-import os
 
 
 class Notification(models.Model):
@@ -14,6 +13,7 @@ class Notification(models.Model):
     goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
     sended_by = models.ForeignKey(User, on_delete=models.CASCADE,
                                   related_name='sended_by')
+    comment = models.CharField('Комментарий', max_length=30, default='')
 
     def is_active(self):
         """

@@ -66,10 +66,11 @@ def update_history(goal, request):
         new_data['current'] = old_data['current']
 
     is_change = False
+    changed_fields = []
     for i in new_data:
         if old_data[i] != new_data[i]:
             is_change = True
-            break
+            changed_fields.append(translator[i])
     if not is_change:
         return
 
@@ -94,11 +95,11 @@ def update_history(goal, request):
                                            old_data=old_data[i],
                                            new_data=new_data[i])
 
-    send_notification(request, goal, True)
+    send_notification(request, goal, True, ', '.join(changed_fields))
     goal.save()
 
 
-def send_notification(request, goal, is_goal):
+def send_notification(request, goal, is_goal, comment):
     users_to_send = []
     if goal.owner_id == request.user:
         if request.user.is_superuser:
@@ -118,12 +119,9 @@ def send_notification(request, goal, is_goal):
                               user=user,
                               goal=goal,
                               is_read=False,
-                              sended_by=request.user)
-        if not Notification.objects.filter(goal=goal,
-                                           is_read=False,
-                                           is_goal=is_goal,
-                                           user=user).exists():
-            notifi.save()
+                              sended_by=request.user,
+                              comment=comment)
+        notifi.save()
 
 
 def edit_goal(request, goal):
@@ -182,4 +180,4 @@ def send_message(request, goal):
             goal.chat_set.create(owner_id=request.user, message=chunk)
     goal.save()
 
-    send_notification(request, goal, False)
+    send_notification(request, goal, False, text[:29])
