@@ -55,6 +55,10 @@ export let userName = data.name
 export let userId = data.id
 export let images = data.images
 
+export function UpdateNotification(){
+    notifications = request('GET', '/user/get_notifications')
+}
+
 export function CreateOptionBlocks(values, id, isCurrentOnly=false){
     if($(id).length == 0) { return }
     values.forEach(element => {

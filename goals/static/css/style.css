@@ -1,15 +1,7 @@
-@font-face {
-	font-family: "OfficinaSansWinCTT";
-	src: url("/static/fonts/officinasanswinctt.eot");
-	src: url("/static/fonts/officinasanswinctt.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-		url("/static/fonts/officinasanswinctt.otf") format("opentype"), /* Open Type Font */
-		url("/static/fonts/officinasanswinctt.svg") format("svg"), /* Legacy iOS */
-		url("/static/fonts/officinasanswinctt.ttf") format("truetype"), /* Safari, Android, iOS */
-		url("/static/fonts/officinasanswinctt.woff") format("woff"), /* Modern Browsers */
-		url("/static/fonts/officinasanswinctt.woff2") format("woff2"); /* Modern Browsers */
-	
-    font-weight: normal;
-	font-style: normal;
+:root {
+    --medium-size: 17px;
+    --big-size: 25px;
+    --ussc-main-color: #F89C1D;
 }
 
 #more-form textarea, #more-form input,
@@ -22,6 +14,8 @@ body{
     margin: 0 auto;
     background-color: #F5F5F5;
     font-family: 'Montserrat';
+    font-weight: 400;
+    font-size: var(--medium-size);
     padding: 20px 12px 0 13px;
 }
 
@@ -73,7 +67,6 @@ form{
     transform: translate(-50%, -50%);
     padding: 38px 97px 38px 97px;
     box-sizing: border-box;
-    font-family: 'Montserrat';
     font-style: normal;
     font-weight: 700;
     font-size: 25px;
@@ -130,7 +123,6 @@ form{
     bottom:0;           
     left:0;              
     right:0; 
-    font-family: 'Montserrat';
     font-weight: 400;
     font-size: 24px;
     color: #FFFFFF;
@@ -153,7 +145,6 @@ form{
     bottom:0;           
     left:0;              
     right:0; 
-    font-family: 'Montserrat';
     font-weight: 400;
     font-size: 24px;
     color: #FFFFFF;
@@ -231,7 +222,6 @@ header{
     position: relative;
     height: 60px;
     display: flex;
-    font-family: 'Montserrat';
     font-weight: 700;
     font-size: 25px;
     color: #333333;
@@ -293,7 +283,7 @@ header{
 
 .header-user p{
     margin: 0;
-    margin-top: 16px;
+    margin-top: 3px;
     margin-right: 11px;
 }
 
@@ -334,29 +324,60 @@ header{
     z-index: 100;
     box-sizing: border-box;
     position: absolute;
-    width: 433px;
-    height: 670px;
-    overflow: auto;
-    overflow-x: hidden;
-    background-color: #F5F5F5;
+    width: 469px;
+    background-color: white;
     right: 0;
     top: 55px;
-    border: 1px solid #D9D9D9;
-    font-family: 'Montserrat';
-    font-size: 16px;
+    border-radius: 27px;
+    font-size: 18px;
     font-weight: 400;
+    font-style: normal;
     color: #333333;
+}
+
+.notifications{
+    overflow: auto;
+    overflow-x: hidden;
+    height: 700px;
+}
+
+.notification-text{
+    padding-right: 10px;
+}
+
+.read-all-notifications{
+    display: flex;
+    gap: 6px;
+    border-bottom: 0.7px solid rgba(0, 0, 0, 0.22);
+    padding: 12px 0 12px 13px;
+}
+
+.read-all-notifications svg{
+    cursor: pointer;
+}
+
+.read-all-notifications .active path{
+    fill: var(--ussc-main-color);
 }
 
 .notification-container{
     transition: 0.5s;
     position: relative;
     margin: 0 auto;
-    background: #EAEAEA;
     border-radius: 1px;
-    padding: 4px 11px 4px 15px;
-    margin-bottom: 14px;
+    padding: 10px 11px 0 0;
+    border-bottom: 0.7px solid rgba(0, 0, 0, 0.22);
     cursor: pointer;
+}
+
+.notification-data{
+    display: flex;
+    gap: 8px
+}
+
+.notification-data img{
+    width: 33px;
+    height: 33px;
 }
 
 .notification-container:hover{
@@ -371,13 +392,13 @@ header{
 
 .notification-circle{
     position: absolute;
-    left: 2px;
-    top: 7px;
+    left: 95%;
+    top: 25%;
     box-sizing: border-box;
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
-    background-color: #F89C1D;
+    background-color: var(--ussc-main-color);
 }
 
 .notification-container:nth-last-child(1){
@@ -474,7 +495,6 @@ main{
 
 .left-submenu{
     width: 15%;
-    font-family: 'Montserrat';
     font-weight: 700;
     color: #333333;
 }
@@ -589,7 +609,6 @@ li{
 }
 
 select{
-    font-family: 'Montserrat';
     font-weight: 700;
     font-size: 17px;
     background: #E9E9E9;
@@ -651,7 +670,6 @@ option:checked {
 }
 
 .search-input{
-    font-family: 'Montserrat';
     font-size: 17px;
     background: #E9E9E9;
     border: none;
@@ -682,7 +700,6 @@ option:checked {
 .search-checkbox-block p{
     margin: 0;
     margin-left: 11px;
-    font-family: 'Montserrat';
     font-style: normal;
     font-weight: 700;
     font-size: 17px;
@@ -728,7 +745,6 @@ option:checked {
     6px 6px #BEBEBE,
     7px 7px #BEBEBE;
     border-radius: 2px;
-    font-family: 'Roboto Mono';
     cursor: pointer;
     transition: 0.5s;
 }
@@ -845,7 +861,6 @@ option:checked {
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
-    font-family: 'OfficinaSansWinCTT';
     font-style: normal;
     font-weight: 400;
     color: #333333;
@@ -854,7 +869,6 @@ option:checked {
 .update-image{
     width: 65%;
     font-size: 25px;
-    font-family: 'Montserrat';
     color: black;
     font-weight: 500;
 }
@@ -1041,7 +1055,6 @@ textarea{
     height: 35px;
     background: rgba(217, 217, 217, 0.55);
     border-radius: 14px;
-    font-family: 'OfficinaSansWinCTT';
     font-style: normal;
     font-weight: 400;
     font-size: 27px;
@@ -1055,7 +1068,6 @@ textarea{
     box-sizing: border-box;
     width: 34%;
     padding: 24px 6px 0 0;
-    font-family: 'Montserrat';
     font-style: normal;
     color: #333333;
     font-weight: 400;
@@ -1126,7 +1138,6 @@ textarea{
     border: 1px solid rgba(0, 0, 0, 0.33);;
     border-radius: 3px;
     margin-right: 12px;
-    font-family: 'Montserrat';
     font-style: normal;
     font-weight: 400;
     font-size: 19px;
@@ -1144,7 +1155,6 @@ textarea{
     box-sizing: border-box;
     width: 24%;
     height: 770px;
-    font-family: 'Montserrat';
     font-style: normal;
     font-weight: 400;
     color: #333333;
@@ -1213,7 +1223,6 @@ textarea{
     background: rgba(196, 188, 178, 0.15);
     border-radius: 6px;
     padding: 16px 29px 7px 36px;
-    font-family: 'Montserrat';
     font-style: normal;
 }
 
@@ -1221,7 +1230,6 @@ textarea{
     gap: 11px;
 
     font-size: 24px;
-    font-family: 'OfficinaSansWinCTT';
 
     color: #333333;
 }
@@ -1288,10 +1296,6 @@ textarea{
     margin-bottom: 14px !important;
 }
 
-#card-cvartal, #card-weight, #card-own-grade, #card-leader-grade{
-    font-family: 'Roboto Mono';
-}
-
 #card-cvartal--focus{
     border-color: red;
 }
@@ -1339,7 +1343,6 @@ textarea{
 }
 
 #add-summary-form{
-    font-family: 'OfficinaSansWinCTT';
     width: 30%;
     font-size: 23px;
     color: #333333;
@@ -1373,7 +1376,6 @@ textarea{
     padding-bottom: 10px;
     overflow: auto;
     overflow-x: hidden;
-    font-family: 'Montserrat';
     font-style: normal;
     font-weight: 600;
 }
@@ -1469,7 +1471,6 @@ textarea{
 .summary-tasks .submenu p{
     margin: 0;
     cursor: pointer;
-    font-family: 'OfficinaSansWinCTT';
     font-size: 27px;
     margin-right: 2%;
 }
@@ -1490,7 +1491,6 @@ textarea{
 .edit-summary .text{
     margin: 0;
     margin-bottom: 10px;
-    font-family: 'OfficinaSansWinCTT';
     font-size: 27px;
 }
 
