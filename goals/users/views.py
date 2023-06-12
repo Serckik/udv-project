@@ -65,10 +65,11 @@ def read_notification(request):
             notifi = Notification.objects.filter(user=request.user)
             for n in notifi:
                 n.is_read = True
+                n.save()
         else:
             notifi = Notification.objects.get(id=id)
             notifi.is_read = True
-        notifi.save()
+            notifi.save()
         return JsonResponse({'status': 'ok'})
 
 
