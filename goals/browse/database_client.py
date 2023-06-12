@@ -110,7 +110,6 @@ def send_notification(request, goal, is_goal, comment):
                 user_to_send = [user]
                 if user == request.user:
                     user_to_send = User.objects.filter(is_superuser=True)
-                print(user_to_send)
                 users_to_send += user_to_send
     if len(users_to_send) == 0:
         users_to_send.append(goal.owner_id)

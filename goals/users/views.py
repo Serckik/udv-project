@@ -31,6 +31,7 @@ def get_notifications_once(request):
     notifi_list = list(notifi.values())
     for notifi in notifi_list:
         notifi['goal_name'] = Goal.objects.get(id=notifi['goal_id']).name
+        notifi['sended_by_name'] = User.objects.get(id=notifi['sended_by_id']).get_full_name()
         notifi['created_at'] = localtime(notifi['created_at'])
 
     return {'notify': notifi_list}
@@ -50,6 +51,7 @@ def get_notifications(request):
     notifi_list = list(notifi.values())
     for notifi in notifi_list:
         notifi['goal_name'] = Goal.objects.get(id=notifi['goal_id']).name
+        notifi['sended_by_name'] = User.objects.get(id=notifi['sended_by_id']).get_full_name()
         notifi['created_at'] = localtime(notifi['created_at'])
 
     return JsonResponse(notifi_list, safe=False)
