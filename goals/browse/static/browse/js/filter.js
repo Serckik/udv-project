@@ -2,14 +2,15 @@ import { SetCards, SetSummaryCards } from "./SetCards.js"
 import { currentQuarter, request } from "./load.js"
 
 let filtersData ={
-    'block': 'все',
-    'sort': 'все',
-    'planned': 'все',
-    'done': 'все',
+    'block': 'Все',
+    'sort': 'Все',
+    'planned': 'Все',
+    'done': 'Все',
     'self': false,
     'staff': false,
     'search': '',
     'picked': 'Все',
+    'reverseSort': false,
     'quarter': [currentQuarter]
 }
 export let selectedGoals = []
@@ -53,10 +54,21 @@ $(document).on('click', '.search-checkbox-block', function(e){
 
 $(document).on('click', '.search-checkbox-block.filter', function(e){
     document.querySelector('.filter-container').classList.remove('hidden')
+    if(filtersData.self){
+        console.log('uwu')
+        $('.filter-container-selector.personal span').text('Свои')
+    }
+    else if(filtersData.staff){
+        $('.filter-container-selector.personal span').text('Сотрудники')
+    }
+    else{
+        $('.filter-container-selector.personal span').text('Все')
+    }
+    $('.filter-container-selector.done span').text(filtersData.done)
+    $('.filter-container-selector.planned span').text(filtersData.planned)
 })
 
 document.addEventListener('click', (e) => {
-    console.log(e)
     if (e.target.closest('.filter-container') || e.target.closest('.search-checkbox-block.filter')) {
       return;
     }
@@ -68,7 +80,6 @@ $(document).on('click', '.search-checkbox-block.order', function(e){
 })
 
 document.addEventListener('click', (e) => {
-    console.log(e)
     if (e.target.closest('.order-container') || e.target.closest('.search-checkbox-block.order')) {
       return;
     }
@@ -118,6 +129,36 @@ $(document).on('click', '.filter-container-selector svg', function(e){
     Filter()
 })
 
+$(document).on('click', '.order-container-element', function(e){
+    const filterParameter = e.currentTarget.classList[1]
+    const arrow1 = e.currentTarget.querySelector('.arrows svg:nth-child(1)').classList
+    const arrow2 = e.currentTarget.querySelector('.arrows svg:nth-child(2)').classList
+    if(filtersData.sort != filterParameter){
+        $('.order-container-element .arrows svg').removeClass('active-sort')
+        filtersData.reverseSort = false
+    }
+    if(filterParameter === 'owner_id'){
+        filtersData.sort = 'owner_id'
+    }
+    else{
+        filtersData.sort = 'weight'
+    }
+    if(arrow1.value === 'active-sort'){
+        arrow1.remove('active-sort')
+        arrow2.add('active-sort')
+        filtersData.reverseSort = true
+    }
+    else if(arrow2.value === 'active-sort'){
+        arrow2.remove('active-sort')
+        filtersData.reverseSort = false
+        filtersData.sort = 'Все'
+    }
+    else{
+        arrow1.add('active-sort')
+    }
+    Filter()
+})
+
 
 export function Filter() { 
     filtersData.block = filtersData.block.replaceAll('\\', '')
@@ -154,6 +195,9 @@ export function Filter() {
     }
     if(window.location.href.split('/')[4] != 'browse_summary'){
         let cards = request('GET', '/goal/get_goals', filtersData)
+        if(filtersData.reverseSort){
+            cards.reverse()
+        }
         SetCards(cards)
     }
     else if($('.edit-summary').hasClass('hidden')){
@@ -203,24 +247,32 @@ function CheckCoockies(cookieString){
     $('.block-list-element.active-sort').removeClass('active-sort')
     $('.block-list-element#' + filtersData.block).addClass('active-sort')
     filtersData.sort = cookieData.sort
-    $('.sort-list-element.active-sort').removeClass('active-sort')
-    $('.sort-list-element#' + cookieData.sort).addClass('active-sort')
+    filtersData.reverseSort = JSON.parse(cookieData.reverseSort)
+    if(filtersData.sort === 'owner_id' && filtersData.reverseSort){
+       document.querySelector('.order-container-element.owner_id .arrows svg:nth-child(2)').classList.add('active-sort')
+    }
+    else if(filtersData.sort === 'owner_id' && !filtersData.reverseSort){
+        document.querySelector('.order-container-element.owner_id .arrows svg:nth-child(1)').classList.add('active-sort')
+    }
+    else if(filtersData.sort === 'weight' && filtersData.reverseSort){
+        document.querySelector('.order-container-element.weight .arrows svg:nth-child(2)').classList.add('active-sort')
+    }
+    else if(filtersData.sort === 'weight' && !filtersData.reverseSort){
+        document.querySelector('.order-container-element.weight .arrows svg:nth-child(1)').classList.add('active-sort')
+    }
+    filtersData.self = JSON.parse(cookieData.self)
+    filtersData.staff = JSON.parse(cookieData.staff)
     filtersData.planned = cookieData.planned
-    $('.planned-list-element.active-sort').removeClass('active-sort')
-    $('.planned-list-element#' + cookieData.planned).addClass('active-sort')
+    $('.filter-container-selector.personal span').text(filtersData.planned)
     filtersData.done = cookieData.done
     $('.done-list-element.active-sort').removeClass('active-sort')
     $('.done-list-element#' + cookieData.done).addClass('active-sort')
     filtersData.self = JSON.parse(cookieData.self)
-    console.log(self)
     if(cookieData.picked != undefined){
         filtersData.picked = cookieData.picked.replace(/[ ./]/g, "\\$&")
     }
     $('.taked-list-element.active-sort').removeClass('active-sort')
     $('.taked-list-element#' + filtersData.picked).addClass('active-sort')
-    filtersData.staff = JSON.parse(cookieData.staff)
-    if(filtersData.self) { $('.search-checkbox.self').prop('checked', true); }
-    if(filtersData.staff) { $('.search-checkbox.staff').prop('checked', true); }
     filtersData.quarter = cookieData.quarter.split(',')
     if(window.location.href.split('/')[4] == 'summary'){
         if(filtersData.quarter[0] === ''){

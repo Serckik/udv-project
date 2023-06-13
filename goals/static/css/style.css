@@ -23,7 +23,7 @@ body{
     max-width: 1740px;
     margin: 0 auto;
     background-color: #F5F5F5;
-    font-family: 'Montserrat';
+    font-family: 'Montserrat' !important;
     font-weight: 400;
     font-size: var(--medium-size);
     padding: 20px 12px 0 13px;
