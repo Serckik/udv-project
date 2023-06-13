@@ -162,63 +162,6 @@
                 </li>
             </ul>
             <div class="line"></div>
-            <div class="sort-block">
-                <p>Сортировка</p>
-                <ul class="sort-list">
-                    <li class="sort-list-element active-sort" id="Все">
-                        <span>ВЫКЛ</span>
-                    </li>
-                    <li class="sort-list-element" id="owner_id">
-                        <span>ОТВЕТСТВЕННЫЙ</span>
-                        <div class="arrows">
-                            <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                    </li>
-                    <li class="sort-list-element" id="weight">
-                        <span>ВЕС</span>
-                        <div class="arrows">
-                            <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                    </li>
-                </ul>
-                <div class="line"></div>
-            </div>
-            <div class="planned-block">
-                <p>Категория</p>
-                <ul class="planned-list">
-                    <li class="planned-list-element active-sort" id="Все">
-                        <span>ВСЕ</span>
-                    </li>
-                    <li class="planned-list-element" id="Запланированная">
-                        <span>ЗАПЛАНИРОВАННАЯ</span>
-                    </li>
-                    <li class="planned-list-element" id="Незапланированная">
-                        <span>НЕЗАПЛАНИРОВАННАЯ</span>
-                    </li>
-                </ul>
-                <div class="line"></div>
-            </div>
-            <div class="done-block">
-                <p>Готовность</p>
-                <ul class="done-list">
-                    <li class="done-list-element active-sort" id="Все">
-                        <span>ВСЕ</span>
-                    </li>
-                    <li class="done-list-element" id="Выполненные">
-                        <span>ВЫПОЛНЕННЫЕ</span>
-                    </li>
-                    <li class="done-list-element" id="Невыполненные">
-                        <span>НЕВЫПОЛНЕННЫЕ</span>
-                    </li>
-                </ul>
-                <div class="line"></div>
-            </div>
             <div class="taked-block hidden">
                 <p>Включенность</p>
                 <ul class="taked-list">
@@ -243,14 +186,110 @@
                 <img class="search-icon" src="/static/img/search.svg">
                 <input class="search-input" placeholder="Поиск">
                 <div class="search-checkbox-block">
-                    <input type="checkbox" class="search-checkbox self" value="свои">
-                    <p>Только свои</p>
+                    <svg class="search-checkbox group" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M16.9595 7.6L18.2473 8.31545C19.2509 8.87297 19.2509 10.127 18.2473 10.6846L16.9595 11.4L18.2473 12.1154C19.2509 12.673 19.2509 13.927 18.2473 14.4846L10.5987 18.7338C9.95981 19.0887 9.04019 19.0887 8.40126 18.7338L0.752652 14.4846C-0.250884 13.927 -0.250884 12.673 0.752652 12.1154L2.04046 11.4L0.752652 10.6846C-0.250884 10.127 -0.250884 8.87297 0.752652 8.31545L2.04046 7.6L0.752652 6.88455C-0.250884 6.32703 -0.250884 5.07297 0.752652 4.51545L8.40126 0.266224C9.04019 -0.0887415 9.95981 -0.0887415 10.5987 0.266224L18.2473 4.51545C19.2509 5.07297 19.2509 6.32703 18.2473 6.88455L16.9595 7.6ZM15.0034 8.68676L10.5987 11.1338C9.95981 11.4887 9.04019 11.4887 8.40126 11.1338L3.99663 8.68676L2.5328 9.5L9.32398 13.2729C9.38907 13.309 9.61093 13.309 9.67602 13.2729L16.4672 9.5L15.0034 8.68676ZM15.0034 12.4868L10.5987 14.9338C9.95981 15.2887 9.04019 15.2887 8.40126 14.9338L3.99663 12.4868L2.5328 13.3L9.32398 17.0729C9.38907 17.109 9.61093 17.109 9.67602 17.0729L16.4672 13.3L15.0034 12.4868ZM9.67602 1.92712C9.61093 1.89096 9.38907 1.89096 9.32398 1.92712L2.5328 5.7L9.32398 9.47288C9.38907 9.50904 9.61093 9.50904 9.67602 9.47288L16.4672 5.7L9.67602 1.92712Z" fill="#333333"/>
+                    </svg>
                 </div>
-                {% if perms.browse.change_goal %}
-                    <div class="search-checkbox-block">
-                        <input type="checkbox" class="search-checkbox staff" value="сотрудников">
-                        <p>Только свои сотрудники</p>
+                <div class="search-checkbox-block filter">
+                    <svg class="search-checkbox" width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.74174 2H15.2583C16.2192 2 17 2.7232 17 3.61329V5.39348C17 6.04714 16.5646 6.85379 16.1291 7.25711L12.3754 10.3307C11.8499 10.734 11.5045 11.5407 11.5045 12.1943V15.6713C11.5045 16.158 11.1592 16.7978 10.7237 17.0481L9.50751 17.7574C8.36637 18.4111 6.8048 17.674 6.8048 16.3806V12.097C6.8048 11.5268 6.45946 10.8036 6.0991 10.4002L2.78078 7.15975C2.34535 6.77034 2 6.03323 2 5.54646V3.69674C2 2.7232 2.78078 2 3.74174 2Z" stroke="#292D32" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="filter-container hidden">
+                        <div class="filter-container-header">
+                            <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3.74174 2H15.2583C16.2192 2 17 2.7232 17 3.61329V5.39348C17 6.04714 16.5646 6.85379 16.1291 7.25711L12.3754 10.3307C11.8499 10.734 11.5045 11.5407 11.5045 12.1943V15.6713C11.5045 16.158 11.1592 16.7978 10.7237 17.0481L9.50751 17.7574C8.36637 18.4111 6.8048 17.674 6.8048 16.3806V12.097C6.8048 11.5268 6.45946 10.8036 6.0991 10.4002L2.78078 7.15975C2.34535 6.77034 2 6.03323 2 5.54646V3.69674C2 2.7232 2.78078 2 3.74174 2Z" stroke="#292D32" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <p>Фильтровать</p>
+                        </div>
+                        <li class="filter-container-list">
+                            <ul class="filter-container-element">
+                                <p>Задача</p>
+                                <div class="filter-container-selector personal">
+                                    <svg class="left-arrow" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9.05 24H15.95C21.7 24 24 21.7 24 15.95V9.05C24 3.3 21.7 1 15.95 1H9.05C3.3 1 1 3.3 1 9.05V15.95C1 21.7 3.3 24 9.05 24Z" fill="#D9D9D9" fill-opacity="0.01" stroke="#292D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M19.5943 11.5633H9.16076C8.87792 11.5633 8.75221 11.2198 8.94077 11.0325L11.9577 8.03492C12.1463 7.84758 12.1463 7.56656 11.9577 7.37921L11.2663 6.69227C11.0778 6.50492 10.7949 6.50492 10.6064 6.69227L5.10675 12.1878C4.91819 12.3751 4.91819 12.6562 5.10675 12.8435L10.6064 18.3078C10.7949 18.4951 11.0778 18.4951 11.2663 18.3078L11.9263 17.6521C12.1148 17.4647 12.1148 17.1837 11.9263 16.9964L8.90935 13.9988C8.72079 13.7802 8.84649 13.4368 9.12933 13.4368H19.5629C19.8143 13.4368 20.0343 13.2494 20.0343 12.9996V12.0629C20.0343 11.8131 19.8457 11.5633 19.5943 11.5633Z" fill="#2B2F34"/>
+                                    </svg>
+                                    <span>Все</span>
+                                    <svg class="right-arrow" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9.05 24H15.95C21.7 24 24 21.7 24 15.95V9.05C24 3.3 21.7 1 15.95 1H9.05C3.3 1 1 3.3 1 9.05V15.95C1 21.7 3.3 24 9.05 24Z" fill="#D9D9D9" fill-opacity="0.01" stroke="#292D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M19.5943 11.5633H9.16076C8.87792 11.5633 8.75221 11.2198 8.94077 11.0325L11.9577 8.03492C12.1463 7.84758 12.1463 7.56656 11.9577 7.37921L11.2663 6.69227C11.0778 6.50492 10.7949 6.50492 10.6064 6.69227L5.10675 12.1878C4.91819 12.3751 4.91819 12.6562 5.10675 12.8435L10.6064 18.3078C10.7949 18.4951 11.0778 18.4951 11.2663 18.3078L11.9263 17.6521C12.1148 17.4647 12.1148 17.1837 11.9263 16.9964L8.90935 13.9988C8.72079 13.7802 8.84649 13.4368 9.12933 13.4368H19.5629C19.8143 13.4368 20.0343 13.2494 20.0343 12.9996V12.0629C20.0343 11.8131 19.8457 11.5633 19.5943 11.5633Z" fill="#2B2F34"/>
+                                    </svg>
+                                </div>
+                            </ul>
+                            <ul class="filter-container-element">
+                                <p>Готовность</p>
+                                <div class="filter-container-selector done">
+                                    <svg class="left-arrow" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9.05 24H15.95C21.7 24 24 21.7 24 15.95V9.05C24 3.3 21.7 1 15.95 1H9.05C3.3 1 1 3.3 1 9.05V15.95C1 21.7 3.3 24 9.05 24Z" fill="#D9D9D9" fill-opacity="0.01" stroke="#292D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M19.5943 11.5633H9.16076C8.87792 11.5633 8.75221 11.2198 8.94077 11.0325L11.9577 8.03492C12.1463 7.84758 12.1463 7.56656 11.9577 7.37921L11.2663 6.69227C11.0778 6.50492 10.7949 6.50492 10.6064 6.69227L5.10675 12.1878C4.91819 12.3751 4.91819 12.6562 5.10675 12.8435L10.6064 18.3078C10.7949 18.4951 11.0778 18.4951 11.2663 18.3078L11.9263 17.6521C12.1148 17.4647 12.1148 17.1837 11.9263 16.9964L8.90935 13.9988C8.72079 13.7802 8.84649 13.4368 9.12933 13.4368H19.5629C19.8143 13.4368 20.0343 13.2494 20.0343 12.9996V12.0629C20.0343 11.8131 19.8457 11.5633 19.5943 11.5633Z" fill="#2B2F34"/>
+                                    </svg>
+                                    <span>Все</span>
+                                    <svg class="right-arrow" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9.05 24H15.95C21.7 24 24 21.7 24 15.95V9.05C24 3.3 21.7 1 15.95 1H9.05C3.3 1 1 3.3 1 9.05V15.95C1 21.7 3.3 24 9.05 24Z" fill="#D9D9D9" fill-opacity="0.01" stroke="#292D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M19.5943 11.5633H9.16076C8.87792 11.5633 8.75221 11.2198 8.94077 11.0325L11.9577 8.03492C12.1463 7.84758 12.1463 7.56656 11.9577 7.37921L11.2663 6.69227C11.0778 6.50492 10.7949 6.50492 10.6064 6.69227L5.10675 12.1878C4.91819 12.3751 4.91819 12.6562 5.10675 12.8435L10.6064 18.3078C10.7949 18.4951 11.0778 18.4951 11.2663 18.3078L11.9263 17.6521C12.1148 17.4647 12.1148 17.1837 11.9263 16.9964L8.90935 13.9988C8.72079 13.7802 8.84649 13.4368 9.12933 13.4368H19.5629C19.8143 13.4368 20.0343 13.2494 20.0343 12.9996V12.0629C20.0343 11.8131 19.8457 11.5633 19.5943 11.5633Z" fill="#2B2F34"/>
+                                    </svg>
+                                </div>
+                            </ul>
+                            <ul class="filter-container-element">
+                                <p>Категория</p>
+                                <div class="filter-container-selector planned">
+                                    <svg class="left-arrow" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9.05 24H15.95C21.7 24 24 21.7 24 15.95V9.05C24 3.3 21.7 1 15.95 1H9.05C3.3 1 1 3.3 1 9.05V15.95C1 21.7 3.3 24 9.05 24Z" fill="#D9D9D9" fill-opacity="0.01" stroke="#292D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M19.5943 11.5633H9.16076C8.87792 11.5633 8.75221 11.2198 8.94077 11.0325L11.9577 8.03492C12.1463 7.84758 12.1463 7.56656 11.9577 7.37921L11.2663 6.69227C11.0778 6.50492 10.7949 6.50492 10.6064 6.69227L5.10675 12.1878C4.91819 12.3751 4.91819 12.6562 5.10675 12.8435L10.6064 18.3078C10.7949 18.4951 11.0778 18.4951 11.2663 18.3078L11.9263 17.6521C12.1148 17.4647 12.1148 17.1837 11.9263 16.9964L8.90935 13.9988C8.72079 13.7802 8.84649 13.4368 9.12933 13.4368H19.5629C19.8143 13.4368 20.0343 13.2494 20.0343 12.9996V12.0629C20.0343 11.8131 19.8457 11.5633 19.5943 11.5633Z" fill="#2B2F34"/>
+                                    </svg>
+                                    <span>Все</span>
+                                    <svg class="right-arrow" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9.05 24H15.95C21.7 24 24 21.7 24 15.95V9.05C24 3.3 21.7 1 15.95 1H9.05C3.3 1 1 3.3 1 9.05V15.95C1 21.7 3.3 24 9.05 24Z" fill="#D9D9D9" fill-opacity="0.01" stroke="#292D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M19.5943 11.5633H9.16076C8.87792 11.5633 8.75221 11.2198 8.94077 11.0325L11.9577 8.03492C12.1463 7.84758 12.1463 7.56656 11.9577 7.37921L11.2663 6.69227C11.0778 6.50492 10.7949 6.50492 10.6064 6.69227L5.10675 12.1878C4.91819 12.3751 4.91819 12.6562 5.10675 12.8435L10.6064 18.3078C10.7949 18.4951 11.0778 18.4951 11.2663 18.3078L11.9263 17.6521C12.1148 17.4647 12.1148 17.1837 11.9263 16.9964L8.90935 13.9988C8.72079 13.7802 8.84649 13.4368 9.12933 13.4368H19.5629C19.8143 13.4368 20.0343 13.2494 20.0343 12.9996V12.0629C20.0343 11.8131 19.8457 11.5633 19.5943 11.5633Z" fill="#2B2F34"/>
+                                    </svg>
+                                </div>
+                            </ul>
+                        </li>
                     </div>
+                </div>
+                <div class="search-checkbox-block order">
+                    <svg class="search-checkbox" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.75 15.625H19M1 14.146V13.9375C1 13.0055 1.75552 12.25 2.6875 12.25H2.73311C3.6399 12.25 4.37524 12.9851 4.37524 13.8919C4.37524 14.2866 4.24698 14.6709 4.01014 14.9867L1 19.0002L4.375 19M7.75 10H19M7.75 4.375H19M1 2.125L3.25 1V7.75" stroke="#292D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg> 
+                    <div class="order-container hidden">
+                        <div class="order-container-header">
+                            <svg class="search-checkbox" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.75 15.625H19M1 14.146V13.9375C1 13.0055 1.75552 12.25 2.6875 12.25H2.73311C3.6399 12.25 4.37524 12.9851 4.37524 13.8919C4.37524 14.2866 4.24698 14.6709 4.01014 14.9867L1 19.0002L4.375 19M7.75 10H19M7.75 4.375H19M1 2.125L3.25 1V7.75" stroke="#292D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <p>Сортировать</p>
+                        </div>
+                        <li class="order-container-list">
+                            <ul class="order-container-element">
+                                <p>Ответственный</p>
+                                <div class="arrows">
+                                    <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                            </ul>
+                            <ul class="order-container-element">
+                                <p>Вес задачи</p>
+                                <div class="arrows">
+                                    <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                            </ul>
+                        </li>
+                    </div> 
+                </div>
+                
+                {% if perms.browse.change_goal %}
                 {% endif %}
             </div>
                 {% block content %}
