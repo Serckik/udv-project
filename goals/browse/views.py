@@ -182,7 +182,7 @@ def get_goals_by_filter(request):
 
     if filters['planned']:
         goals = goals.filter(planned=True
-                             if filters['planned'] == 'Запланированная'
+                             if filters['planned'] == 'Запланированные'
                              else False)
     if filters['my']:
         goals = goals.filter(owner_id=request.user)
