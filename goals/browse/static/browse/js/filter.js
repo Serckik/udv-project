@@ -172,9 +172,6 @@ export function Filter() {
         }
         AddCoockie(filtersData.staff, 'staff')
     }
-    if($('.search-checkbox-block .staff').length === 0){
-        filtersData.approve = false
-    }
     if(window.location.href.split('/')[4] == 'add'){
         filtersData.current = false
         filtersData.self = true
