@@ -11,6 +11,7 @@ let filtersData ={
     'search': '',
     'picked': 'Все',
     'reverseSort': false,
+    'current': true,
     'quarter': [currentQuarter]
 }
 export let selectedGoals = []
