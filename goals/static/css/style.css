@@ -29,6 +29,10 @@ body{
     padding: 20px 12px 0 13px;
 }
 
+select, input, button{
+    font-family: 'Montserrat';
+}
+
 div::-webkit-scrollbar, 
 textarea::-webkit-scrollbar,
 #card-cvartal::-webkit-scrollbar,
@@ -625,7 +629,6 @@ li{
 
 select{
     padding-top: 5px;
-    font-weight: 700;
     font-size: 17px;
     background: #E9E9E9;
     border: none;
@@ -694,6 +697,7 @@ option:checked {
     box-sizing: border-box;
     width: 31%;
     height: 29px;
+    font-family: 'Montserrat';
 }
 
 .search{
