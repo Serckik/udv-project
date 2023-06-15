@@ -4,13 +4,14 @@
     --ussc-main-color: #F89C1D;
     --ussc-gray: #E9E9E9;
     --white-color: white;
+    --back-color: var(--white-color);
 }
 
 li{
     list-style-type: none;
 }
 
-p{
+p, h1, h2{
     margin: 0;
 }
 
@@ -575,7 +576,7 @@ main{
 }
 
 .block-list-element:nth-child(5) .point{
-    background: #79AEA8;
+    background: rgba(121, 174, 168, 0.44);
 }
 
 .block-list-element:nth-child(6) .point{
@@ -595,7 +596,7 @@ main{
 }
 
 .block-list-element:nth-child(10) .point{
-    background: #9289F9;
+    background: rgba(146, 137, 249, 0.44);
 }
 
 li{
@@ -632,7 +633,6 @@ select{
     font-size: 17px;
     background: #E9E9E9;
     border: none;
-    border-radius: 7px;
     color: #333333;
     box-sizing: border-box;
     overflow: auto;
@@ -873,6 +873,10 @@ option:checked {
     cursor: pointer;
 }
 
+.edit-header{
+    display: flex;
+}
+
 .edit-header .done{
     position: absolute;
     margin-left: 28px;
@@ -913,16 +917,16 @@ option:checked {
     min-height: 100%;
     left: 0px;
     top: 0px;
-    background: rgba(217, 217, 217, 0.75);
+    background: rgb(34 34 34 / 75%)
 }
 
 .card-data, .update-image, .summary-data{
     z-index: 300;
     box-sizing: border-box;
     justify-content: space-between;
-    width:90%;
+    width: 90%;
+    height: 90%;
     background-color: #F5F5F5;
-    border-radius: 8px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -991,6 +995,7 @@ option:checked {
 
 .card-content{
     display: flex;
+    height: 100%;
 }
 
 .card-header{
@@ -1005,10 +1010,9 @@ option:checked {
 
 .edit, .summary-edit{
     box-sizing: border-box;
-    width: 42%;
+    width: 50%;
     padding: 8px 16px 7px 29px;
     border-right: 1px solid rgba(0, 0, 0, 0.33);
-    font-size: 24px;
 }
 
 .edit p, .summary-edit p{
@@ -1019,16 +1023,6 @@ option:checked {
 .edit-user img{
     width: 37px;
     height: 37px;
-}
-
-.edit-header{
-    box-sizing: border-box;
-    display: flex;
-    width: 42%;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.33);
-    border-right: 1px solid rgba(0, 0, 0, 0.33);
-    padding-right: 14px;
-    padding: 12px 14px 5px 29px;
 }
 
 .edit-header svg{
@@ -1044,53 +1038,43 @@ option:checked {
     stroke: #F09191;
 }
 
-
 .chat-header, .history-header{
-    box-sizing: border-box;
-    padding: 12px 0 8px 0;
     text-align: center;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.33);
-    border-right: 1px solid rgba(0, 0, 0, 0.33);
-}
-
-.chat-header{
-    width: 34%;
-}
-
-.history-header{
-    width: 24%;
+    font-size: var(--big-size);
+    font-weight: bold;
+    margin: 10px 0;
 }
 
 .edit-user{
     display: flex;
-    margin-left: auto;
+    margin-right: auto;
 }
 
 .edit-user p{
-    margin-right: 4px;
-    font-size: 21px;
+    font-size: 20px;
+    margin-left: 4px;
     margin-top: 7px;
     margin-bottom: 0;
+    font-weight: bold;
 }
 
 textarea{
     resize: none;
-    height: 116px;
+    height: 70px;
     box-sizing: border-box;
-    font-size: 22px;
+    font-size: 20px;
     width: 100%;
     border: none;
     background: rgba(217, 217, 217, 0.55);
-    border-radius: 6px;
     padding: 6px 0 0 6px;
 }
 
-.card-name, .summary-name{
-    height: 62px !important;
+#more-form textarea, .card-data select, .card-data .self-message .message, .card-data button{
+    background: var(--back-color) !important;
 }
 
 .select-form-container{
-    width: 438px;
+    width: 50%;
 }
 
 .edit-flex{
@@ -1101,10 +1085,13 @@ textarea{
 .edit-flex select{
     width: 263px;
     height: 30px;
-    font-weight: 400;
-    font-size: 22px;
+    font-size: 20px;
     padding: 0;
-    padding-left: 10px;
+    text-align: center;
+}
+
+.edit-flex option{
+    font-size: 17px;
 }
 
 .edit-flex select[name='card-cvartal'] {
@@ -1121,7 +1108,6 @@ textarea{
     width: 170px;
     height: 35px;
     background: rgba(217, 217, 217, 0.55);
-    border-radius: 14px;
     font-style: normal;
     font-weight: 400;
     font-size: 27px;
@@ -1131,22 +1117,30 @@ textarea{
     transition: 0.5s;
 }
 
+.edit button{
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.chat-history-container{
+    width: 50%;
+    height: inherit;
+}
+
 .chat{
+    height: 60%;
     box-sizing: border-box;
-    width: 34%;
-    padding: 24px 6px 0 0;
     font-style: normal;
     color: #333333;
     font-weight: 400;
-    border-right: 1px solid rgba(0, 0, 0, 0.33);
 }
 
 .chat-container{
     box-sizing: border-box;
     border-bottom: 34px solid #F5F5F5;
-    height: 700px;
+    height: 85%;
     margin-left: 8px;
-    overflow: scroll;
+    overflow: auto;
     overflow-x: hidden;
     padding-right: 5px;
 }
@@ -1190,10 +1184,13 @@ textarea{
     display: flex;
     box-sizing: border-box;
     max-height: 200px;
-    width: 101%;
-    background: #EAEAEA;
-    border: 0.1px solid rgba(0, 0, 0, 0.33);;
+    width: -webkit-fill-available;
+    position: fixed;
+    bottom: 40%;
+    border-top: 0.1px solid rgba(0, 0, 0, 0.33);
+    border-bottom: 0.1px solid rgba(0, 0, 0, 0.33);
     padding: 8px 15px 8px 5px;
+    background-color: var(--white-color);
 }
 
 .message-sender{
@@ -1201,8 +1198,7 @@ textarea{
     overflow-x: hidden;
     width: 95%;
     min-height: 33px;
-    background: #F5F5F5;
-    border: 1px solid rgba(0, 0, 0, 0.33);;
+    background-color: var(--ussc-gray);
     border-radius: 3px;
     margin-right: 12px;
     font-style: normal;
@@ -1218,10 +1214,13 @@ textarea{
     height: 28px;
 }
 
+.history-container{
+    height: 32%;
+}
+
 .history, .summary-tasks{
     box-sizing: border-box;
-    width: 24%;
-    height: 770px;
+    height: 100%;
     font-style: normal;
     font-weight: 400;
     color: #333333;
@@ -1282,6 +1281,7 @@ textarea{
 }
 
 .error{
+    color: black !important;
     background-color: #F26065 !important;
 }
 
@@ -1320,6 +1320,28 @@ textarea{
     margin-bottom: 11px;
 }
 
+#more-form h1{
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#more-form h2{
+    font-size: var(--big-size);
+    font-weight: normal;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+#more-form p{
+    font-size: 20px;
+}
+
+#more-form .select-form-container .approve{
+    justify-content: flex-start;
+    gap: 20px;
+}
+
 .right-flex{
     width: 50%;
 }
@@ -1331,6 +1353,10 @@ textarea{
 .select-flex{
     display: flex;
     gap: 18px;
+}
+
+.block-flex{
+    margin-bottom: 5px;
 }
 
 .select-flex .block-flex:nth-child(1){
@@ -1512,11 +1538,7 @@ textarea{
     width: 50%;
 }
 
-.summary-data .edit-header span{
-    margin-left: auto;
-}
-
-.summary-data .chat-header, .summary-data .summary-tasks{
+.summary-data, .summary-data .summary-tasks{
     width: 50%;
 }
 
@@ -1604,24 +1626,6 @@ textarea{
     }
     .personal-area-block{
         font-size: 22px;
-    }
-    .chat-container{
-        height: 630px;
-    }
-    textarea{
-        height: 90px;
-    }
-    .card-name, .summary-name {
-        height: 42px !important;
-    }
-    .summary-cards-block{
-        max-height: 640px;
-    }
-    .edit-summary .card-top p, .current-cards .card-top p {
-        font-size: 16px;
-    }
-    .history, .summary-tasks{
-        height: 700px;
     }
 }
 

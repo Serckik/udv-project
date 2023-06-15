@@ -11,6 +11,7 @@ let filtersData ={
     'search': '',
     'picked': 'Все',
     'reverseSort': false,
+    'current': true,
     'quarter': [currentQuarter]
 }
 export let selectedGoals = []
@@ -87,11 +88,15 @@ document.addEventListener('click', (e) => {
 });
 
 $(document).on('click', '.filter-container-selector svg', function(e){
+    const isSuper = $('.approve')
     const $parent = $(this)[0]
     const filters = {
         'personal': ['Все', 'Свои', 'Сотрудники'],
         'done': ['Все', 'Выполненные', 'Невыполненные'],
         'planned': ['Все', 'Запланированные', 'Незапланированные']
+    }
+    if(isSuper.length === 0){
+        filters.personal = ['Все', 'Свои']
     }
     const filterParameter =  $parent.parentElement.classList[1]
     const text =  $parent.parentElement.textContent.trim()
@@ -111,6 +116,7 @@ $(document).on('click', '.filter-container-selector svg', function(e){
         newText = array[index]
         $(`.filter-container-selector.${filterParameter} span`).text(newText)
     }
+    console.log(newText)
     if(newText === 'Свои' && filterParameter === 'personal'){
         filtersData.self = true
         filtersData.staff = false
@@ -167,18 +173,33 @@ export function Filter() {
         filtersData.approve = true
     }
     for (let key in filtersData) {
-        if(key !== 'search'){
+        if(key === 'search'){
+            continue
+        }
+        else if(window.location.href.split('/')[4] == 'add' && key !== 'self' && key !== 'done' && key !== 'staff' && filtersData[key] !== 'owner_id'){
             AddCoockie(filtersData[key], key)
         }
-        AddCoockie(filtersData.staff, 'staff')
+        else if(window.location.href.split('/')[4] == 'approve' && key !== 'self' && key !== 'done'){
+            AddCoockie(filtersData[key], key)
+        }
+        else if(window.location.href.split('/')[4] == 'browse'){
+            AddCoockie(filtersData[key], key)
+        }
     }
+    AddCoockie(filtersData.staff, 'staff')
     if(window.location.href.split('/')[4] == 'add'){
+        filtersData.done = 'Все'
+        filtersData.staff = false
         filtersData.current = false
         filtersData.self = true
+        filtersData.reverseSort = filtersData.sort === 'owner_id' ? false : filtersData.reverseSort
+        filtersData.sort = filtersData.sort === 'owner_id' ? 'Все' : filtersData.sort
     }
     if(window.location.href.split('/')[4] == 'approve'){
         filtersData.approve = true
         filtersData.current = false
+        filtersData.self = false
+        filtersData.done = 'Все'
     }
     if(window.location.href.split('/')[4] != 'summary'){
         filtersData.picked = 'Все'
@@ -302,4 +323,14 @@ function CheckCoockies(cookieString){
     }
     Filter()
 }
+
+$(document).on('click', '#exit', function(e){
+    var cookies = document.cookie.split(";");
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+})
 

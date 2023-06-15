@@ -1,4 +1,4 @@
-import { userName, GetDate, request, sleep, images } from "./load.js";
+import { userName, GetDate, request, sleep, images, colors, opacityColors } from "./load.js";
 import { Filter } from "./filter.js";
 let timeoutID = 0
 let currentIdCard = ''
@@ -186,11 +186,11 @@ export function OpenCard(id) {
     let card = request('GET', '/goal/get_goal', data);
     $('.card-data .user-logo')
         .attr('src', '/static/users/img/' + images[card.owner_id])
-
+    $('.card-data').attr('style', 'border-left:9px solid ' + colors[card.block]);
     FillCard(card);
     FillChat(card.chat);
     FillHistory(card.history);
-
+    document.querySelector(':root').style.setProperty('--back-color', opacityColors[card.block]);
     $('.blur').removeClass('hidden');
     $('.card-data').removeClass('hidden');
     $('.message-sender').height(0);

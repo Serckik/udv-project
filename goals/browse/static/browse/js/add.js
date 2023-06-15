@@ -21,6 +21,9 @@ function request(type, url, data){
 }
 
 FillForm('add-form')
+$('.filter-container-element:nth-child(1)').remove();
+$('.filter-container-element:nth-child(1)').remove();
+$('.order-container-element.owner_id').remove();
 
 $(document).on('submit', '#add-form', async function(e){
     e.preventDefault();

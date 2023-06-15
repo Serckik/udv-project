@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/static/css/cropper.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@100&display=swap" rel="stylesheet">
     <style>
         .container {
           margin: 20px auto;
@@ -103,7 +103,7 @@
                         </svg> 
                         <a href="/user/password_reset">Сбросить пароль</a>
                     </p>
-                    <p class="personal-area-content-item">
+                    <p class="personal-area-content-item" id="exit">
                         <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M14.505 3.625H25.375V25.375H14.5" stroke="#333333" stroke-width="0.814114" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M13.8955 19.9365L19.333 14.499L13.8955 9.06152" stroke="#333333" stroke-width="0.814114" stroke-linecap="round" stroke-linejoin="round"/>
@@ -283,43 +283,35 @@
         </div>
         <div class="blur hidden"></div>
         <div class="card-data hidden">
-            <p class="card-message hidden"></p>
-            <div class="card-header">
-                <div class="edit-header">
-                    <p class="header-main">Задача</p>
-                    <div class="complete-block">
-                        <svg class="complete-icon" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 13.7412H33.8687V32.1915C33.8687 33.1179 33.1178 33.8688 32.1914 33.8688H3.6773C2.75095 33.8688 2 33.1179 2 32.1915V13.7412Z" stroke="#A4A4A4" stroke-width="3.3546" stroke-linejoin="round"/>
-                            <path d="M2 6.19293C2 5.26658 2.75095 4.51562 3.6773 4.51562H32.1914C33.1178 4.51562 33.8687 5.26658 33.8687 6.19293V13.7408H2V6.19293Z" stroke="#A4A4A4" stroke-width="3.3546" stroke-linejoin="round"/>
-                            <path d="M11.2246 2V8.70921" stroke="#A4A4A4" stroke-width="3.3546" stroke-linecap="round"/>
-                            <path d="M24.6436 2V8.70921" stroke="#A4A4A4" stroke-width="3.3546" stroke-linecap="round"/>
-                        </svg>
-                        <svg class="done hidden" width="19" height="14" viewBox="0 0 19 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 7.0319L7.0319 12.0638L17.0957 2" stroke="#9D9B9B" stroke-width="3.35" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <svg class="delete-icon hidden" width="32" height="37" viewBox="0 0 32 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3.01142 15.8099C2.8416 13.7547 4.58707 12 6.80117 12H25.1987C27.4129 12 29.1583 13.7547 28.9886 15.8099L27.6727 31.7329C27.5205 33.5765 25.8691 35 23.883 35H8.11689C6.13075 35 4.47947 33.5765 4.32712 31.7329L3.01142 15.8099Z" stroke="#A4A4A4" stroke-width="3"/>
-                        <path d="M30.0557 7.61133H2" stroke="#A4A4A4" stroke-width="3" stroke-linecap="round"/>
-                        <path d="M12.2871 3.87038C12.2871 2.83741 13.1245 2 14.1575 2H17.8983C18.9313 2 19.7686 2.83741 19.7686 3.87038V7.61115H12.2871V3.87038Z" stroke="#A4A4A4" stroke-width="3"/>
-                        <path d="M20 19V27" stroke="#A4A4A4" stroke-width="3.35" stroke-linecap="round"/>
-                        <path d="M12 19V27" stroke="#A4A4A4" stroke-width="3.35" stroke-linecap="round"/>
-                    </svg>
-                    <div class="edit-user">
-                        <p></p>
-                        <img class="user-logo" src="/static/img/white.png" >
-                    </div>
-                </div>
-                <div class="chat-header">
-                    <p>Комментарии</p>
-                </div>
-                <div class="history-header">
-                    <p>История изменений</p>
-                </div>
-            </div>
             <div class="card-content">
                 <div class="edit">
+                    <div class="edit-header">
+                        <div class="edit-user">
+                            <img class="user-logo">
+                            <p></p>
+                        </div>
+                        <div class="complete-block">
+                            <svg class="complete-icon" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 13.7412H33.8687V32.1915C33.8687 33.1179 33.1178 33.8688 32.1914 33.8688H3.6773C2.75095 33.8688 2 33.1179 2 32.1915V13.7412Z" stroke="#A4A4A4" stroke-width="3.3546" stroke-linejoin="round"/>
+                                <path d="M2 6.19293C2 5.26658 2.75095 4.51562 3.6773 4.51562H32.1914C33.1178 4.51562 33.8687 5.26658 33.8687 6.19293V13.7408H2V6.19293Z" stroke="#A4A4A4" stroke-width="3.3546" stroke-linejoin="round"/>
+                                <path d="M11.2246 2V8.70921" stroke="#A4A4A4" stroke-width="3.3546" stroke-linecap="round"/>
+                                <path d="M24.6436 2V8.70921" stroke="#A4A4A4" stroke-width="3.3546" stroke-linecap="round"/>
+                            </svg>
+                            <svg class="done hidden" width="19" height="14" viewBox="0 0 19 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 7.0319L7.0319 12.0638L17.0957 2" stroke="#9D9B9B" stroke-width="3.35" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <svg class="delete-icon hidden" width="32" height="37" viewBox="0 0 32 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.01142 15.8099C2.8416 13.7547 4.58707 12 6.80117 12H25.1987C27.4129 12 29.1583 13.7547 28.9886 15.8099L27.6727 31.7329C27.5205 33.5765 25.8691 35 23.883 35H8.11689C6.13075 35 4.47947 33.5765 4.32712 31.7329L3.01142 15.8099Z" stroke="#A4A4A4" stroke-width="3"/>
+                            <path d="M30.0557 7.61133H2" stroke="#A4A4A4" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M12.2871 3.87038C12.2871 2.83741 13.1245 2 14.1575 2H17.8983C18.9313 2 19.7686 2.83741 19.7686 3.87038V7.61115H12.2871V3.87038Z" stroke="#A4A4A4" stroke-width="3"/>
+                            <path d="M20 19V27" stroke="#A4A4A4" stroke-width="3.35" stroke-linecap="round"/>
+                            <path d="M12 19V27" stroke="#A4A4A4" stroke-width="3.35" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                     <form action="POST" id="more-form">
+                        <h1>Задача</h1>
+                        <h2>Планирование</h2>
                         <p>Название</p>
                         <textarea class="card-name" id="card-name"></textarea>
                         <p>Образ результата</p>
@@ -332,46 +324,61 @@
                                 <select id="card-block"></select>
                             </div>
                             <div class="edit-flex">
+                                <p>Квартал</p>
+                                <select id="card-cvartal"></select>
+                            </div>
+                            <div class="edit-flex">
                                 <p>Категория</p>
                                 <select id="card-category"></select>
                             </div>
                             <div class="edit-flex">
-                                <p>Квартал</p>
-                                <select id="card-cvartal"></select>
+                                <p>Вес</p>
+                                <select id="card-weight"></select>
                             </div>
+                        </div>
+                        <h2>Утверждение</h2>
+                        <div class="select-form-container">
+                            <div class="edit-flex approve-select">
+                                <p>Утвердить задачу</p>
+                                <select class="number-select" id="card-approve"></select>
+                            </div>
+                        </div>
+                        <h2>Результаты</h2>
+                        <div class="select-form-container ruk-edit">
                             <div class="edit-flex">
                                 <p>Оценка сотрудника</p>
                                 <select class="number-select" id="card-own-grade"></select>
                             </div>
                             <div class="edit-flex">
-                                <p>Вес</p>
-                                <select class="number-select" id="card-weight"></select>
-                            </div>
-                            <div class="ruk-block"></div>
-                            <div class="edit-flex ruk-edit">
                                 <p>Оценка руководителя</p>
                                 <select class="number-select" id="card-leader-grade"></select>
-                            </div>
-                            <div class="edit-flex ruk-edit">
-                                <p>Утвердить задачу</p>
-                                <select class="number-select" id="card-approve"></select>
                             </div>
                         </div>
                         <button type="submit">сохранить</button>
                     </form>
                 </div>
-                <div class="chat">
-                    <div class="chat-container">
+                <div class="chat-history-container">
+                    <div class="chat">
+                        <div class="chat-header">
+                            <p>Комментарии</p>
+                        </div>
+                        <div class="chat-container">
+                        </div>
+                        <form action="POST" id="chat-form">
+                            {% csrf_token %}
+                            <textarea class="message-sender"></textarea>
+                            <svg class="chat-submit" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0.179175 2C-0.320825 0 0.679175 -0.5 2.17917 0.5L22.6792 11C29 14 29 14 22.6787 17L2.17917 27.5C0.178743 28.5 -0.317676 27.9795 0.178993 26L2.17899 16L15.6792 14L2.17917 12L0.179175 2Z" fill="#F89C1D"/>
+                            </svg> 
+                        </form>
                     </div>
-                    <form action="POST" id="chat-form">
-                        {% csrf_token %}
-                        <textarea class="message-sender"></textarea>
-                        <svg class="chat-submit" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0.179175 2C-0.320825 0 0.679175 -0.5 2.17917 0.5L22.6792 11C29 14 29 14 22.6787 17L2.17917 27.5C0.178743 28.5 -0.317676 27.9795 0.178993 26L2.17899 16L15.6792 14L2.17917 12L0.179175 2Z" fill="#F89C1D"/>
-                        </svg> 
-                    </form>
-                </div>
-                <div class="history">
+                    <div class="history-container">
+                        <div class="history-header">
+                            <p>История изменений</p>
+                        </div>
+                        <div class="history">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
