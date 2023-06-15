@@ -21,7 +21,7 @@ $(".message-sender").each(function() {
     }
 });
 
-$(document).on('click', '.blur', function(e){
+$(document).on('click', '.blur, .exit-icon svg', function(e){
     clearTimeout(timeoutID);
     if ($('.summary-data').hasClass('hidden') || $('.card-data').hasClass('hidden') || $('.summary-data').length === 0) {
         $('.card-data, .blur, .summary-data').addClass('hidden');
@@ -32,6 +32,7 @@ $(document).on('click', '.blur', function(e){
     } else {
         $('.card-data').addClass('hidden');
     }
+    console.log('uwu')
     $('.update-image').addClass('hidden');
 });
 
@@ -86,6 +87,7 @@ function FillCard(cardData) {
     $('.disabled').removeClass('disabled');
     $inputFields.removeAttr('disabled');
     $inputFields.removeAttr('style');
+    $button.removeClass('hidden')
     
     $editHeader.find('.delete-icon').removeClass('disabled');
     $editHeader.find('.complete-block').removeClass('disabled');
@@ -100,6 +102,7 @@ function FillCard(cardData) {
         $inputFields.attr('disabled', 'disabled').attr('style', 'cursor:default');
         $inputFields.attr('style', 'cursor:default');
         $inputFields.attr('disabled', 'disabled').attr('style', 'cursor:default; color:gray');
+        $button.addClass('hidden')
     }
 }
 
@@ -136,8 +139,8 @@ function FillChat(chatData) {
 
         let message = $("<div class='message'></div>").text(item.text);
         let date = item.time.split('T');
-        let time = date[1].split('.');
-        message.append($("<p class='date'></p>").text(GetDate(date[0]) + ' ' + time[0]));
+        let time = date[1].split('.')[0].split(':');
+        message.append($("<p class='date'></p>").text(GetDate(date[0]) + ' ' + time[0] + ':' + time[1]));
         messageContainer.append(message);
         chatContainer.append(messageContainer);
     });
@@ -153,10 +156,16 @@ function FillHistory(historyData) {
 
     historyData.forEach(item => {
         const historyCard = $("<div class='history-card'></div>");
+        const profileContainer = $("<div class='profile-history-container'></div>")
+        let userimage = $(`<img class="user-logo" src="/static/users/img/${images[item.owner_id]}">`);
+        profileContainer.append(userimage)
+        profileContainer.append($("<p></p>").text(item.name))
+        historyCard.append(profileContainer)
+        const subContainer = $("<div class='sub-history'></div>")
 
         item.field_changes.forEach(change => {
-            const historyContainer = $("<div class='history-container'></div>");
-            const whatChange = $("<p></p>").text(`${item.name} изменил(а): `);
+            const historyContainer = $("<div class='history-element-container'></div>");
+            const whatChange = $("<p></p>").text(`изменил(а): `);
             whatChange.append($('<b></b>').text(change.field));
 
             const prevNow = $("<div class='prev-now'></div>");
@@ -165,12 +174,14 @@ function FillHistory(historyData) {
 
             historyContainer.append(whatChange);
             historyContainer.append(prevNow);
-            historyCard.append(historyContainer);
+            subContainer.append(historyContainer);
         });
 
         const date = item.time.split('T');
-        const time = date[1].split('.');
-        historyCard.append($("<p class='date'></p>").text(GetDate(date[0]) + ' ' + time[0]));
+        const time = date[1].split('.')[0].split(':');
+        console.log(time)
+        subContainer.append($("<p class='date'></p>").text(GetDate(date[0]) + ' ' + time[0] + ':' + time[1]));
+        historyCard.append(subContainer)
 
         $history.append(historyCard);
     });

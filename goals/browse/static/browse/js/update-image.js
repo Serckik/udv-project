@@ -78,20 +78,20 @@ function DoCrope() {
     });
 }
 
-$(document).on('click', '.blur', function(e){
+$(document).on('click', '.blur, .update-image .exit-icon svg', function(e){
     if(!$('.update-image').hasClass('hidden')){
         ClearCrop()
     }
 })
 
 function ClearCrop(){
-    cropper.destroy()
     $('.blur').addClass('hidden')
     $('.update-image').addClass('hidden')
     $('.update-image #load-image').removeClass('hidden')
     $('.update-image #cropper').addClass('hidden')
     $('.update-image input').val('')
     $('.update-image img').attr('src', '')
+    cropper.destroy()
 }
 
 $('#cropper .save-image').on('click', function(e){

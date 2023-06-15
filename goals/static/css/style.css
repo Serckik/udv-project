@@ -15,6 +15,12 @@ p, h1, h2{
     margin: 0;
 }
 
+.add-h2{
+    margin: 10px 0;
+    font-size: var(--big-size);
+    font-weight: bold;
+}
+
 #more-form textarea, #more-form input,
 #add-form textarea, #add-form input{
     overflow-x: hidden;
@@ -656,7 +662,7 @@ option:hover {
     color: var(--ussc-main-color);
 }
 
-option:checked {
+option:checked:not(#more-form option) {
     background: #ECD7BA linear-gradient(0deg, #ECD7BA 0%, #ECD7BA 100%);
     -webkit-text-fill-color: #000000;
 }
@@ -925,7 +931,7 @@ option:checked {
     box-sizing: border-box;
     justify-content: space-between;
     width: 90%;
-    height: 90%;
+    height: 880px;
     background-color: #F5F5F5;
     position: fixed;
     top: 50%;
@@ -937,8 +943,14 @@ option:checked {
     color: #333333;
 }
 
+.card-data img{
+    width: 37px;
+    height: 37px;
+}
+
 .update-image{
     width: 65%;
+    height: fit-content;
     font-size: 25px;
     color: black;
     font-weight: 500;
@@ -949,11 +961,17 @@ option:checked {
 }
 
 .update-image-header{
+    display: flex;
+    justify-content: space-between;
     box-sizing: border-box;
     padding-top: 34px;
     padding-left: 34px;
     height: 98px;
     border-bottom: 2px solid rgba(0, 0, 0, 0.13);
+}
+
+.update-image-header .exit-icon{
+    padding-top: 0;
 }
 
 .update-image-body{
@@ -998,6 +1016,11 @@ option:checked {
     height: 100%;
 }
 
+.card-content .quarter{
+    margin-top: 10px;
+    font-size: 20px;
+}
+
 .card-header{
     display: flex;
     font-size: 30px;
@@ -1030,11 +1053,15 @@ option:checked {
     margin-left: 20px;
 }
 
+.card-content svg{
+    cursor: pointer;
+}
+
 .edit-header .complete-block:hover path{
     stroke: #F89C1D;
 }
 
-.edit-header .delete-icon:hover path, .edit-header .delete-summary-icon:hover path{
+.edit-header .delete-icon:hover path, .card-content .delete-summary-icon:hover path{
     stroke: #F09191;
 }
 
@@ -1053,6 +1080,7 @@ option:checked {
 .edit-user p{
     font-size: 20px;
     margin-left: 4px;
+    margin-right: 4px;
     margin-top: 7px;
     margin-bottom: 0;
     font-weight: bold;
@@ -1069,8 +1097,8 @@ textarea{
     padding: 6px 0 0 6px;
 }
 
-#more-form textarea, .card-data select, .card-data .self-message .message, .card-data button{
-    background: var(--back-color) !important;
+#more-form textarea, #more-form select, .card-data .self-message .message, #more-form button{
+    background: var(--back-color);
 }
 
 .select-form-container{
@@ -1128,7 +1156,7 @@ textarea{
 }
 
 .chat{
-    height: 60%;
+    height: 55%;
     box-sizing: border-box;
     font-style: normal;
     color: #333333;
@@ -1139,14 +1167,10 @@ textarea{
     box-sizing: border-box;
     border-bottom: 34px solid #F5F5F5;
     height: 85%;
-    margin-left: 8px;
+    margin-left: 10px;
     overflow: auto;
     overflow-x: hidden;
     padding-right: 5px;
-}
-
-.self-message .message{
-    background-color: #ECD7BA;
 }
 
 .self-message, .sender-message{
@@ -1218,6 +1242,11 @@ textarea{
     height: 32%;
 }
 
+.sub-history{
+    background-color: #EAEAEA;;
+    padding: 6px;
+}
+
 .history, .summary-tasks{
     box-sizing: border-box;
     height: 100%;
@@ -1229,6 +1258,17 @@ textarea{
     overflow-x: hidden;
 }
 
+.profile-history-container{
+    margin-bottom: 5px;
+    display: flex;
+    font-weight: 600;
+}
+
+.profile-history-container p{
+    margin-left: 4px !important;
+    margin-top: 7px !important;
+}
+
 .history-card:nth-last-child(1){
     margin-bottom: 0;
 }
@@ -1236,10 +1276,9 @@ textarea{
 .history-card{
     box-sizing: border-box;
     min-height: 130px;
-    background: #EAEAEA;
     border-radius: 1px;
     font-size: 18px;
-    padding: 6px 24px 11px 10px;
+    padding-left: 10px;
     margin-bottom: 14px;
 }
 
@@ -1263,6 +1302,8 @@ textarea{
 
 .date{
     text-align: end;
+    margin: 0;
+    color: black;
 }
 
 .hidden{
@@ -1281,7 +1322,6 @@ textarea{
 }
 
 .error{
-    color: black !important;
     background-color: #F26065 !important;
 }
 
@@ -1310,7 +1350,7 @@ textarea{
 }
 
 .add-form-bottom-flex .edit-flex:nth-child(2){
-    width: 22%;
+    width: 21.6%;
 }
 .add-form-flex #card-name{
     margin-bottom: 11px;
@@ -1385,7 +1425,7 @@ textarea{
     font-weight: 700;
     font-size: 25px;
 
-    color: #504949;
+    color: black;
     margin-bottom: 14px !important;
 }
 
@@ -1438,17 +1478,68 @@ textarea{
 #add-summary-form{
     width: 30%;
     font-size: 23px;
+    height: fit-content;
+    background: #FFFFFF;
+    box-shadow: 2px 2px 4px 3px rgba(0, 0, 0, 0.25);
+    padding: 10px;
     color: #333333;
+}
+
+#add-summary-form .summary-quarter{
+    text-align: right;
 }
 
 #add-summary-form p{
     margin: 10px 0;
 }
 
+#add-summary-form textarea, #add-summary-form button{
+    background-color: var(--back-color);
+}
+
 #add-summary-form select{
     margin-top: 10px;
     margin-left: 5px;
     width: 100%;
+}
+
+#add-summary-form button{
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.summary-edit-header{
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+.card-content h1{
+    font-size: 30px;
+    text-align: center;
+    margin: 10px 0;
+}
+
+#summary-more-form textarea{
+    width: 100%;
+    height: 110px;
+    background-color: var(--back-color);
+}
+
+#summary-more-form p{
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+#summary-more-form button{
+    margin: 0 auto;
+    margin-top: 150px;
+    background-color: var(--back-color);
+}
+
+#summary-more-form select{
+    background-color: var(--back-color);
+    margin-top: 10px;
 }
 
 .summary textarea{
@@ -1483,6 +1574,7 @@ textarea{
 .block-name{
     text-align: center;
     font-size: 25px;
+    margin: 10px 0;
     color: #333333;
 }
 
@@ -1534,22 +1626,10 @@ textarea{
     fill: #00D29D !important;
 }
 
-.summary-data .edit-header, .summary-data .summary-edit{
-    width: 50%;
-}
-
-.summary-data, .summary-data .summary-tasks{
-    width: 50%;
-}
-
-.summary-data textarea{
-    width: 100%;
-    height: 203px;
-}
-
 .summary-tasks{
     overflow: auto;
     padding-top: 8px;
+    width: 50%;
 }
 
 .summary-tasks .submenu{
@@ -1560,7 +1640,8 @@ textarea{
 .summary-tasks .submenu p{
     margin: 0;
     cursor: pointer;
-    font-size: 27px;
+    font-size: 20px;
+    font-weight: 600;
     margin-right: 2%;
 }
 
@@ -1573,14 +1654,16 @@ textarea{
     width: 48%;
 }
 
+
+
 .edit-summary .current-cards, .edit-summary .cards{
     height: 300px;
 }
 
 .edit-summary .text{
     margin: 0;
-    margin-bottom: 10px;
-    font-size: 27px;
+    margin: 10px 0;
+    font-size: 20px;
 }
 
 .edit-summary .card-top p, .current-cards .card-top p{
@@ -1593,6 +1676,16 @@ textarea{
 
 .summary-pages svg{
     margin-right: 5%;
+}
+
+.exit-icon{
+    text-align: right;
+    padding-top: 20px;
+    padding-right: 20px;
+}
+
+.exit-icon svg{
+    cursor: pointer;
 }
 
 @media (max-width: 1750px) {

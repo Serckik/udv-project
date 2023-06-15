@@ -53,24 +53,19 @@
     </div>
 
     <div class="summary-data hidden">
-        <div class="card-header">
-            <div class="edit-header">
-                <p class="header-main">Сводка по задачам</p>
-                <svg class="delete-summary-icon" width="32" height="37" viewBox="0 0 32 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3.01142 15.8099C2.8416 13.7547 4.58707 12 6.80117 12H25.1987C27.4129 12 29.1583 13.7547 28.9886 15.8099L27.6727 31.7329C27.5205 33.5765 25.8691 35 23.883 35H8.11689C6.13075 35 4.47947 33.5765 4.32712 31.7329L3.01142 15.8099Z" stroke="#A4A4A4" stroke-width="3"/>
-                    <path d="M30.0557 7.61133H2" stroke="#A4A4A4" stroke-width="3" stroke-linecap="round"/>
-                    <path d="M12.2871 3.87038C12.2871 2.83741 13.1245 2 14.1575 2H17.8983C18.9313 2 19.7686 2.83741 19.7686 3.87038V7.61115H12.2871V3.87038Z" stroke="#A4A4A4" stroke-width="3"/>
-                    <path d="M20 19V27" stroke="#A4A4A4" stroke-width="3.35" stroke-linecap="round"/>
-                    <path d="M12 19V27" stroke="#A4A4A4" stroke-width="3.35" stroke-linecap="round"/>
-                </svg>
-                <span class="quarter">123</span>
-            </div>
-            <div class="chat-header">
-                <p>Задачи включенные в эту сводку</p>
-            </div>
-        </div>
         <div class="card-content">
             <div class="summary-edit">
+                <div class="summary-edit-header">
+                    <svg class="delete-summary-icon" width="32" height="37" viewBox="0 0 32 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.01142 15.8099C2.8416 13.7547 4.58707 12 6.80117 12H25.1987C27.4129 12 29.1583 13.7547 28.9886 15.8099L27.6727 31.7329C27.5205 33.5765 25.8691 35 23.883 35H8.11689C6.13075 35 4.47947 33.5765 4.32712 31.7329L3.01142 15.8099Z" stroke="#A4A4A4" stroke-width="3"/>
+                        <path d="M30.0557 7.61133H2" stroke="#A4A4A4" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M12.2871 3.87038C12.2871 2.83741 13.1245 2 14.1575 2H17.8983C18.9313 2 19.7686 2.83741 19.7686 3.87038V7.61115H12.2871V3.87038Z" stroke="#A4A4A4" stroke-width="3"/>
+                        <path d="M20 19V27" stroke="#A4A4A4" stroke-width="3.35" stroke-linecap="round"/>
+                        <path d="M12 19V27" stroke="#A4A4A4" stroke-width="3.35" stroke-linecap="round"/>
+                    </svg>
+                    <p class="quarter"></p>
+                </div>
+                <h1>Сводка по задачам</h1>
                 <form action="POST" id="summary-more-form">
                     <p>Название</p>
                     <textarea class="card-name" id="summary-name"></textarea>
@@ -78,14 +73,22 @@
                     <textarea id="summary-plan"></textarea>
                     <p>Факт</p>
                     <textarea id="summary-fact"></textarea>
-                    <div class="edit-flex">
-                        <p>Степень завершенности</p>
-                        <select id="card-own-grade"></select>
+                    <div class="select-form-container">
+                        <div class="edit-flex approve-select">
+                            <p>Оценка руководителя</p>
+                            <select class="number-select" id="card-own-grade"></select>
+                        </div>
                     </div>
                     <button type="submit">cохранить</button>
                 </form>
             </div>
             <div class="summary-tasks">
+                <div class="exit-icon">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 1L1 21M1.00002 1L21 21" stroke="black" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h1>Задачи включенные в эту сводку</h1>
                 <div class="submenu">
                     <p class="current-page">Просмотр</p>
                     <p>Редактирование</p>

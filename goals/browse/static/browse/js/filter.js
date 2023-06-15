@@ -1,5 +1,5 @@
 import { SetCards, SetSummaryCards } from "./SetCards.js"
-import { currentQuarter, request } from "./load.js"
+import { currentQuarter, request, opacityColors, colors } from "./load.js"
 
 let filtersData ={
     'block': 'Все',
@@ -172,6 +172,9 @@ export function Filter() {
     if(filtersData.staff === true){
         filtersData.approve = true
     }
+    else{
+        filtersData.approve = false
+    }
     for (let key in filtersData) {
         if(key === 'search'){
             continue
@@ -205,11 +208,13 @@ export function Filter() {
         filtersData.picked = 'Все'
     }
     else{
-        filtersData.self = false
         if(filtersData.block === 'Все'){
             filtersData.block = 'Оценка'
             $('.block-list #Оценка').addClass('active-sort')
         }
+        $('#add-summary-form .summary-quarter').text(filtersData.quarter)
+        document.querySelector(':root').style.setProperty('--back-color', opacityColors[filtersData.block]);
+        $('#add-summary-form').attr('style', 'border-left:9px solid ' + colors[filtersData.block]);
     }
     if(window.location.href.split('/')[4] != 'browse_summary'){
         let cards = request('GET', '/goal/get_goals', filtersData)
@@ -224,7 +229,7 @@ export function Filter() {
     }
     if(window.location.href.split('/')[4] == 'summary'){
         const card = $('.card')
-        if(filtersData.self){
+        if(filtersData.picked != 'Все'){
             card.each(function(){
                 if(!this.classList.contains('selected')){
                     this.classList.add('hidden')

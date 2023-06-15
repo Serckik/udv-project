@@ -1,7 +1,7 @@
 import { SetCards } from "./SetCards.js"
 import { Filter } from "./filter.js";
 import { CardSend, CardNameError, FormChange, CardNameChange, SetVal } from "./openCard.js"
-import { FillForm, sleep } from "./load.js";
+import { FillForm, sleep, opacityColors, colors } from "./load.js";
 const sleepTime = 100
 function request(type, url, data){
     let returnData = ''
@@ -20,10 +20,7 @@ function request(type, url, data){
 }
 
 $('.cvartal-select').removeAttr('multiple')
-$('.left-submenu .planned-block').addClass('hidden')
-$('.left-submenu .sort-block').addClass('hidden')
-$('.left-submenu .done-block').addClass('hidden')
-$('.search .search-checkbox-block').addClass('hidden')
+$('.search .search-checkbox-block').remove()
 $('.header-nav .summary').addClass('current-page')
 
 let added = []
@@ -58,6 +55,8 @@ function OpenSummary(id){
     summaryData.goals.forEach(element => {
         currentCards.push(element.id)
     });
+    $('.card-content').attr('style', 'border-left:9px solid ' + colors[summaryData.block]);
+    document.querySelector(':root').style.setProperty('--back-color', opacityColors[summaryData.block]);
     console.log(currentCards)
 }
 

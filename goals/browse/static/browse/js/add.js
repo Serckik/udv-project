@@ -1,4 +1,4 @@
-import { FillForm, sleep } from "./load.js"
+import { FillForm, sleep, currentQuarter } from "./load.js"
 import { CardSend, CardNameError, FormChange, CardNameChange  } from "./openCard.js"
 import { Filter } from "./filter.js"
 
@@ -30,7 +30,7 @@ $(document).on('submit', '#add-form', async function(e){
     if($('#add-form .send').length != 0){
         return
     }
-    if($("#add-form #card-name").val() != ''){
+    if($("#add-form #card-name").val().trim().length != 0){
         let data = {
             name: $('#add-form #card-name').val(),
             description: $('#add-form #card-description').val(),
@@ -48,6 +48,12 @@ $(document).on('submit', '#add-form', async function(e){
     else{
         CardNameError('add', 'card-name')
     }
+    $("#add-form #card-name").val('')
+    $('#add-form #card-description').val('')
+    $('#add-form #card-block').val('Оценка')
+    $('#add-form #card-cvartal').val(currentQuarter)
+    $('#add-form #card-category').val('Запланированная')
+    $('#add-form #card-weight').val('0')
 })
 
 $(document).on('input', "#add-form #card-name", function(e){
