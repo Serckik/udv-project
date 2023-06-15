@@ -102,6 +102,7 @@ def get_goal(request):
     goal_dict['history'] = []
     for chat in chats:
         goal_dict['chat'].append({'text': chat.message,
+                                  'owner_id': chat.owner.id.id,
                                   'time': localtime(chat.created_at),
                                   'name': chat.owner_id.get_full_name()})
     for hist in histories:
