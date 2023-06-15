@@ -44,16 +44,16 @@ $(document).on('submit', '#add-form', async function(e){
         await sleep(sleepTime);
         Filter()
         CardSend('add')
+        $('#add-form #card-description').val('')
+        $('#add-form #card-block').val('Оценка')
+        $('#add-form #card-cvartal').val(currentQuarter)
+        $('#add-form #card-category').val('Запланированная')
+        $('#add-form #card-weight').val('0')
     }
     else{
         CardNameError('add', 'card-name')
     }
     $("#add-form #card-name").val('')
-    $('#add-form #card-description').val('')
-    $('#add-form #card-block').val('Оценка')
-    $('#add-form #card-cvartal').val(currentQuarter)
-    $('#add-form #card-category').val('Запланированная')
-    $('#add-form #card-weight').val('0')
 })
 
 $(document).on('input', "#add-form #card-name", function(e){

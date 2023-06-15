@@ -297,7 +297,7 @@ function CheckCoockies(cookieString){
     $('.taked-list-element.active-sort').removeClass('active-sort')
     $('.taked-list-element#' + filtersData.picked).addClass('active-sort')
     filtersData.quarter = cookieData.quarter.split(',')
-    if(window.location.href.split('/')[4] == 'summary'){
+    if(window.location.href.split('/')[4] == 'summary' || window.location.href.split('/')[4] == 'browse_summary'){
         if(filtersData.quarter[0] === ''){
             filtersData.quarter = [currentQuarter]
         }

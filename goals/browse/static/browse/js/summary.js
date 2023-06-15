@@ -46,7 +46,7 @@ $('#add-summary-form button').on('click', async function(){
     if($('#add-summary-form .send').length != 0){
         return
     }
-    if($("#add-summary-form #summary-name").val() != ''){
+    if($("#add-summary-form #summary-name").val().trim().length != 0){
         let data = {
             name: $("#add-summary-form #summary-name").val(),
             plan: $("#add-summary-form #summary-plan").val(),
@@ -63,10 +63,14 @@ $('#add-summary-form button').on('click', async function(){
         UpdateTaked()
         await sleep(sleepTime);
         CardSend('summary')
+        $('#add-summary-form #summary-description').val('')
+        $('#add-summary-form #summary-plan').val('')
+        $('#add-summary-form #summary-fact').val('')
     }
     else{
         CardNameError('summary', 'summary-name')
     }
+    $("#add-summary-form #summary-name").val('')
 })
 
 $(document).on('input', "#add-summary-form #summary-name", function(e){

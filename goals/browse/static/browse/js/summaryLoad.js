@@ -27,6 +27,7 @@ let added = []
 let currentCards = []
 let removed = []
 let currentIdCard = ''
+let currentBlock = ''
 FillForm('summary-more-form')
 $(document).on('click', '.summary-card', function(e) {
     $('#summary-more-form textarea').attr('style', 'cursor:text')
@@ -43,6 +44,7 @@ function OpenSummary(id){
     removed = []
     $('#summary-more-form textarea').attr('style', 'cursor:text')
     let summaryData = request('GET', '/goal/get_summary', {summary_id: currentIdCard})
+    currentBlock = summaryData.block
     $('.blur').removeClass('hidden');
     $('.summary-data').removeClass('hidden');
     $('.summary-data .quarter').text(summaryData.quarter)
@@ -55,7 +57,7 @@ function OpenSummary(id){
     summaryData.goals.forEach(element => {
         currentCards.push(element.id)
     });
-    $('.card-content').attr('style', 'border-left:9px solid ' + colors[summaryData.block]);
+    $('.summary-data').attr('style', 'border-left:9px solid ' + colors[summaryData.block]);
     document.querySelector(':root').style.setProperty('--back-color', opacityColors[summaryData.block]);
     console.log(currentCards)
 }
@@ -167,3 +169,9 @@ $(document).on('submit','#more-form', async function(e){
 $(document).on('click', '.load-excel', function(e){
     window.location.href = '/goal/download_summaries?quarter=' + $('.left-submenu #card-cvartal').val();
 })
+
+$(document).on('click', '.blur, .exit-icon svg', function(e){
+    if (!$('.summary-data').hasClass('hidden') || !$('.card-data').hasClass('hidden') || !$('.summary-data').length === 0) {
+        document.querySelector(':root').style.setProperty('--back-color', opacityColors[currentBlock]);
+    }
+});
