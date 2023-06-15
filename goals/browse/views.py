@@ -109,6 +109,7 @@ def get_goal(request):
         for fc in hist.fieldchange_set.all():
             hist_fc.append(model_to_dict(fc))
         goal_dict['history'].append({'name': hist.owner_id.get_full_name(),
+                                     'owner_id': hist.owner_id.id,
                                      'time': localtime(hist.created_at),
                                      'field_changes': hist_fc})
     goal_dict['user_name'] = User.objects.get(
