@@ -236,9 +236,9 @@ def get_goals_by_filter(request):
                            'count': users_dict[i]})
     if filters['sorting_group']:
         if filters['sorting_group'] == 'count':
-            users_list.sort(key=lambda x: x['count'])
+            users_list.sort(key=lambda x: x['count'], reverse=True)
         else:
-            users_list.sort(key=lambda x: x['name'])
+            users_list.sort(key=lambda x: x['name'], reverse=True)
     answer_dict = {'goals': data, 'groups': users_list}
 
     return JsonResponse(answer_dict, safe=False)
