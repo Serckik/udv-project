@@ -112,7 +112,8 @@ export function SetSummaryCards(cards) {
         }
         cardBottom.append(block);
         cardBlock.append(cardBottom);
-        block = element.block.replaceAll(' ', '');
+        block = element.block.replaceAll(' ', '').replaceAll('.', '');
+        console.log(block)
         $(".summary-cards-block #" + block + ' .summary-cards').append(cardBlock);
     });
 }
