@@ -1,3 +1,4 @@
+from re import M
 from django.shortcuts import render
 from .models import Goal, Quarter, Summary
 from .forms import AddGoalForm, SummaryForm, EditSummaryForm
@@ -143,7 +144,8 @@ def get_goals_by_filter(request):
         'search': request.GET.get('search', None),
         'quarters': request.GET.getlist('quarter[]'),
         'summary_id': request.GET.get('summary_id', None),
-        'owner_id': request.GET.get('owner_id', None)
+        'owner_id': request.GET.get('owner_id', None),
+        'sorting_group': request.GET.get('sort_group')
     }
 
     if filters['block'] == 'Все':
@@ -232,8 +234,8 @@ def get_goals_by_filter(request):
         user = User.objects.get(id=i)
         users_list.append({'owner_id': user.id, 'name': user.get_full_name(),
                            'count': users_dict[i]})
-    if filters['sorting']:
-        if filters['sorting'] == 'count':
+    if filters['sorting_group']:
+        if filters['sorting_group'] == 'count':
             users_list.sort(key=lambda x: x['count'])
         else:
             users_list.sort(key=lambda x: x['name'])
