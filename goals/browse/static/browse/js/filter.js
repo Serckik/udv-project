@@ -172,7 +172,6 @@ $(document).on('click', '.order-container-element', function(e){
 
 $(document).on('click', '.group-card', function(e){
     filtersData.owner_id = $(this).attr('id')
-    $('.block-filter').show()
     $('.search-checkbox-block.group').toggle('hidden')
     $('.search-checkbox-block.back-arrow').removeClass('hidden')
     $('.order-container-element.weight').removeClass('hidden')
@@ -187,7 +186,6 @@ $(document).on('click', '.group-card', function(e){
 
 $(document).on('click', '.search-checkbox-block.back-arrow', function (e) { 
     filtersData.owner_id = null
-    $('.block-filter').hide()
     $('.search-checkbox-block.group').toggle('hidden')
     $('.search-checkbox-block.back-arrow').addClass('hidden')
     $('.order-container-element.weight').addClass('hidden')
