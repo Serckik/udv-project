@@ -143,6 +143,7 @@ def get_goals_by_filter(request):
         'search': request.GET.get('search', None),
         'quarters': request.GET.getlist('quarter[]'),
         'summary_id': request.GET.get('summary_id', None),
+        'owner_id': request.GET.get('owner_id', None)
     }
 
     if filters['block'] == 'Все':
@@ -212,6 +213,8 @@ def get_goals_by_filter(request):
             goals = goals.exclude(summaries_count=0)
         else:
             goals = goals.filter(summaries_count=0)
+    if filters['owner_id']:
+        goals = goals.filter(owner_id=filters['owner_id'])
 
     users_dict = {}
     users_list = []
@@ -229,6 +232,11 @@ def get_goals_by_filter(request):
         user = User.objects.get(id=i)
         users_list.append({'owner_id': user.id, 'name': user.get_full_name(),
                            'count': users_dict[i]})
+    if filters['sorting']:
+        if filters['sorting'] == 'count':
+            users_list.sort(key=lambda x: x['count'])
+        else:
+            users_list.sort(key=lambda x: x['name'])
     answer_dict = {'goals': data, 'groups': users_list}
 
     return JsonResponse(answer_dict, safe=False)
