@@ -4,34 +4,23 @@
 
 
 {% block content %}
-    <div class="add">
-        <p class="add-header">Добавить новую задачу</p>
-        <form method="POST" id="add-form">
-            <div class="add-form-flex">
-                <div class="left-flex">
-                    <p>Название:</p>
-                    <textarea class="card-name" id="card-name"></textarea>
-                    <div class="select-flex">
-                        <div class="block-flex">
-                            <div class="edit-flex">
-                                <p>Блок:</p>
-                                <select id="card-block"></select>
-                            </div>
-                        </div>
-                        <div class="block-flex">
-                            <div class="edit-flex">
-                                <p>Вес:</p>
-                                <select class="number-select" id="card-weight"></select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="right-flex">
-                    <p>Образ результата:</p>
-                    <textarea id="card-description"></textarea>
-                </div>
+    <div class="add-container">
+        <div class="cards-container">
+            <p class="add-h2">Ваши текущие неутвержденные задачи</p>
+            <div class="cards add-page">
             </div>
-            <div class="add-form-bottom-flex">
+        </div>
+        <div class="add-form">
+            <p class="add-header">Добавить новую задачу</p>
+            <form method="POST" id="add-form">
+                <p>Название</p>
+                <textarea class="card-name" id="card-name"></textarea>
+                <p>Образ результата:</p>
+                <textarea id="card-description"></textarea>
+                <div class="edit-flex">
+                    <p>Блок:</p>
+                    <select id="card-block"></select>
+                </div>
                 <div class="edit-flex">
                     <p class="category-select">Категория:</p>
                     <select id="card-category"></select>
@@ -40,12 +29,13 @@
                     <p>Квартал:</p>
                     <select id="card-cvartal"></select>
                 </div>
-                <button type="submit">добавить</button>
-            </div>
-        </form>
-    </div>
-    <p class="add-h2">Ваши текущие неутвержденные задачи</p>
-    <div class="cards add-page">
+                <div class="edit-flex">
+                    <p>Вес:</p>
+                    <select class="number-select" id="card-weight"></select>
+                </div>
+                <button type="submit">Добавить</button>
+            </form>
+        </div>
     </div>
     <script type="module" src="/static/browse/js/add.js"></script>
 {% endblock %}

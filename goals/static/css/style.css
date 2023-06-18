@@ -16,7 +16,7 @@ p, h1, h2{
 }
 
 .add-h2{
-    margin: 10px 0;
+    margin-bottom: 10px;
     font-size: var(--big-size);
     font-weight: bold;
 }
@@ -662,7 +662,7 @@ option:hover {
     color: var(--ussc-main-color);
 }
 
-option:checked:not(#more-form option) {
+option:checked:not(#more-form option, #add-form option) {
     background: #ECD7BA linear-gradient(0deg, #ECD7BA 0%, #ECD7BA 100%);
     -webkit-text-fill-color: #000000;
 }
@@ -798,7 +798,7 @@ option:checked:not(#more-form option) {
 }
 
 .add-page{
-    max-height: 380px;
+    max-height: 760px;
 }
 
 .card, .summary-card{
@@ -1097,7 +1097,7 @@ textarea{
     padding: 6px 0 0 6px;
 }
 
-#more-form textarea, #more-form select, .card-data .self-message .message, #more-form button{
+#more-form textarea, #more-form select, .card-data .self-message .message, #more-form button, #add-form textarea, #add-form select{
     background: var(--back-color);
 }
 
@@ -1130,7 +1130,7 @@ textarea{
     width: 102px;
 }
 
-.edit button, .tasks .add button, #add-summary-form button, .summary-edit button{
+.edit button, #add-form button, #add-summary-form button, .summary-edit button{
     cursor: pointer;
     display: block;
     width: 170px;
@@ -1325,22 +1325,6 @@ textarea{
     background-color: #F26065 !important;
 }
 
-.tasks .add{
-    box-sizing: border-box;
-    background: rgba(196, 188, 178, 0.15);
-    border-radius: 6px;
-    padding: 16px 29px 7px 36px;
-    font-style: normal;
-}
-
-#add-form{
-    gap: 11px;
-
-    font-size: 24px;
-
-    color: #333333;
-}
-
 .add-form-flex, .add-form-bottom-flex{
     display: flex;
     gap: 18px;
@@ -1407,34 +1391,17 @@ textarea{
     width: 45%;
 }
 
-.tasks .add p{
-    margin: 0;
-}
-
-.tasks .add textarea{
-    width: 100%;
-}
-
-.tasks .add select{
-    width: 213px;
-    background: rgba(217, 217, 217, 0.55);
-    border-radius: 4px;
-}
-
 .add-header{
     font-weight: 700;
-    font-size: 25px;
+    font-size: var(--big-size);
+    text-align: center;
 
     color: black;
-    margin-bottom: 14px !important;
+    margin-bottom: 10px;
 }
 
 #card-cvartal--focus{
     border-color: red;
-}
-
-.tasks .add #card-cvartal{
-    width: auto;
 }
 
 .ruk-block{
@@ -1462,22 +1429,35 @@ textarea{
     margin: 0 auto;
 }
 
-.summary{
+.summary, .add-container{
     display: flex;
     gap: 2%;
 }
 
-.summary .cards{
+.summary .cards, .cards-container{
     width: 70%;
 }
 
-.summary .card{
+.summary .card,  .cards-container .card{
     width: 47%;
+}
+
+.add-form{
+    width: 30%;
+}
+
+#add-form{
+    font-size: 20px;
+    height: fit-content;
+    background: #FFFFFF;
+    box-shadow: 2px 2px 4px 3px rgba(0, 0, 0, 0.25);
+    padding: 10px;
+    color: #333333;
 }
 
 #add-summary-form{
     width: 30%;
-    font-size: 23px;
+    font-size: 20px;
     height: fit-content;
     background: #FFFFFF;
     box-shadow: 2px 2px 4px 3px rgba(0, 0, 0, 0.25);
@@ -1489,21 +1469,22 @@ textarea{
     text-align: right;
 }
 
-#add-summary-form p{
+#add-summary-form p, #add-form p{
     margin: 10px 0;
 }
 
-#add-summary-form textarea, #add-summary-form button{
+#add-summary-form textarea, #add-summary-form button, #add-form text, #add-form button{
     background-color: var(--back-color);
 }
 
-#add-summary-form select{
+#add-summary-form select, #add-form select{
     margin-top: 10px;
     margin-left: 5px;
-    width: 100%;
+    width: 60%;
+    margin-right: 10%;
 }
 
-#add-summary-form button{
+#add-summary-form button, #add-form button{
     margin: 0 auto;
     margin-top: 10px;
 }
