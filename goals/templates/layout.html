@@ -118,60 +118,69 @@
     </header>
     <main>
         <div class="left-submenu">
-            <p>Блок</p>  
-            <ul class="block-list">
-                <li class="block-list-element active-sort" id="Все">
-                    <div class="point"></div>
-                    <span>ВСЕ</span>
-                </li>
-                <li class="block-list-element" id="Оценка">
-                    <div class="point"></div>
-                    <span>ОЦЕНКА</span>
-                </li>
-                <li class="block-list-element" id="Подбор">
-                    <div class="point"></div>
-                    <span>ПОДБОР</span>
-                </li>
-                <li class="block-list-element" id="Адаптация">
-                    <div class="point"></div>
-                    <span>АДАПТАЦИЯ</span>
-                </li>
-                <li class="block-list-element" id="Корп. культура и бенефиты">
-                    <div class="point"></div>
-                    <span>КОРП. КУЛЬТУРА И БЕНЕФИТЫ</span>
-                </li>
-                <li class="block-list-element" id="HR-бренд внешний">
-                    <div class="point"></div>
-                    <span>HR-БРЕНД ВНЕШНИЙ</span>
-                </li>
-                <li class="block-list-element" id="HR-сопровождение">
-                    <div class="point"></div>
-                    <span>HR-СОПРОВОЖДЕНИЕ</span>
-                </li>
-                <li class="block-list-element" id="Внутренняя работа отдела">
-                    <div class="point"></div>
-                    <span>ВНУТРЕННЯЯ РАБОТА ОТДЕЛА</span>
-                </li>
-                <li class="block-list-element" id="Кадровый учет и зп">
-                    <div class="point"></div>
-                    <span>КАДРОВЫЙ УЧЁТ И ЗП</span>
-                </li>
-                <li class="block-list-element" id="Развитие персонала">
-                    <div class="point"></div>
-                    <span>РАЗВИТИЕ ПЕРСОНАЛА</span>
-                </li>
-            </ul>
-            <div class="line"></div>
+            <div class="block-filter">
+                <p>Блок</p>  
+                <ul class="block-list">
+                    <li class="block-list-element active-sort" id="Все">
+                        <div class="point"></div>
+                        <span>ВСЕ</span>
+                    </li>
+                    <li class="block-list-element" id="Оценка">
+                        <div class="point"></div>
+                        <span>ОЦЕНКА</span>
+                    </li>
+                    <li class="block-list-element" id="Подбор">
+                        <div class="point"></div>
+                        <span>ПОДБОР</span>
+                    </li>
+                    <li class="block-list-element" id="Адаптация">
+                        <div class="point"></div>
+                        <span>АДАПТАЦИЯ</span>
+                    </li>
+                    <li class="block-list-element" id="Корп. культура и бенефиты">
+                        <div class="point"></div>
+                        <span>КОРП. КУЛЬТУРА И БЕНЕФИТЫ</span>
+                    </li>
+                    <li class="block-list-element" id="HR-бренд внешний">
+                        <div class="point"></div>
+                        <span>HR-БРЕНД ВНЕШНИЙ</span>
+                    </li>
+                    <li class="block-list-element" id="HR-сопровождение">
+                        <div class="point"></div>
+                        <span>HR-СОПРОВОЖДЕНИЕ</span>
+                    </li>
+                    <li class="block-list-element" id="Внутренняя работа отдела">
+                        <div class="point"></div>
+                        <span>ВНУТРЕННЯЯ РАБОТА ОТДЕЛА</span>
+                    </li>
+                    <li class="block-list-element" id="Кадровый учет и зп">
+                        <div class="point"></div>
+                        <span>КАДРОВЫЙ УЧЁТ И ЗП</span>
+                    </li>
+                    <li class="block-list-element" id="Развитие персонала">
+                        <div class="point"></div>
+                        <span>РАЗВИТИЕ ПЕРСОНАЛА</span>
+                    </li>
+                </ul>
+                <div class="line"></div>
+            </div>
             <p>Квартал</p>
             <select multiple class="cvartal-select" id="card-cvartal">
             </select>
         </div>
         <div class="tasks">
             <div class="search">
-                <img class="search-icon" src="/static/img/search.svg">
-                <input class="search-input" placeholder="Поиск">
-                <div class="search-checkbox-block hidden">
-                    <svg class="search-checkbox group" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div class="search-checkbox-block back-arrow hidden">
+                    <svg width="19" height="15" viewBox="0 0 19 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.4453 6.3189H5.28989C4.93326 6.3189 4.77477 5.88583 5.01251 5.64961L8.81647 1.87008C9.05422 1.63386 9.05422 1.27953 8.81647 1.04331L7.94473 0.177165C7.70699 -0.0590551 7.35037 -0.0590551 7.11262 0.177165L0.178311 7.1063C-0.0594369 7.34252 -0.0594369 7.69685 0.178311 7.93307L7.11262 14.8228C7.35037 15.0591 7.70699 15.0591 7.94473 14.8228L8.77685 13.9961C9.0146 13.7598 9.0146 13.4055 8.77685 13.1693L4.97289 9.38976C4.73514 9.11417 4.89364 8.6811 5.25026 8.6811H18.4056C18.7226 8.6811 19 8.44488 19 8.12992V6.94882C19 6.63386 18.7623 6.3189 18.4453 6.3189Z" fill="#2B2F34"/>
+                    </svg>  
+                </div>
+                <div class="search-input-container">
+                    <img class="search-icon" src="/static/img/search.svg">
+                    <input class="search-input" placeholder="Поиск">
+                </div>
+                <div class="search-checkbox-block group">
+                    <svg class="search-checkbox" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M16.9595 7.6L18.2473 8.31545C19.2509 8.87297 19.2509 10.127 18.2473 10.6846L16.9595 11.4L18.2473 12.1154C19.2509 12.673 19.2509 13.927 18.2473 14.4846L10.5987 18.7338C9.95981 19.0887 9.04019 19.0887 8.40126 18.7338L0.752652 14.4846C-0.250884 13.927 -0.250884 12.673 0.752652 12.1154L2.04046 11.4L0.752652 10.6846C-0.250884 10.127 -0.250884 8.87297 0.752652 8.31545L2.04046 7.6L0.752652 6.88455C-0.250884 6.32703 -0.250884 5.07297 0.752652 4.51545L8.40126 0.266224C9.04019 -0.0887415 9.95981 -0.0887415 10.5987 0.266224L18.2473 4.51545C19.2509 5.07297 19.2509 6.32703 18.2473 6.88455L16.9595 7.6ZM15.0034 8.68676L10.5987 11.1338C9.95981 11.4887 9.04019 11.4887 8.40126 11.1338L3.99663 8.68676L2.5328 9.5L9.32398 13.2729C9.38907 13.309 9.61093 13.309 9.67602 13.2729L16.4672 9.5L15.0034 8.68676ZM15.0034 12.4868L10.5987 14.9338C9.95981 15.2887 9.04019 15.2887 8.40126 14.9338L3.99663 12.4868L2.5328 13.3L9.32398 17.0729C9.38907 17.109 9.61093 17.109 9.67602 17.0729L16.4672 13.3L15.0034 12.4868ZM9.67602 1.92712C9.61093 1.89096 9.38907 1.89096 9.32398 1.92712L2.5328 5.7L9.32398 9.47288C9.38907 9.50904 9.61093 9.50904 9.67602 9.47288L16.4672 5.7L9.67602 1.92712Z" fill="#333333"/>
                     </svg>
                 </div>
@@ -259,6 +268,19 @@
                             </ul>
                             <ul class="order-container-element weight">
                                 <p>Вес задачи</p>
+                                <div class="arrows">
+                                    <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M3.59863 1.31445L3.59863 14.4567" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                            </ul>
+                            <ul class="order-container-element count hidden">
+                                <p>Количество задач</p>
                                 <div class="arrows">
                                     <svg width="7" height="16" viewBox="0 0 7 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M5.57031 12.4854L3.59897 14.4567L1.62763 12.4854" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -424,5 +446,6 @@
     <script type="module" src="/static/browse/js/notification.js"></script>
     <script type="module" src="/static/browse/js/SetCards.js"></script>
     <script type="module" src="/static/browse/js/filter.js"></script>
+    <script type="module" src="/static/browse/js/group.js"></script>
 </body>
 </html>

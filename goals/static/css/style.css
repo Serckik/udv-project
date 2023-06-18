@@ -625,7 +625,7 @@ li{
     color: #F89C1D;
 }
 
-.active-sort .group path{
+.group.active-sort path{
     fill: #F89C1D;
 }
 
@@ -693,6 +693,11 @@ option:checked:not(#more-form option, #add-form option) {
     margin-right: 2%;
 }
 
+.search-input-container{
+    width: 31%;
+    margin-left: 20px;
+}
+
 .search-input{
     font-size: 17px;
     background: #E9E9E9;
@@ -701,7 +706,7 @@ option:checked:not(#more-form option, #add-form option) {
     color: #333333;
     padding: 5px 0px 5px 30px;
     box-sizing: border-box;
-    width: 31%;
+    width: 100%;
     height: 29px;
     font-family: 'Montserrat';
 }
@@ -726,6 +731,14 @@ option:checked:not(#more-form option, #add-form option) {
     background-color: var(--ussc-gray);
     border-radius: 7px;
     display: flex;
+}
+
+.search-checkbox-block.back-arrow{
+    width: 28px;
+    height: 29px;
+    box-sizing: border-box;
+    padding-bottom: 0;
+    border: 2px solid #2B2F34;
 }
 
 .search-checkbox{
@@ -801,7 +814,7 @@ option:checked:not(#more-form option, #add-form option) {
     max-height: 760px;
 }
 
-.card, .summary-card{
+.card, .summary-card, .group-card{
     width: 31%;
     height: 106px;
     background-color: white;
@@ -824,12 +837,12 @@ option:checked:not(#more-form option, #add-form option) {
 
 
 
-.card:hover, .summary-card:hover{
+.card:hover, .summary-card:hover, .group-card:hover{
     box-shadow: 2px 2px 4px 3px rgba(0, 0, 0, 0.5);
     transition: 0.5s;
 }
 
-.card img{
+.card img, .group-card img{
     width: 36px;
     height: 36px;
     display: inline-block

@@ -1,24 +1,6 @@
-import { FillForm, sleep, currentQuarter, colors, opacityColors } from "./load.js"
+import { FillForm, sleep, currentQuarter, colors, opacityColors, request } from "./load.js"
 import { CardSend, CardNameError, FormChange, CardNameChange  } from "./openCard.js"
 import { Filter } from "./filter.js"
-
-const sleepTime = 100
-
-function request(type, url, data){
-    let returnData = ''
-    $.ajax({
-        type: type,
-        url: url,
-        data: data,
-        success: function(data) { 
-            if(type == 'GET'){
-                returnData = data
-            }
-        },
-        async: false
-    })
-    return returnData
-}
 
 FillForm('add-form')
 $('.filter-container-element:nth-child(1)').remove();
@@ -43,7 +25,7 @@ $(document).on('submit', '#add-form', async function(e){
             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
         }
         request("POST", "/goal/add_goal", data)
-        await sleep(sleepTime);
+        await sleep();
         Filter()
         CardSend('add-container')
         $('#add-form #card-description').val('')
