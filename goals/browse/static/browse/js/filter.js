@@ -1,4 +1,4 @@
-import { SetCards, SetSummaryCards } from "./SetCards.js"
+import { SetCards, SetSummaryCards, SetGroupCards } from "./SetCards.js"
 import { currentQuarter, request, opacityColors, colors } from "./load.js"
 
 let filtersData ={
@@ -12,8 +12,12 @@ let filtersData ={
     'picked': 'Все',
     'reverseSort': false,
     'current': true,
-    'quarter': [currentQuarter]
+    'quarter': [currentQuarter],
+    'owner_id': null,
+    'sort_group': null
 }
+
+export let cards = null
 export let selectedGoals = []
 console.log(document.cookie)
 CheckCoockies(document.cookie)
@@ -49,9 +53,6 @@ $(document).on('input', '.search-input', function(e){
     Filter()
 })
 
-$(document).on('click', '.search-checkbox-block', function(e){
-    e.currentTarget.classList.toggle('active-sort')
-})
 
 $(document).on('click', '.search-checkbox-block.filter', function(e){
     document.querySelector('.filter-container').classList.remove('hidden')
@@ -139,15 +140,18 @@ $(document).on('click', '.order-container-element', function(e){
     const filterParameter = e.currentTarget.classList[1]
     const arrow1 = e.currentTarget.querySelector('.arrows svg:nth-child(1)').classList
     const arrow2 = e.currentTarget.querySelector('.arrows svg:nth-child(2)').classList
-    if(filtersData.sort != filterParameter){
+    if(filtersData.sort !== filterParameter && filtersData.sort_group !== filterParameter){
+        if(filterParameter === 'count'){
+            filtersData.sort = 'Все'
+        }
         $('.order-container-element .arrows svg').removeClass('active-sort')
         filtersData.reverseSort = false
     }
-    if(filterParameter === 'owner_id'){
-        filtersData.sort = 'owner_id'
+    if(filterParameter !== 'count'){
+        filtersData.sort = filterParameter
     }
     else{
-        filtersData.sort = 'weight'
+        filtersData.sort_group = filterParameter
     }
     if(arrow1.value === 'active-sort'){
         arrow1.remove('active-sort')
@@ -158,11 +162,50 @@ $(document).on('click', '.order-container-element', function(e){
         arrow2.remove('active-sort')
         filtersData.reverseSort = false
         filtersData.sort = 'Все'
+        filtersData.sort_group = null
     }
     else{
         arrow1.add('active-sort')
     }
     Filter()
+})
+
+$(document).on('click', '.group-card', function(e){
+    filtersData.owner_id = $(this).attr('id')
+    $('.block-filter').show()
+    $('.search-checkbox-block.group').toggle('hidden')
+    $('.search-checkbox-block.back-arrow').removeClass('hidden')
+    $('.order-container-element.weight').removeClass('hidden')
+    $('.order-container-element.count').addClass('hidden')
+    Filter()
+    if(filtersData.sort_group !== null){
+        filtersData.sort_group = null
+        filtersData.reverseSort = false
+        $('.order-container-element .arrows svg').removeClass('active-sort')
+    }
+})
+
+$(document).on('click', '.search-checkbox-block.back-arrow', function (e) { 
+    filtersData.owner_id = null
+    $('.block-filter').hide()
+    $('.search-checkbox-block.group').toggle('hidden')
+    $('.search-checkbox-block.back-arrow').addClass('hidden')
+    $('.order-container-element.weight').addClass('hidden')
+    $('.order-container-element.count').removeClass('hidden')
+    Filter()
+    if(filtersData.sort_group !== null){
+        filtersData.sort_group = null
+        filtersData.reverseSort = false
+        $('.order-container-element .arrows svg').removeClass('active-sort')
+    }
+})
+
+$(document).on('click', '.search-checkbox-block.group', function (e) { 
+    if(filtersData.sort_group !== null){
+        filtersData.sort_group = null
+        filtersData.reverseSort = false
+        $('.order-container-element .arrows svg').removeClass('active-sort')
+    }
 })
 
 
@@ -176,7 +219,7 @@ export function Filter() {
         filtersData.approve = false
     }
     for (let key in filtersData) {
-        if(key === 'search'){
+        if(key === 'search', key === 'owner_id', key === 'sort_group'){
             continue
         }
         else if(window.location.href.split('/')[4] == 'add' && key !== 'self' && key !== 'done' && key !== 'staff' && filtersData[key] !== 'owner_id'){
@@ -217,11 +260,17 @@ export function Filter() {
         $('#add-summary-form').attr('style', 'border-left:9px solid ' + colors[filtersData.block]);
     }
     if(window.location.href.split('/')[4] != 'browse_summary'){
-        let cards = request('GET', '/goal/get_goals', filtersData)
+        cards = request('GET', '/goal/get_goals', filtersData)
         if(filtersData.reverseSort){
-            cards.reverse()
+            cards.groups.reverse()
+            cards.goals.reverse()
         }
-        SetCards(cards)
+        if($('.search-checkbox-block.group').hasClass('active-sort') && !$('.search-checkbox-block.back-arrow').is(":visible")){
+            SetGroupCards(cards.groups)
+        }
+        else{
+            SetCards(cards.goals)
+        }
     }
     else if($('.edit-summary').hasClass('hidden')){
         let summaryCards = request('GET', '/goal/get_summaries', {quarter: filtersData.quarter[0], block: filtersData.block, search: filtersData.search})

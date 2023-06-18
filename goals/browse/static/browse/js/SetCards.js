@@ -129,3 +129,28 @@ export function UpdateTaked() {
         }
     })
 }
+
+export function SetGroupCards(cards) { 
+    $('.cards').empty();
+    cards.forEach(element => {
+        let cardBlock = $("<div class='group-card'></div>");
+        cardBlock.attr('id', element.owner_id);
+        let cardTop = $("<div class='card-top'></div>");
+        cardTop.append($("<p></p>").text(element.count + ' задач'));
+        cardBlock.append(cardTop);
+
+        let cardBottom = $("<div class='card-bottom'></div>");
+
+        let cardUser = $("<div class='card-user'></div>");
+        if (element.name !== '') {
+            let userName = element.name.split(' ');
+            cardUser.append($("<p></p>").text(userName[0] + ' ' + userName[1].slice(0, 1) + '.'));
+        }
+        cardUser.append(`<img class="user-logo" src="/static/users/img/${images[element.owner_id]}">`);
+
+        cardBottom.append(cardUser);
+        cardBlock.append(cardBottom);
+
+        $(".cards").append(cardBlock);
+    });
+ }
