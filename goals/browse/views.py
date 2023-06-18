@@ -269,7 +269,7 @@ def add_goal(request):
 
 
 @login_required(login_url='/user/login/')
-def delete_goal(request) -> JsonResponse | None:
+def delete_goal(request):
     if request.method == 'POST':
         goal = Goal.objects.get(id=request.POST.get('goal_id'))
         if (request.user == goal.owner_id or
@@ -289,7 +289,7 @@ def delete_goal(request) -> JsonResponse | None:
 
 @user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
 @login_required(login_url='/user/login/')
-def get_summaries(request) -> JsonResponse:
+def get_summaries(request):
     block = request.GET.get('block') \
         if request.GET.get('block') != 'Все' else None
     quarter = request.GET.get('quarter')
@@ -310,7 +310,7 @@ def get_summaries(request) -> JsonResponse:
 
 @user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
 @login_required(login_url='/user/login/')
-def get_summary(request) -> JsonResponse:
+def get_summary(request):
     summary = Summary.objects.get(id=request.GET.get('summary_id'))
     summary_dict = model_to_dict(summary)
     goal_ids = []
@@ -324,7 +324,7 @@ def get_summary(request) -> JsonResponse:
 
 @user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
 @login_required(login_url='/user/login/')
-def add_summary(request) -> JsonResponse | None:
+def add_summary(request):
     if request.method == 'POST':
         form = SummaryForm(request.POST)
         if form.is_valid():
@@ -351,7 +351,7 @@ def add_summary(request) -> JsonResponse | None:
 
 @user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
 @login_required(login_url='/user/login/')
-def editing_summary(request) -> JsonResponse | None:
+def editing_summary(request):
     if request.method == "POST":
         summary = Summary.objects.get(id=request.POST.get('summary_id'))
         if request.user.is_superuser:
@@ -368,7 +368,7 @@ def editing_summary(request) -> JsonResponse | None:
 
 @user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
 @login_required(login_url='/user/login/')
-def delete_summary(request) -> JsonResponse | None:
+def delete_summary(request):
     if request.method == 'POST':
         summary = Summary.objects.get(id=request.POST.get('summary_id'))
         summary.delete()
@@ -377,7 +377,7 @@ def delete_summary(request) -> JsonResponse | None:
 
 @user_passes_test(lambda u: u.is_superuser, login_url='/user/login/')
 @login_required(login_url='/user/login/')
-def download_summaries(request) -> HttpResponse:
+def download_summaries(request):
     wb = openpyxl.Workbook()
     quarter = request.GET.get('quarter')
     ws = wb.active
@@ -464,7 +464,7 @@ def download_summaries(request) -> HttpResponse:
 
 
 @login_required(login_url='/user/login/')
-def start_init(request) -> JsonResponse:
+def start_init(request):
     d = get_quarters(request)
     notify = get_notifications_once(request)
     username = get_user_name(request)
