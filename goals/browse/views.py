@@ -245,7 +245,7 @@ def get_goals_by_filter(request):
 
 
 @login_required(login_url='/user/login/')
-def add_goal(request) -> JsonResponse | None:
+def add_goal(request):
     if request.method == 'POST':
         form = AddGoalForm(request.POST)
         if form.is_valid():
