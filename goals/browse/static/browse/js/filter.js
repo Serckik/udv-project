@@ -385,4 +385,9 @@ $(document).on('click', '#exit', function(e){
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
 })
+executeQuery()
+function executeQuery() {
+    Filter()
+    setTimeout(executeQuery, 10000);
+}
 

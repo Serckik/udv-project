@@ -23,6 +23,7 @@ function countNotRead(){
 }
 
 setNotifications()
+executeQuery()
 
 const ringbell = document.querySelector('.ringbell');
 const profileBlock = document.querySelector('.notification-block');
@@ -102,3 +103,10 @@ readAll.addEventListener('click', () => {
     countNotRead()
     setNotifications()
 });
+
+function executeQuery() {
+    UpdateNotification()
+    countNotRead()
+    setNotifications()
+    setTimeout(executeQuery, 10000);
+}
